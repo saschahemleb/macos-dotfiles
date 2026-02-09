@@ -1,0 +1,81 @@
+packages:
+  all:
+    brews:
+      - curl
+      - direnv
+      - eza
+      - fd
+      - fzf
+      - gh
+      - git
+      - glab
+      - lazydocker
+      - lazygit
+      - librdkafka
+      - mas
+      - mise
+      - neovim
+      - opencode
+      - php@8.4
+      - php-intl
+      - pie
+      - pkgconf
+      - re2c
+      - starship
+      - symfony-cli
+      - tealdeer
+      - watch
+      - wget
+      - yq
+      - zoxide
+      - zsh-autocomplete
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    casks:
+      - bitwarden
+      - font-jetbrains-mono-nerd-font
+      - ghostty
+      - helium-browser
+      - moonlight
+      - orbstack
+      - raycast
+      - dash
+      - spotify
+      - zen
+  private:
+    brews: []
+    casks:
+      - balenaetcher
+      - moneymoney
+      - moonlight
+      - privadovpn
+      - whatsapp
+  work:
+    brews:
+      - tilt
+      - sops
+      - go-jsonnet
+      - helm
+      - jpeg
+      - jq
+      - jsonnet-bundler
+      - k3d
+      - k9s
+      - mariadb@11.8
+      - awscli
+      - cmctl
+      - coreutils
+      - openssl@3
+    casks:
+      - airtame
+      - another-redis-desktop-manager
+      - chromium
+      - citrix-workspace
+      - dash
+      - jetbrains-toolbox
+      - macpass
+      - microsoft-auto-update
+      - microsoft-teams
+      - orbstack
+      - redis-insight
+      - zoom

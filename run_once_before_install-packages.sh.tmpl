@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+brew update
+
+brew bundle --file=/dev/stdin <<EOF
+{{ range .packages.all.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.all.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+{{ if eq .workstation_type "work" -}}
+{{ range .packages.work.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.work.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+{{ end -}}
+{{ if eq .workstation_type "private" -}}
+{{ range .packages.private.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.private.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+{{ end -}}
+EOF
