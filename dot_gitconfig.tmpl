@@ -1,0 +1,16 @@
+[user]
+    name = Sascha Hemleb
+    email = {{ .email }}
+    signingkey = "~/.ssh/id_ed25519"
+[core]
+    excludesfile = ~/.gitignore
+[credential]
+	helper = osxkeychain
+[push]
+	autoSetupRemote = true
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[init]
+	defaultBranch = main
