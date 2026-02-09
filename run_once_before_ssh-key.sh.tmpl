@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+yellow='\033[0;33m'
+nc='\033[0m'
+
+if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
+  exit 0
+fi
+
+echo -e "${yellow}No ssh key found. Will create a new one if you continue${nc}"
+echo ""
+read -p "Abort with cmd-c, press any key to continue" -n1 -s
+
+
+ssh-keygen -t ed25519 -C "{{ .email }}"
