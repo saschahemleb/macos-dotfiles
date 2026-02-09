@@ -1,0 +1,86 @@
+alias dc='docker compose'
+alias dori='docker run -it --rm '
+alias dorime='docker run -it --rm --volume ./:/workdir --volume $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK --workdir /workdir --entrypoint /bin/bash'
+
+alias watchdog='docker run --platform linux/amd64 --rm --env WATCHDOG_USERNAME --env WATCHDOG_PASSWORD --interactive --volume $(pwd):/a --workdir /a harbor.eventim.net/tixx/tixx-all/watchdog/watchdog-cli:1.1.1'
+
+function netshoot_docker_container() {
+	if [ -z "$1" ]; then
+		echo 'Usage: netshoot_docker_container <container_name>'
+		return
+	fi
+
+	docker run -it --net container:$1 nicolaka/netshoot
+}
+alias netshoot_docker_host='docker run -it --net host nicolaka/netshoot'
+
+function k6() {
+    docker run --rm --interactive --volume $PWD:/app --workdir /app grafana/k6:master-with-browser $@
+}
+
+alias krew='kubectl krew'
+alias k=kubectl
+alias kcx='kubectl ctx'
+alias kns='kubectl ns'
+
+function netshoot_kubernetes_pod() {
+        if [ -z "$1" ]; then
+                echo 'Usage: netshoot_kubernetes_pod <pod_name>'
+                return
+        fi
+
+        kubectl debug $1 -it --image=nicolaka/netshoot
+}
+alias netshoot_kubernetes_tmp='kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot'
+
+function netshoot_kubernetes_host() {
+  kubectl run tmp-shell --rm -i --tty --overrides='{"spec": {"hostNetwork": true}}'  --image nicolaka/netshoot
+}
+
+function confirm {
+  printf "$1 [y/n] : "
+  read -r opt
+  echo
+  [[ $opt =~ ^[Yy]$ ]]
+  return
+}
+
+function git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  local ref
+  for ref in refs/{heads,remotes/{origin,upstream}}/{main,trunk,mainline,default}; do
+    if command git show-ref --quiet --verify $ref; then
+      echo ${ref:t}
+      return
+    fi
+  done
+  echo master
+}
+
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gsb='git status --short --branch'
+alias grst='git restore --staged'
+alias gl='git pull --all --tags --prune --rebase'
+alias gd='git diff'
+alias ga='git add'
+alias gaa='git add .'
+alias gcm='git commit --sign --message '
+alias gwip='git add . && git commit --no-verify -m "wip"'
+alias gc!='git commit --amend'
+alias gp='git push'
+alias gpf='git push --force'
+alias grba='confirm "Abort rebase?" && git rebase --abort'
+alias grbc='git rebase --continue'
+alias gbdall='confirm "Purge merged branches?" && (git branch | grep "^[^*]" | xargs git branch --delete)'
+alias gbDall='confirm "Purge all branches?" && (git branch | grep "[^*]" | xargs git branch --delete --force)'
+alias grbom='git rebase $(git_main_branch)'
+alias grh='git reset --hard'
+alias gsta='git stash'
+alias gstp='git stash pop'
+alias gdca='git diff --cached'
+alias gmom='git merge --no-ff $(git_main_branch)'
+alias gmc='git merge --continue'
+alias gsqm='git reset --soft $(git merge-base $(git_main_branch) HEAD)'
+
+alias g='lazygit'

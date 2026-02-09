@@ -1,0 +1,55 @@
+printf '\33c\e[3J'
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+brew_prefix="$(brew --prefix)"
+
+if [[ -f "$brew_prefix/opt/zsh-autocomplete/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" ]]; then
+  source "$brew_prefix/opt/zsh-autocomplete/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
+fi
+
+source $HOME/.profile
+
+if [[ -f $HOME/.profile.local ]]; then
+    source $HOME/.profile.local
+fi
+
+{{ template "zsh-path" . }}
+
+# matches case insensitive for lowercase
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# pasting with tabs doesn't perform completion
+zstyle ':completion:*' insert-tab pending
+
+bindkey -M menuselect '^M' .accept-line
+
+# This makes ← and → always move the cursor on the command line
+bindkey -M menuselect  '^[[D' .backward-char  '^[OD' .backward-char
+bindkey -M menuselect  '^[[C'  .forward-char  '^[OC'  .forward-char
+
+if 1>/dev/null 2>&1 which mise; then
+    eval "$(mise activate zsh)"
+fi
+
+if 1>/dev/null 2>&1 which direnv; then
+    eval "$(direnv hook zsh)"
+fi
+
+if 1>/dev/null 2>&1 which zoxide; then
+    eval "$(zoxide init --cmd cd zsh)"
+fi
+
+if 1>/dev/null 2>&1 which starship; then
+    eval "$(starship init zsh)"
+fi
+
+if [[ -d "$brew_prefix/opt/zsh-syntax-highlighting" ]]; then
+  source "$brew_prefix/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+
+if [[ -d "$brew_prefix/opt/zsh-autosuggestions" ]]; then
+  source "$brew_prefix/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+{{ template "zsh-aliases" . }}

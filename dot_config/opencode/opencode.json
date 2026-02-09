@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "system",
+  "autoupdate": false,
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "eu-central-1",
+        "profile": "ClaudeCode"
+      },
+      "models": {
+        "application-inference-model": {
+          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/lcwuxbnvs7ip"
+        }
+      }
+    }
+  }
+}
