@@ -5,25 +5,25 @@ set -Eeuo pipefail
 brew update
 
 brew bundle --file=/dev/stdin <<EOF
-{{ range .packages.all.brews -}}
+{{ range .homebrew_packages.all.brews -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ range .packages.all.casks -}}
+{{ range .homebrew_packages.all.casks -}}
 cask {{ . | quote }}
 {{ end -}}
 {{ if eq .workstation_type "work" -}}
-{{ range .packages.work.brews -}}
+{{ range .homebrew_packages.work.brews -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ range .packages.work.casks -}}
+{{ range .homebrew_packages.work.casks -}}
 cask {{ . | quote }}
 {{ end -}}
 {{ end -}}
 {{ if eq .workstation_type "private" -}}
-{{ range .packages.private.brews -}}
+{{ range .homebrew_packages.private.brews -}}
 brew {{ . | quote }}
 {{ end -}}
-{{ range .packages.private.casks -}}
+{{ range .homebrew_packages.private.casks -}}
 cask {{ . | quote }}
 {{ end -}}
 {{ end -}}

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+{{ range .mise_packages -}}
+mise use -g {{ . | quote }}
+{{ end -}}

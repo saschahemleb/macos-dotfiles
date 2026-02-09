@@ -1,0 +1,7 @@
+krew_packages:
+  - cert-manager
+  - cnpg
+  - cost
+  - ctx
+  - deprecations
+  - ns

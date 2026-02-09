@@ -1,0 +1,5 @@
+mise_packages:
+  - bun@1.2
+  - node@24.9
+  - go@1.25
+  - kubectl@1.33

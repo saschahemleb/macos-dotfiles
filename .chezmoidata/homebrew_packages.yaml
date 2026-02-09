@@ -1,4 +1,4 @@
-packages:
+homebrew_packages:
   all:
     brews:
       - curl

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+{{ range .composer_packages -}}
+composer global require {{ . | quote }}
+{{ end -}}
