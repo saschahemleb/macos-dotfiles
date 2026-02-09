@@ -1,0 +1,3 @@
+data:
+    workstation_type: {{ promptStringOnce . "workstation_type" "What type of workstation is this, 'work' or 'private'" | quote }}
+    email: {{ promptStringOnce . "email" "Email address" | quote }}
