@@ -1,3 +1,6 @@
 {{ if (gt (.krew_packages | len) 0) -}}
 export PATH="$HOME/.krew/bin:$PATH"
 {{ end -}}
+{{ if (gt (.composer_packages | len) 0) -}}
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+{{ end -}}

@@ -28,6 +28,18 @@ bindkey -M menuselect '^M' .accept-line
 bindkey -M menuselect  '^[[D' .backward-char  '^[OD' .backward-char
 bindkey -M menuselect  '^[[C'  .forward-char  '^[OC'  .forward-char
 
+HISTSIZE=10000
+HISTFILE=~/.zsh_history
+SAVEHIST=10000
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt incappendhistory
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
 if 1>/dev/null 2>&1 which mise; then
     eval "$(mise activate zsh)"
 fi
