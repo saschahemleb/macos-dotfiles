@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false 
-command_timeout = 200
+command_timeout = 500
 palette = 'my'
 #format = "[$directory$git_branch$git_status]($style)$character"
 format = """
@@ -17,7 +17,7 @@ $package\
 ( $nodejs)\
 ( $php)\
 ( $terraform)\
-$aws\
+( $aws)\
 ( $cmd_duration)\
 $jobs\
 $battery
@@ -84,6 +84,10 @@ version_format = '${major}.${minor}'
 style = 'bold opentofu'
 format = '([tf]($style) $version)'
 version_format = '${major}.${minor}'
+
+[aws]
+style = 'yellow'
+format = '([aws]($style) ($profile )(\($region\) )(\[$duration\] ))'
 
 [cmd_duration]
 min_time = 1_000
