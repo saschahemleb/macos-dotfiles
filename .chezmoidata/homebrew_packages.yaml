@@ -54,6 +54,7 @@ homebrew_packages:
     brews:
       - tilt
       - sops
+      - age
       - go-jsonnet
       - helm
       - jpeg
