@@ -1,6 +1,7 @@
 # Run `ghostty +show-config --default --docs` to view a list of
 # all available config options and their default values.
 # https://ghostty.org/docs/config.
+auto-update-channel = tip
 shell-integration = detect
 shell-integration-features = cursor,sudo,no-title,ssh-env,no-ssh-terminfo
 macos-titlebar-proxy-icon = hidden
