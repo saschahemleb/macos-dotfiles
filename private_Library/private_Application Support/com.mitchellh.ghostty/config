@@ -8,6 +8,7 @@ macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 window-save-state = always
+scrollback-limit = 50000000
 
 font-family = "JetBrainsMono Nerd Font"
 font-size = 12

@@ -9,9 +9,15 @@
         "profile": "ClaudeCode"
       },
       "models": {
-        "application-inference-model": {
-          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/lcwuxbnvs7ip"
-        }
+	"Eventim Claude Sonnet": {
+	  "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/36mlriag5pve"
+	},
+	"Eventim Claude Opus": {
+	  "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/a0r9n3jfwx3h"
+	},
+	"Eventim Claude Haiku": {
+          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/xndn365luuep"
+	}
       }
     }
   }
