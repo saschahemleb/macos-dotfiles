@@ -15,7 +15,7 @@ function netshoot_docker_container() {
 alias netshoot_docker_host='docker run -it --net host nicolaka/netshoot'
 
 function k6() {
-    docker run --rm --interactive --volume $PWD:/app --workdir /app grafana/k6:master-with-browser $@
+    docker run --rm --interactive --volume $HOME/.config/k6:/home/k6/.config/k6 --volume $PWD:/app --workdir /app --network host grafana/k6:master-with-browser $@
 }
 
 alias krew='kubectl krew'
