@@ -1,3 +1,4 @@
+alias decolor='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g"'
 alias dc='docker compose'
 alias dori='docker run -it --rm '
 alias dorime='docker run -it --rm --volume ./:/workdir --volume $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK --workdir /workdir --entrypoint /bin/bash'

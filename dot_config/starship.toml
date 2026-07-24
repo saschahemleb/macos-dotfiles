@@ -1,6 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-add_newline = false 
+add_newline = false
 command_timeout = 500
 palette = 'my'
 #format = "[$directory$git_branch$git_status]($style)$character"
@@ -20,7 +20,7 @@ $package\
 ( $aws)\
 ( $cmd_duration)\
 $jobs\
-$battery
+( $battery)\
 $character\
 """
 
