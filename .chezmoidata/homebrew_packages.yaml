@@ -1,6 +1,7 @@
 homebrew_packages:
   all:
     brews:
+      - bitwarden-cli
       - curl
       - direnv
       - eza
@@ -9,13 +10,13 @@ homebrew_packages:
       - gh
       - git
       - glab
+      - herdr
       - lazydocker
       - lazygit
       - librdkafka
       - mas
       - mise
       - neovim
-      - opencode
       - php@8.4
       - php-intl
       - pie
@@ -33,6 +34,7 @@ homebrew_packages:
       - zsh-syntax-highlighting
     casks:
       - bitwarden
+      - codex
       - font-jetbrains-mono-nerd-font
       - ghostty
       - helium-browser
@@ -41,7 +43,6 @@ homebrew_packages:
       - raycast
       - dash
       - spotify
-      - t3-code
       - zen
   private:
     brews: []
@@ -75,7 +76,6 @@ homebrew_packages:
       - chromium
       - citrix-workspace
       - claude-code
-      - codex
       - dash
       - jetbrains-toolbox
       - macpass
