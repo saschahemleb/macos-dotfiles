@@ -10,7 +10,6 @@ homebrew_packages:
       - gh
       - git
       - glab
-      - herdr
       - lazydocker
       - lazygit
       - librdkafka
@@ -43,6 +42,7 @@ homebrew_packages:
       - raycast
       - dash
       - spotify
+      - t3-code
       - zen
   private:
     brews: []
