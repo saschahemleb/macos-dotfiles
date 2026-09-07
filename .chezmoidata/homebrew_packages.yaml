@@ -73,6 +73,8 @@ homebrew_packages:
       - another-redis-desktop-manager
       - chromium
       - citrix-workspace
+      - claude-code
+      - codex
       - dash
       - jetbrains-toolbox
       - macpass
@@ -81,3 +83,4 @@ homebrew_packages:
       - orbstack
       - redis-insight
       - zoom
+
