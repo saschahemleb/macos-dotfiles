@@ -11,11 +11,11 @@ window-save-state = always
 scrollback-limit = 50000000
 
 font-family = "JetBrainsMono Nerd Font"
-font-size = 12
+font-size = 14
 font-thicken = true
 theme = dark:Catppuccin Mocha,light:Catppuccin Latte
-window-padding-x = 15
-window-padding-y = 10
+window-padding-x = 5
+window-padding-y = 5
 window-theme = system
 
 title = "Ghostty"

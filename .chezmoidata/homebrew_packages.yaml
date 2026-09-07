@@ -41,6 +41,7 @@ homebrew_packages:
       - raycast
       - dash
       - spotify
+      - t3-code
       - zen
   private:
     brews: []
