@@ -46,6 +46,7 @@ homebrew_packages:
   private:
     brews: []
     casks:
+      - ausweisapp
       - balenaetcher
       - moneymoney
       - moonlight
