@@ -4,34 +4,46 @@
 auto-update-channel = tip
 shell-integration = detect
 shell-integration-features = cursor,sudo,no-title,ssh-env,no-ssh-terminfo
-macos-titlebar-proxy-icon = hidden
-macos-titlebar-style = tabs
 mouse-hide-while-typing = true
 window-save-state = always
 scrollback-limit = 50000000
 
+# tabs
+macos-non-native-fullscreen = true
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs
+macos-window-buttons = hidden
+
 font-family = "JetBrainsMono Nerd Font"
 font-size = 14
 font-thicken = true
+font-feature = zero,calt
+
 theme = dark:Catppuccin Mocha,light:Catppuccin Latte
-window-padding-x = 5
-window-padding-y = 5
+
+window-padding-x = 15
+window-padding-y = 10
 window-theme = system
 
 title = "Ghostty"
 
 keybind = ctrl+n=new_window
+keybind = ctrl+space>space=toggle_command_palette
 
 keybind = ctrl+h=goto_split:left
 keybind = ctrl+j=goto_split:bottom
 keybind = ctrl+k=goto_split:top
 keybind = ctrl+l=goto_split:right
 
+keybind = ctrl+space>enter=new_split:auto
 keybind = ctrl+space>h=new_split:left
 keybind = ctrl+space>j=new_split:down
 keybind = ctrl+space>k=new_split:up
 keybind = ctrl+space>l=new_split:right
 keybind = ctrl+space>f=toggle_split_zoom
 
-keybind = ctrl+space>n=next_tab
-keybind = ctrl+space>p=previous_tab
+keybind = super+shift+0=equalize_splits
+keybind = super+shift+h=resize_split:left,50
+keybind = super+shift+j=resize_split:down,50
+keybind = super+shift+k=resize_split:up,50
+keybind = super+shift+l=resize_split:right,50
