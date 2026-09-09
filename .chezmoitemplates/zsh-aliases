@@ -98,6 +98,19 @@ alias pubkey="more $HOME/.ssh/id_ed25519.pub | pbcopy | echo '=> Public key copi
 
 alias vim='nvim'
 
+function h() {
+	herdr workspace create --cwd "$PWD" --focus > /dev/null
+	[[ -z "$HERDR_ENV" ]] && herdr
+}
+
+function ha() {
+	local agent="${1:-codex}"
+	local root_pane=$(herdr workspace create --cwd "$PWD" --focus | jq -r '.result.root_pane.pane_id')
+	herdr pane split --pane "$root_pane" --direction right --cwd "$PWD" --no-focus > /dev/null
+	herdr agent start "$agent" --kind "$agent" --pane "$root_pane" > /dev/null
+	[[ -z "$HERDR_ENV" ]] && herdr
+}
+
 function art() {
 	if [ ! -f "artisan" ]; then
 		return;

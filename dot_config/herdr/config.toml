@@ -9,7 +9,16 @@ shell_mode = "auto"
 new_cwd = "follow"
 
 [keys]
-prefix = "ctrl+b"
+prefix = "ctrl+a"
+focus_pane_left = "super+ctrl+h"
+focus_pane_down = "super+ctrl+j"
+focus_pane_up = "super+ctrl+k"
+focus_pane_right = "super+ctrl+l"
+split_vertical = "prefix+l"
+split_horizontal = "prefix+j"
+focus_agent = "super+ctrl+1..9"
+switch_workspace = "prefix+1..9"
+zoom = "prefix+f"
 
 [ui]
 sidebar_start_collapsed = false
