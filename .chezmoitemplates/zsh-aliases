@@ -105,9 +105,15 @@ function h() {
 
 function ha() {
 	local agent="${1:-codex}"
-	local root_pane=$(herdr workspace create --cwd "$PWD" --focus | jq -r '.result.root_pane.pane_id')
-	herdr pane split --pane "$root_pane" --direction right --cwd "$PWD" --no-focus > /dev/null
-	herdr agent start "$agent" --kind "$agent" --pane "$root_pane" > /dev/null
+	local workspace root_pane
+	workspace=$(herdr workspace create --cwd "$PWD" --focus) || return
+	root_pane=$(jq -er '.result.root_pane.pane_id' <<< "$workspace") || return
+	local name_prefix="${(L)${PWD:t}}" name_suffix="${(L)root_pane}"
+	name_prefix="${name_prefix//[^a-z0-9_-]/-}"
+	name_suffix="${name_suffix//[^a-z0-9_-]/-}"
+	local agent_name="a-${name_prefix[1,16]}-${name_suffix[-13,-1]}"
+	herdr pane split --pane "$root_pane" --direction right --cwd "$PWD" --no-focus > /dev/null || return
+	herdr agent start "$agent_name" --kind "$agent" --pane "$root_pane" > /dev/null || return
 	[[ -z "$HERDR_ENV" ]] && herdr
 }
 
