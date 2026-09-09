@@ -2,6 +2,7 @@ homebrew_packages:
   all:
     brews:
       - bitwarden-cli
+      - chezmoi
       - curl
       - direnv
       - eza
@@ -10,23 +11,15 @@ homebrew_packages:
       - gh
       - git
       - glab
-      - helix
+      - name: helix
+        args: [HEAD]
       - herdr
+      - jq
       - lazydocker
-      - lazygit
-      - librdkafka
       - mas
-      - mise
-      - php@8.4
-      - php-intl
-      - pie
-      - pkgconf
-      - re2c
       - starship
-      - symfony-cli
       - tealdeer
       - watch
-      - wget
       - yq
       - zoxide
       - zsh-autocomplete
@@ -38,12 +31,10 @@ homebrew_packages:
       - font-jetbrains-mono-nerd-font
       - ghostty
       - helium-browser
-      - moonlight
       - orbstack
       - raycast
       - dash
       - spotify
-      - t3-code
       - zen
   private:
     brews: []
@@ -56,20 +47,11 @@ homebrew_packages:
       - whatsapp
   work:
     brews:
-      - tilt
       - sops
       - age
-      - go-jsonnet
       - helm
-      - jpeg
-      - jq
-      - jsonnet-bundler
-      - k3d
       - k9s
-      - mariadb@11.8
       - awscli
-      - cmctl
-      - coreutils
       - openssl@3
     casks:
       - airtame
@@ -77,11 +59,6 @@ homebrew_packages:
       - chromium
       - citrix-workspace
       - claude-code
-      - dash
       - jetbrains-toolbox
       - macpass
-      - microsoft-auto-update
-      - microsoft-teams
-      - orbstack
-      - redis-insight
       - zoom

@@ -6,7 +6,11 @@ brew update
 
 brew bundle --file=/dev/stdin <<EOF
 {{ range .homebrew_packages.all.brews -}}
+{{ if kindIs "string" . -}}
 brew {{ . | quote }}
+{{ else -}}
+brew {{ .name | quote }}, args: {{ .args | toJson }}
+{{ end -}}
 {{ end -}}
 {{ range .homebrew_packages.all.casks -}}
 cask {{ . | quote }}

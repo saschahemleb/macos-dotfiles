@@ -96,13 +96,17 @@ alias lta='lt -a'
 
 alias pubkey="more $HOME/.ssh/id_ed25519.pub | pbcopy | echo '=> Public key copied to clipboard.'"
 
-function h() {
+function e() {
+	${EDITOR:-vi} $@
+}
+
+function m() {
 	herdr workspace create --cwd "$PWD" --focus > /dev/null
 	[[ -z "$HERDR_ENV" ]] && herdr
 }
 
-function ha() {
-	local agent="${1:-codex}"
+function _ma_setup() {
+	local agent="$1"
 	local workspace root_pane
 	workspace=$(herdr workspace create --cwd "$PWD" --focus) || return
 	root_pane=$(jq -er '.result.root_pane.pane_id' <<< "$workspace") || return
@@ -110,9 +114,40 @@ function ha() {
 	name_prefix="${name_prefix//[^a-z0-9_-]/-}"
 	name_suffix="${name_suffix//[^a-z0-9_-]/-}"
 	local agent_name="a-${name_prefix[1,16]}-${name_suffix[-13,-1]}"
+	print -r -- "$root_pane"
+	print -r -- "$agent_name"
+}
+
+function ma() {
+	local agent="${1:-${AGENT:-codex}}"
+	local setup root_pane agent_name
+	setup=$(_ma_setup "$agent") || return
+	root_pane="${setup%%$'\n'*}"
+	agent_name="${setup#*$'\n'}"
 	herdr pane split --pane "$root_pane" --direction right --cwd "$PWD" --no-focus > /dev/null || return
-	herdr agent start "$agent_name" --kind "$agent" --pane "$root_pane" > /dev/null || return
+	# Wait for agent readiness in the background so Herdr opens immediately.
+	herdr agent start "$agent_name" --kind "$agent" --pane "$root_pane" > /dev/null &!
 	[[ -z "$HERDR_ENV" ]] && herdr
+}
+
+# Agent on the left; editor above a shell on the right (3:1 height).
+function mae() {
+	local agent="${1:-${AGENT:-codex}}"
+	local editor="${EDITOR:-vi}"
+	local setup root_pane agent_name split editor_pane
+	setup=$(_ma_setup "$agent") || return
+	root_pane="${setup%%$'\n'*}"
+	agent_name="${setup#*$'\n'}"
+	split=$(herdr pane split --pane "$root_pane" --direction right --ratio 0.5 --cwd "$PWD" --no-focus) || return
+	editor_pane=$(jq -er '.result.pane.pane_id' <<< "$split") || return
+	# The ratio is the share retained by the upper pane.
+	herdr pane split --pane "$editor_pane" --direction down --ratio 0.75 --cwd "$PWD" --no-focus > /dev/null || return
+	herdr pane run "$editor_pane" "$editor ." > /dev/null || return
+	# Wait for agent readiness in the background so Herdr opens immediately.
+	herdr agent start "$agent_name" --kind "$agent" --pane "$root_pane" > /dev/null &!
+	if [[ -z "$HERDR_ENV" ]]; then
+		herdr
+	fi
 }
 
 function art() {

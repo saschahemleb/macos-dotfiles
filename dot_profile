@@ -9,3 +9,4 @@ export XDEBUG_MODE=coverage,debug
 
 export EDITOR=hx
 export VISUAL=hx
+export AGENT=codex
