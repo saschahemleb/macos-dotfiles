@@ -96,8 +96,6 @@ alias lta='lt -a'
 
 alias pubkey="more $HOME/.ssh/id_ed25519.pub | pbcopy | echo '=> Public key copied to clipboard.'"
 
-alias vim='nvim'
-
 function h() {
 	herdr workspace create --cwd "$PWD" --focus > /dev/null
 	[[ -z "$HERDR_ENV" ]] && herdr

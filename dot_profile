@@ -6,3 +6,6 @@ export HOMEBREW_NO_INSTALL_UPGRADE=1
 export HOMEBREW_NO_UPDATE_REPORT_NEW=1
 
 export XDEBUG_MODE=coverage,debug
+
+export EDITOR=hx
+export VISUAL=hx

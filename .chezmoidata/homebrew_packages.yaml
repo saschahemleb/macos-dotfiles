@@ -10,13 +10,13 @@ homebrew_packages:
       - gh
       - git
       - glab
+      - helix
       - herdr
       - lazydocker
       - lazygit
       - librdkafka
       - mas
       - mise
-      - neovim
       - php@8.4
       - php-intl
       - pie
@@ -85,4 +85,3 @@ homebrew_packages:
       - orbstack
       - redis-insight
       - zoom
-
