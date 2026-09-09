@@ -40,8 +40,8 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
-if 1>/dev/null 2>&1 which mise; then
-    eval "$(mise activate zsh)"
+if [[ -x ~/.local/bin/mise ]]; then
+    eval "$(~/.local/bin/mise activate zsh)"
 fi
 
 if 1>/dev/null 2>&1 which direnv; then

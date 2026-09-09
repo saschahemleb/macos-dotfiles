@@ -36,6 +36,12 @@ install_clt() {
   fail "Error installing Command Line Tools" "$out"
 }
 
+install_mise() {
+  if ! 1>/dev/null 2>&1 which mise; then
+    /usr/bin/env bash -c "$(curl -fsSL https://mise.run)"
+  fi
+}
+
 install_brew() {
   if ! 1>/dev/null 2>&1 which brew; then
     /usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -78,6 +84,9 @@ init_chezmoi_repo() {
 
 install_clt
 echo -e "Command Line Tools ${green}${checkmark}${nc}"
+
+install_mise
+echo -e "Mise ${green}${checkmark}${nc}"
 
 install_brew
 echo -e "Homebrew ${green}${checkmark}${nc}"
