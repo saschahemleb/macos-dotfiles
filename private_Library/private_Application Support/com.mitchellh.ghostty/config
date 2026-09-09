@@ -19,7 +19,7 @@ font-size = 14
 font-thicken = true
 font-feature = zero,calt
 
-theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+theme = light:Tomorrow,dark:Tomorrow Night Bright
 
 window-padding-x = 15
 window-padding-y = 10

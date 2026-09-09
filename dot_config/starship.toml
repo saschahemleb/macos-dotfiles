@@ -21,7 +21,7 @@ $package\
 ( $cmd_duration)\
 $jobs\
 ( $battery)\
-$character\
+( $character)\
 """
 
 [palettes.my]
