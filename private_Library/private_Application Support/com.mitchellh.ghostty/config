@@ -19,7 +19,7 @@ font-size = 14
 font-thicken = true
 font-feature = zero,calt
 
-theme = light:Tomorrow,dark:Tomorrow Night Bright
+theme = light:Tango Half Adapted,dark:TokyoNight
 
 window-padding-x = 15
 window-padding-y = 10
@@ -45,3 +45,4 @@ keybind = super+shift+h=resize_split:left,50
 keybind = super+shift+j=resize_split:down,50
 keybind = super+shift+k=resize_split:up,50
 keybind = super+shift+l=resize_split:right,50
+
