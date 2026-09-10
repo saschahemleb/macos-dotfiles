@@ -12,14 +12,12 @@ homebrew_packages:
       - gh
       - git
       - glab
-      - name: helix
-        args: [HEAD]
+      - helix
       - herdr
       - jq
       - lazydocker
       - lazygit
       - mas
-      - neovim
       - ripgrep
       - starship
       - tealdeer
@@ -41,6 +39,7 @@ homebrew_packages:
       - dash
       - spotify
       - zen
+      - zed
   private:
     brews: []
     casks:
@@ -59,11 +58,11 @@ homebrew_packages:
       - awscli
       - openssl@3
     casks:
+      - 1password-cli
       - airtame
       - another-redis-desktop-manager
-      - chromium
-      - citrix-workspace
       - claude-code
+      - grafana-assistant
       - jetbrains-toolbox
       - macpass
       - zoom
