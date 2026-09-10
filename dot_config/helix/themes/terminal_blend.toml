@@ -1,0 +1,12 @@
+# Keep the ANSI colors from Helix's terminal theme while letting the terminal
+# background show through in the editor chrome.
+inherits = "base16_terminal"
+
+"ui.gutter" = { }
+"ui.linenr" = { fg = "light-gray" }
+"ui.linenr.selected" = { fg = "black", modifiers = ["bold"] }
+"ui.statusline" = { fg = "black" }
+"ui.statusline.inactive" = { fg = "gray" }
+"ui.help" = { fg = "black" }
+"ui.popup" = { fg = "black" }
+"ui.menu" = { fg = "black", bg = "white" }

@@ -4,6 +4,9 @@ onboarding = false
 name = "terminal"
 auto_switch = false
 
+[theme.custom]
+accent = "#e0af68"
+
 [terminal]
 shell_mode = "auto"
 new_cwd = "follow"
@@ -17,7 +20,10 @@ focus_pane_right = "super+ctrl+l"
 split_vertical = "prefix+l"
 split_horizontal = "prefix+j"
 focus_agent = "super+ctrl+1..9"
+switch_tab = "prefix+shift+1..9"
 switch_workspace = "prefix+1..9"
+new_workspace = "prefix+n"
+new_tab = "prefix+shift+n"
 zoom = "prefix+f"
 
 [ui]
