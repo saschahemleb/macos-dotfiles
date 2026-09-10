@@ -51,12 +51,16 @@ homebrew_packages:
       - whatsapp
   work:
     brews:
-      - sops
       - age
+      - awscli
+      - composer
       - helm
       - k9s
-      - awscli
       - openssl@3
+      - php
+      - php@8.2
+      - php@8.4
+      - sops
     casks:
       - 1password-cli
       - airtame
