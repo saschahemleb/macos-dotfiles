@@ -1,0 +1,11 @@
+# Zed extension IDs: true installs automatically; false prevents installation.
+zed_extensions:
+  catppuccin: false
+  catppuccin-icons: false
+  macos-classic: true
+  dockerfile: true
+  git-firefly: true
+  html: true
+  php: true
+  twig: true
+  vue: true
