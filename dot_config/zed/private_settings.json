@@ -1,4 +1,42 @@
 {
+  "icon_theme": {
+    "mode": "system",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)"
+  },
+  "theme": {
+    "mode": "system",
+    "light": "macOS Classic Light",
+    "dark": "macOS Classic Dark"
+  },
+  "disable_ai": true,
+  "bottom_dock_layout": "contained",
+  "title_bar": {
+    "show_menus": false,
+    "show_user_picture": true,
+    "show_user_menu": true,
+    "show_sign_in": false,
+    "show_onboarding_banner": true,
+    "show_project_items": true
+  },
+  "debugger": {
+    "button": false
+  },
+  "search": {
+    "button": false
+  },
+  "diagnostics": {
+    "button": false
+  },
+  "terminal": {
+    "button": false
+  },
+  "status_bar": {
+    "show": false,
+    "line_endings_button": false,
+    "cursor_position_button": false,
+    "active_language_button": false
+  },
   "toolbar": {
     "agent_review": false,
     "selections_menu": true,
@@ -13,20 +51,26 @@
     "show": false
   },
   "project_panel": {
+    "button": false,
     "dock": "right"
   },
   "outline_panel": {
+    "button": false,
     "dock": "right"
   },
   "collaboration_panel": {
+    "button": false,
     "dock": "right"
   },
   "agent": {
+    "button": false,
+    "terminal_init_command": "",
     "dock": "left",
     "favorite_models": [],
     "model_parameters": []
   },
   "git_panel": {
+    "button": false,
     "dock": "right"
   },
   "which_key": {
