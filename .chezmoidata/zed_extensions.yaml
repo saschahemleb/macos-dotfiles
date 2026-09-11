@@ -1,5 +1,6 @@
 # Zed extension IDs: true installs automatically; false prevents installation.
 zed_extensions:
+  biome: true
   catppuccin: false
   catppuccin-icons: false
   macos-classic: true
