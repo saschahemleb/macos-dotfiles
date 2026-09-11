@@ -1,4 +1,17 @@
 {
+  "toolbar": {
+    "agent_review": false,
+    "selections_menu": true,
+    "quick_actions": false,
+    "breadcrumbs": true
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": false
+  },
+  "tab_bar": {
+    "show": false
+  },
   "project_panel": {
     "dock": "right"
   },
