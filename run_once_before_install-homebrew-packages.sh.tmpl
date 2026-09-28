@@ -15,12 +15,18 @@ brew {{ .name | quote }}, args: {{ .args | toJson }}
 {{ range .homebrew_packages.all.casks -}}
 cask {{ . | quote }}
 {{ end -}}
+{{ range .homebrew_packages.all.vscode_extensions -}}
+vscode {{ . | quote }}
+{{ end -}}
 {{ if eq .workstation_type "work" -}}
 {{ range .homebrew_packages.work.brews -}}
 brew {{ . | quote }}
 {{ end -}}
 {{ range .homebrew_packages.work.casks -}}
 cask {{ . | quote }}
+{{ end -}}
+{{ range .homebrew_packages.work.vscode_extensions -}}
+vscode {{ . | quote }}
 {{ end -}}
 {{ end -}}
 {{ if eq .workstation_type "private" -}}
@@ -29,6 +35,9 @@ brew {{ . | quote }}
 {{ end -}}
 {{ range .homebrew_packages.private.casks -}}
 cask {{ . | quote }}
+{{ end -}}
+{{ range .homebrew_packages.private.vscode_extensions -}}
+vscode {{ . | quote }}
 {{ end -}}
 {{ end -}}
 EOF

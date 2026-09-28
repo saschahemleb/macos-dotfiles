@@ -38,8 +38,11 @@ homebrew_packages:
       - raycast
       - dash
       - spotify
+      - visual-studio-code
       - zen
       - zed
+    # Visual Studio Marketplace extension IDs managed by Homebrew Bundle.
+    vscode_extensions: []
   private:
     brews: []
     casks:
@@ -49,6 +52,7 @@ homebrew_packages:
       - moonlight
       - privadovpn
       - whatsapp
+    vscode_extensions: []
   work:
     brews:
       - age
@@ -70,3 +74,4 @@ homebrew_packages:
       - jetbrains-toolbox
       - macpass
       - zoom
+    vscode_extensions: []
