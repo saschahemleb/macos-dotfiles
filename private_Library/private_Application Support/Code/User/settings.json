@@ -1,4 +1,57 @@
 {
+  "[astro][css][graphql][html][javascript][javascriptreact][json][jsonc][svelte][typescript][typescriptreact][vue]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "explicit",
+      "source.organizeImports.biome": "explicit"
+    },
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[php]": {
+    "editor.defaultFormatter": "phpactor.vscode-phpactor"
+  },
+  "breadcrumbs.enabled": true,
+  "catppuccin.syncWithIconPack": true,
+  "catppuccin.workbenchMode": "minimal",
+  "chat.disableAIFeatures": true,
+  "editor.cursorStyle": "block",
+  "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+  "editor.fontSize": 14,
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  "extensions.autoUpdate": "off",
+  "files.hotExit": "off",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://spec.openapis.org/": true,
+    "https://json-schema.org/": true,
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://biomejs.dev": true
+  },
   "telemetry.telemetryLevel": "off",
-  "workbench.enableExperiments": false
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "update.mode": "none",
+  "window.autoDetectColorScheme": true,
+  "window.commandCenter": false,
+  "window.openFilesInNewWindow": "off",
+  "window.openFoldersInNewWindow": "off",
+  "window.restoreWindows": "none",
+  "workbench.enableExperiments": false,
+  "workbench.activityBar.location": "hidden",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.editor.editorActionsLocation": "hidden",
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.showTabs": "none",
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.layoutControl.enabled": false,
+  "workbench.panel.defaultLocation": "bottom",
+  "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+  "workbench.preferredLightColorTheme": "Catppuccin Latte",
+  "workbench.sideBar.location": "right",
+  "workbench.startupEditor": "welcomePage",
+  "workbench.statusBar.visible": false
 }

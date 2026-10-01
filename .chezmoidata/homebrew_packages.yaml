@@ -42,12 +42,18 @@ homebrew_packages:
       - zen
       - zed
     # Visual Studio Marketplace extension IDs managed by Homebrew Bundle.
-    vscode_extensions: []
+    vscode_extensions:
+      - biomejs.biome
+      - catppuccin.catppuccin-vsc
+      - catppuccin.catppuccin-vsc-icons
+      - phpactor.vscode-phpactor
+      - vue.volar
   private:
     brews: []
     casks:
       - ausweisapp
       - balenaetcher
+      - mitmproxy
       - moneymoney
       - moonlight
       - privadovpn

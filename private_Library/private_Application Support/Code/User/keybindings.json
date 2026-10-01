@@ -1,0 +1,10 @@
+[
+  {
+    "key": "cmd+1",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "key": "cmd+9",
+    "command": "workbench.view.scm"
+  }
+]
