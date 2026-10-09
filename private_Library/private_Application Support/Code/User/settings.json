@@ -9,7 +9,7 @@
   "[php]": {
     "editor.defaultFormatter": "phpactor.vscode-phpactor"
   },
-  "breadcrumbs.enabled": true,
+  "breadcrumbs.enabled": false,
   "catppuccin.syncWithIconPack": true,
   "catppuccin.workbenchMode": "minimal",
   "chat.disableAIFeatures": true,
@@ -43,7 +43,7 @@
   "workbench.enableExperiments": false,
   "workbench.activityBar.location": "hidden",
   "workbench.colorTheme": "Catppuccin Mocha",
-  "workbench.editor.editorActionsLocation": "hidden",
+  "workbench.editor.editorActionsLocation": "titleBar",
   "workbench.editor.revealIfOpen": true,
   "workbench.editor.showTabs": "none",
   "workbench.iconTheme": "catppuccin-mocha",
