@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/v2/cli.json",
+  "theme": {
+    "name": "system"
+  },
+  "diffs": {
+    "view": "auto"
+  },
+  "scroll": {
+    "acceleration": true
+  },
+  "keybinds": {
+    "leader": "ctrl+x",
+    "input.line.home": "home",
+    "model.dialog.provider": "<leader>p"
+  }
+}

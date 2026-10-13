@@ -1,5 +1,6 @@
 homebrew_packages:
   all:
+    taps: []
     brews:
       - ast-grep
       - bitwarden-cli
@@ -49,7 +50,10 @@ homebrew_packages:
       - phpactor.vscode-phpactor
       - vue.volar
   private:
-    brews: []
+    taps:
+      - anomalyco/tap
+    brews:
+      - opencode-v2
     casks:
       - ausweisapp
       - balenaetcher
@@ -60,6 +64,7 @@ homebrew_packages:
       - whatsapp
     vscode_extensions: []
   work:
+    taps: []
     brews:
       - age
       - awscli

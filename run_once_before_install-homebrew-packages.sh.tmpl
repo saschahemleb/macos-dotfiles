@@ -5,6 +5,9 @@ set -Eeuo pipefail
 brew update
 
 brew bundle --file=/dev/stdin <<EOF
+{{ range .homebrew_packages.all.taps -}}
+tap {{ . | quote }}, trusted: true
+{{ end -}}
 {{ range .homebrew_packages.all.brews -}}
 {{ if kindIs "string" . -}}
 brew {{ . | quote }}
@@ -19,6 +22,9 @@ cask {{ . | quote }}
 vscode {{ . | quote }}
 {{ end -}}
 {{ if eq .workstation_type "work" -}}
+{{ range .homebrew_packages.work.taps -}}
+tap {{ . | quote }}, trusted: true
+{{ end -}}
 {{ range .homebrew_packages.work.brews -}}
 brew {{ . | quote }}
 {{ end -}}
@@ -30,6 +36,9 @@ vscode {{ . | quote }}
 {{ end -}}
 {{ end -}}
 {{ if eq .workstation_type "private" -}}
+{{ range .homebrew_packages.private.taps -}}
+tap {{ . | quote }}, trusted: true
+{{ end -}}
 {{ range .homebrew_packages.private.brews -}}
 brew {{ . | quote }}
 {{ end -}}
