@@ -34,8 +34,39 @@
             "input": ["text", "image"],
             "output": ["text"]
           },
-          "limit": { "context": 200000, "output": 32000 }
+          "limit": { "context": 1000000, "output": 128000 }
         },
+        "sonnet": {
+          "name": "Eventim Sonnet",
+          "modelID": "bedrock-anthropic-eu-sonnet-55-affordable",
+          "compatibility": { "cacheFormat": "anthropic" },
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": { "context": 1000000, "output": 128000 }
+        },
+        "sol": {
+          "name": "Eventim Sol",
+          "modelID": "openai-glob-sol-61-expensive",
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": { "context": 922000, "output": 128000 }
+        },
+        "luna": {
+          "name": "Eventim Luna",
+          "modelID": "openai-glob-luna-6-cheap",
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": { "context": 922000, "output": 128000 }
+        }
       }
     }
   },
