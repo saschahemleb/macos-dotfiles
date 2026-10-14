@@ -1,29 +1,45 @@
 {
   "$schema": "https://opencode.ai/config.json",
 {{- if eq .workstation_type "work" }}
-  "provider": {
+  "providers": {
     "amazon-bedrock": {
       "options": {
         "region": "eu-central-1",
         "profile": "ClaudeCode"
       },
       "models": {
-        "eventim-default-opus": {
+        "opus": {
           "name": "Eventim Opus",
           "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/a0r9n3jfwx3h"
-        },
-        "eventim-default-sonnet": {
-          "name": "Eventim Sonnet",
-          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/36mlriag5pve"
-        },
-        "eventim-default-haiku": {
-          "name": "Eventim Haiku",
-          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/xndn365luuep"
         }
+      }
+    },
+    "litellm": {
+      "name": "Eventim LiteLLM",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "env": ["LITELLM_API_KEY"],
+      "settings": {
+        "baseURL": "https://litellm.stg.enablement.ai.eventim.cloud/v1"
+      },
+      "body": {
+        "drop_params": true
+      },
+      "models": {
+        "opus": {
+          "name": "Eventim Opus",
+          "modelID": "bedrock-anthropic-eu-opus-55-expensive",
+          "compatibility": { "cacheFormat": "anthropic" },
+          "capabilities": {
+            "tools": true,
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "limit": { "context": 200000, "output": 32000 }
+        },
       }
     }
   },
-  "model": "amazon-bedrock/eventim-default-opus",
+  "model": "litellm/opus#high",
 {{- else }}
   "model": "openai/gpt-6.1-sol",
 {{- end }}
@@ -33,14 +49,14 @@
   "agents": {
     "build": {
 {{- if eq .workstation_type "work" }}
-      "model": "amazon-bedrock/eventim-default-sonnet"
+      "model": "litellm/opus#medium"
 {{- else }}
       "model": "openai/gpt-6.1-sol#medium"
 {{- end }}
     },
     "plan": {
 {{- if eq .workstation_type "work" }}
-      "model": "amazon-bedrock/eventim-default-opus#high"
+      "model": "litellm/opus#high"
 {{- else }}
       "model": "openai/gpt-6.1-sol#high"
 {{- end }}
