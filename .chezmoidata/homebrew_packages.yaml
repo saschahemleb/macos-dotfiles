@@ -1,6 +1,7 @@
 homebrew_packages:
   all:
-    taps: []
+    taps:
+      - anomalyco/tap
     brews:
       - ast-grep
       - bitwarden-cli
@@ -19,6 +20,7 @@ homebrew_packages:
       - lazydocker
       - lazygit
       - mas
+      - opencode-v2
       - ripgrep
       - starship
       - tealdeer
@@ -50,10 +52,8 @@ homebrew_packages:
       - phpactor.vscode-phpactor
       - vue.volar
   private:
-    taps:
-      - anomalyco/tap
-    brews:
-      - opencode-v2
+    taps: []
+    brews: []
     casks:
       - ausweisapp
       - balenaetcher

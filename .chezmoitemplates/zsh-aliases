@@ -92,6 +92,10 @@ alias lta='lt -a'
 
 alias pubkey="more $HOME/.ssh/id_ed25519.pub | pbcopy | echo '=> Public key copied to clipboard.'"
 
+function a() {
+	${AGENT:-opencode} $@
+}
+
 function e() {
 	${EDITOR:-vi} $@
 }
@@ -115,7 +119,7 @@ function _ma_setup() {
 }
 
 function ma() {
-	local agent="${1:-${AGENT:-codex}}"
+	local agent="${1:-${AGENT:-opencode}}"
 	local setup root_pane agent_name
 	setup=$(_ma_setup "$agent") || return
 	root_pane="${setup%%$'\n'*}"
@@ -128,7 +132,7 @@ function ma() {
 
 # Agent on the left; editor above a shell on the right (3:1 height).
 function mae() {
-	local agent="${1:-${AGENT:-codex}}"
+	local agent="${1:-${AGENT:-opencode}}"
 	local editor="${EDITOR:-vi}"
 	local setup root_pane agent_name split editor_pane
 	setup=$(_ma_setup "$agent") || return
