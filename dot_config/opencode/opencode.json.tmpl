@@ -4,22 +4,26 @@
   "provider": {
     "amazon-bedrock": {
       "options": {
-        "region": "eu-central-1"
+        "region": "eu-central-1",
+        "profile": "ClaudeCode"
       },
       "models": {
-        "eu.anthropic.claude-opus-5-5": {
-          "id": "{{ env "ANTHROPIC_DEFAULT_OPUS_MODEL" }}"
+        "eventim-default-opus": {
+          "name": "Eventim Opus",
+          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/a0r9n3jfwx3h"
         },
-        "eu.anthropic.claude-sonnet-5-5": {
-          "id": "{{ env "ANTHROPIC_DEFAULT_SONNET_MODEL" }}"
+        "eventim-default-sonnet": {
+          "name": "Eventim Sonnet",
+          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/36mlriag5pve"
         },
-        "eu.anthropic.claude-haiku-5-5": {
-          "id": "{{ env "ANTHROPIC_DEFAULT_HAIKU_MODEL" }}"
+        "eventim-default-haiku": {
+          "name": "Eventim Haiku",
+          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/xndn365luuep"
         }
       }
     }
   },
-  "model": "amazon-bedrock/eu.anthropic.claude-sonnet-5-5",
+  "model": "amazon-bedrock/eventim-default-opus",
 {{- else }}
   "model": "openai/gpt-6.1-sol",
 {{- end }}
@@ -29,14 +33,14 @@
   "agents": {
     "build": {
 {{- if eq .workstation_type "work" }}
-      "model": "amazon-bedrock/eu.anthropic.claude-sonnet-5-5#medium"
+      "model": "amazon-bedrock/eventim-default-sonnet"
 {{- else }}
       "model": "openai/gpt-6.1-sol#medium"
 {{- end }}
     },
     "plan": {
 {{- if eq .workstation_type "work" }}
-      "model": "amazon-bedrock/eu.anthropic.claude-opus-5-5#high"
+      "model": "amazon-bedrock/eventim-default-opus#high"
 {{- else }}
       "model": "openai/gpt-6.1-sol#high"
 {{- end }}

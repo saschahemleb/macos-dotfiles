@@ -35,6 +35,7 @@ pane_gaps = true
 hide_tab_bar_when_single_tab = false
 confirm_close = true
 prompt_new_tab_name = true
+status_indicators = "symbols"
 
 [ui.toast]
 delivery = "herdr"
