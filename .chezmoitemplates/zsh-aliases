@@ -101,12 +101,16 @@ function e() {
 }
 
 function m() {
+	if [[ -n "$1" ]]; then
+		local zdir
+		zdir=$(zoxide query "$1") || { echo "zoxide: no match for '$1'" >&2; return 1; }
+		cd "$zdir" || return 1
+	fi
 	herdr workspace create --cwd "$PWD" --focus > /dev/null
 	[[ -z "$HERDR_ENV" ]] && herdr
 }
 
 function _ma_setup() {
-	local agent="$1"
 	local workspace root_pane
 	workspace=$(herdr workspace create --cwd "$PWD" --focus) || return
 	root_pane=$(jq -er '.result.root_pane.pane_id' <<< "$workspace") || return
@@ -119,9 +123,14 @@ function _ma_setup() {
 }
 
 function ma() {
-	local agent="${1:-${AGENT:-opencode}}"
+	if [[ -n "$1" ]]; then
+		local zdir
+		zdir=$(zoxide query "$1") || { echo "zoxide: no match for '$1'" >&2; return 1; }
+		cd "$zdir" || return 1
+	fi
+	local agent="${AGENT:-opencode}"
 	local setup root_pane agent_name
-	setup=$(_ma_setup "$agent") || return
+	setup=$(_ma_setup) || return
 	root_pane="${setup%%$'\n'*}"
 	agent_name="${setup#*$'\n'}"
 	herdr pane split --pane "$root_pane" --direction right --cwd "$PWD" --no-focus > /dev/null || return
@@ -132,10 +141,15 @@ function ma() {
 
 # Agent on the left; editor above a shell on the right (3:1 height).
 function mae() {
-	local agent="${1:-${AGENT:-opencode}}"
+	if [[ -n "$1" ]]; then
+		local zdir
+		zdir=$(zoxide query "$1") || { echo "zoxide: no match for '$1'" >&2; return 1; }
+		cd "$zdir" || return 1
+	fi
+	local agent="${AGENT:-opencode}"
 	local editor="${EDITOR:-vi}"
 	local setup root_pane agent_name split editor_pane
-	setup=$(_ma_setup "$agent") || return
+	setup=$(_ma_setup) || return
 	root_pane="${setup%%$'\n'*}"
 	agent_name="${setup#*$'\n'}"
 	split=$(herdr pane split --pane "$root_pane" --direction right --ratio 0.5 --cwd "$PWD" --no-focus) || return

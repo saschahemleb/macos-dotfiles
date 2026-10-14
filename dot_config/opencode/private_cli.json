@@ -13,5 +13,6 @@
     "leader": "ctrl+x",
     "input.line.home": "home",
     "model.dialog.provider": "<leader>p"
-  }
+  },
+  "plugins": ["./herdr-opencode"]
 }

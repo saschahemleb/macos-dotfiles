@@ -1,15 +1,45 @@
 {
   "$schema": "https://opencode.ai/config.json",
+{{- if eq .workstation_type "work" }}
+  "provider": {
+    "amazon-bedrock": {
+      "options": {
+        "region": "eu-central-1"
+      },
+      "models": {
+        "eu.anthropic.claude-opus-5-5": {
+          "id": "{{ env "ANTHROPIC_DEFAULT_OPUS_MODEL" }}"
+        },
+        "eu.anthropic.claude-sonnet-5-5": {
+          "id": "{{ env "ANTHROPIC_DEFAULT_SONNET_MODEL" }}"
+        },
+        "eu.anthropic.claude-haiku-5-5": {
+          "id": "{{ env "ANTHROPIC_DEFAULT_HAIKU_MODEL" }}"
+        }
+      }
+    }
+  },
+  "model": "amazon-bedrock/eu.anthropic.claude-sonnet-5-5",
+{{- else }}
   "model": "openai/gpt-6.1-sol",
+{{- end }}
   "default_agent": "build",
   "update": "disable",
   "share": "disabled",
   "agents": {
     "build": {
+{{- if eq .workstation_type "work" }}
+      "model": "amazon-bedrock/eu.anthropic.claude-sonnet-5-5#medium"
+{{- else }}
       "model": "openai/gpt-6.1-sol#medium"
+{{- end }}
     },
     "plan": {
+{{- if eq .workstation_type "work" }}
+      "model": "amazon-bedrock/eu.anthropic.claude-opus-5-5#high"
+{{- else }}
       "model": "openai/gpt-6.1-sol#high"
+{{- end }}
     }
   },
   "permissions": [
