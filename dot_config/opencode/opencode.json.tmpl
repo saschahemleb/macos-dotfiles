@@ -26,7 +26,7 @@
       },
       "models": {
         "opus": {
-          "name": "Eventim Opus",
+          "name": "Opus",
           "modelID": "bedrock-anthropic-eu-opus-55-expensive",
           "compatibility": { "cacheFormat": "anthropic" },
           "capabilities": {
@@ -37,7 +37,7 @@
           "limit": { "context": 1000000, "output": 128000 }
         },
         "sonnet": {
-          "name": "Eventim Sonnet",
+          "name": "Sonnet",
           "modelID": "bedrock-anthropic-eu-sonnet-55-affordable",
           "compatibility": { "cacheFormat": "anthropic" },
           "capabilities": {
@@ -48,7 +48,7 @@
           "limit": { "context": 1000000, "output": 128000 }
         },
         "sol": {
-          "name": "Eventim Sol",
+          "name": "Sol",
           "modelID": "openai-glob-sol-61-expensive",
           "capabilities": {
             "tools": true,
@@ -58,7 +58,7 @@
           "limit": { "context": 922000, "output": 128000 }
         },
         "luna": {
-          "name": "Eventim Luna",
+          "name": "Luna",
           "modelID": "openai-glob-luna-6-cheap",
           "capabilities": {
             "tools": true,
@@ -72,7 +72,7 @@
   },
   "model": "litellm/opus#high",
 {{- else }}
-  "model": "openai/gpt-6.1-sol",
+  "model": "openai/gpt-6.1-sol#high",
 {{- end }}
   "default_agent": "build",
   "update": "disable",
