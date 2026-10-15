@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugins": ["./litellm-token-refresh"],
 {{- if eq .workstation_type "work" }}
   "providers": {
     "amazon-bedrock": {
