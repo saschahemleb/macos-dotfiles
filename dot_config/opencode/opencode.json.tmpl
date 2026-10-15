@@ -105,6 +105,7 @@
     { "action": "shell", "resource": "head *", "effect": "allow" },
     { "action": "shell", "resource": "tail *", "effect": "allow" },
     { "action": "shell", "resource": "wc *", "effect": "allow" },
+    { "action": "shell", "resource": "sed -n*", "effect": "allow" },
     { "action": "shell", "resource": "git status *", "effect": "allow" },
     { "action": "shell", "resource": "git diff *", "effect": "allow" },
     { "action": "shell", "resource": "git log *", "effect": "allow" },
@@ -148,6 +149,7 @@
     { "action": "shell", "resource": "git * --output*", "effect": "ask" },
     { "action": "shell", "resource": "*deploy*", "effect": "ask" },
     { "action": "shell", "resource": "*publish*", "effect": "ask" },
-    { "action": "shell", "resource": "*release*", "effect": "ask" }
+    { "action": "shell", "resource": "*release*", "effect": "ask" },
+    { "action": "shell", "resource": "sed *-i*", "effect": "ask" }
   ]
 }
