@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Wrapper that fetches a fresh Entra ID token, restarts the OpenCode background
-# service so it picks up the token, then launches OpenCode.
+# Wrapper that fetches a fresh Entra ID token and restarts the OpenCode service
 set -euo pipefail
 
 ENTRA_CLI_AUTH="${HOME}/.local/bin/entra-cli-auth"
@@ -19,4 +18,3 @@ fi
 
 export LITELLM_API_KEY="$token"
 opencode service restart >/dev/null 2>&1 || true
-exec opencode "$@"
