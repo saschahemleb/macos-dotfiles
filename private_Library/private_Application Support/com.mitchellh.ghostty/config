@@ -19,7 +19,7 @@ font-size = 12
 font-thicken = true
 font-feature = zero,calt
 
-theme = light:Tango Half Adapted,dark:TokyoNight
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
 window-padding-x = 15
 window-padding-y = 10

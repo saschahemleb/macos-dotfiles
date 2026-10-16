@@ -1,8 +1,10 @@
 onboarding = false
 
 [theme]
-name = "terminal"
-auto_switch = false
+name = "catppuccin"
+auto_switch = true
+light_name = "catppuccin-latte"
+dark_name = "catppuccin"
 
 [terminal]
 shell_mode = "auto"
@@ -30,7 +32,6 @@ pane_borders = "always"
 pane_gaps = false
 hide_tab_bar_when_single_tab = true
 agent_panel_sort = "priority"
-accent = "#cba6f7"
 
 [ui.sound]
 enabled = false

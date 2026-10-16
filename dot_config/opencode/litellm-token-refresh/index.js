@@ -22,36 +22,48 @@ function parseExpiry(token) {
   }
 }
 
-async function ensureToken() {
+function ensureToken() {
   if (cachedToken && Date.now() < tokenExpiry - EXPIRY_BUFFER_MS) {
-    return cachedToken;
+    return Promise.resolve(cachedToken);
   }
   if (refreshPromise) return refreshPromise;
 
-  try {
-    const { stdout } = await execFile(ENTRA_CLI_AUTH);
-    const token = stdout.trim();
-    if (token) {
-      cachedToken = token;
-      tokenExpiry = parseExpiry(token);
-    }
-  } catch (err) {
-    console.error("[litellm-token-refresh]", err.message);
-  } finally {
-    refreshPromise = null;
+  refreshPromise = execFile(ENTRA_CLI_AUTH)
+    .then(({ stdout }) => {
+      const token = stdout.trim();
+      if (token) {
+        cachedToken = token;
+        tokenExpiry = parseExpiry(token);
+      }
+      return cachedToken;
+    })
+    .catch((err) => {
+      console.error("[litellm-token-refresh]", err.message);
+      return cachedToken;
+    })
+    .finally(() => {
+      refreshPromise = null;
+    });
+
+  return refreshPromise;
+}
+
+function publishToken(token) {
+  if (token) {
+    process.env.LITELLM_API_KEY = token;
   }
-  return cachedToken;
 }
 
 export default {
   id: "litellm-token-refresh",
   async setup(ctx) {
-    await ensureToken();
+    publishToken(await ensureToken());
 
     await ctx.session.hook(
       "model.request",
       async (event) => {
         const token = await ensureToken();
+        publishToken(token);
         if (token) {
           event.headers["Authorization"] = `Bearer ${token}`;
         }
@@ -63,7 +75,8 @@ export default {
       if (event.error?.status === 401) {
         cachedToken = "";
         tokenExpiry = 0;
-        await ensureToken();
+        const token = await ensureToken();
+        publishToken(token);
         event.decision = { retry: true, delay: 1000 };
       }
     });
