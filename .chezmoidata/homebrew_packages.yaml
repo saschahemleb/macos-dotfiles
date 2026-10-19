@@ -82,6 +82,7 @@ homebrew_packages:
       - another-redis-desktop-manager
       - claude-code
       - grafana-assistant
+      - headlamp
       - jabra-direct
       - jetbrains-toolbox
       - macpass

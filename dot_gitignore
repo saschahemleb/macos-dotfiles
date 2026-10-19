@@ -8,3 +8,4 @@ plan.cache
 .envrc
 mise.toml
 .phpunit.cache
+.opencode/worktrees/
