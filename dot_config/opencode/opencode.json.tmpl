@@ -3,18 +3,6 @@
   "plugins": ["./litellm-token-refresh"],
 {{- if eq .workstation_type "work" }}
   "providers": {
-    "amazon-bedrock": {
-      "options": {
-        "region": "eu-central-1",
-        "profile": "ClaudeCode"
-      },
-      "models": {
-        "opus": {
-          "name": "Eventim Opus",
-          "id": "arn:aws:bedrock:eu-central-1:045615991133:application-inference-profile/a0r9n3jfwx3h"
-        }
-      }
-    },
     "litellm": {
       "name": "Eventim LiteLLM",
       "package": "@opencode/ai/providers/openai-compatible",
@@ -27,53 +15,57 @@
       },
       "models": {
         "opus": {
-          "name": "Opus",
+          "name": "Opus 5.5",
           "modelID": "bedrock-anthropic-eu-opus-55-expensive",
           "compatibility": { "cacheFormat": "anthropic" },
           "capabilities": {
             "tools": true,
             "input": ["text", "image"],
-            "output": ["text"]
+            "output": ["text"],
+            "reasoning": { "supported": true, "effort": ["low", "medium", "high", "xhigh", "max"] }
           },
           "limit": { "context": 1000000, "output": 128000 }
         },
         "sonnet": {
-          "name": "Sonnet",
+          "name": "Sonnet 5.5",
           "modelID": "bedrock-anthropic-eu-sonnet-55-affordable",
           "compatibility": { "cacheFormat": "anthropic" },
           "capabilities": {
             "tools": true,
             "input": ["text", "image"],
-            "output": ["text"]
+            "output": ["text"],
+            "reasoning": { "supported": true, "effort": ["low", "medium", "high", "xhigh", "max"] }
           },
           "limit": { "context": 1000000, "output": 128000 }
         },
         "sol": {
-          "name": "Sol",
+          "name": "Sol 6.1",
           "modelID": "openai-glob-sol-61-expensive",
           "capabilities": {
             "tools": true,
             "input": ["text", "image"],
-            "output": ["text"]
+            "output": ["text"],
+            "reasoning": { "supported": true, "effort": ["low", "medium", "high", "xhigh"] }
           },
           "limit": { "context": 922000, "output": 128000 }
         },
         "luna": {
-          "name": "Luna",
+          "name": "Luna 6",
           "modelID": "openai-glob-luna-6-cheap",
           "capabilities": {
             "tools": true,
             "input": ["text", "image"],
-            "output": ["text"]
+            "output": ["text"],
+            "reasoning": { "supported": true, "effort": ["low", "medium", "high", "xhigh"] }
           },
           "limit": { "context": 922000, "output": 128000 }
         }
       }
     }
   },
-  "model": "litellm/opus#high",
+  "model": "litellm/opus",
 {{- else }}
-  "model": "openai/gpt-6.1-sol#high",
+  "model": "openai/gpt-6.1-sol",
 {{- end }}
   "default_agent": "build",
   "update": "disable",
@@ -94,17 +86,43 @@
   "agents": {
     "build": {
 {{- if eq .workstation_type "work" }}
-      "model": "litellm/opus#medium"
-{{- else }}
-      "model": "openai/gpt-6.1-sol#medium"
-{{- end }}
-    },
-    "plan": {
-{{- if eq .workstation_type "work" }}
       "model": "litellm/opus#high"
 {{- else }}
       "model": "openai/gpt-6.1-sol#high"
 {{- end }}
+    },
+    "plan": {
+{{- if eq .workstation_type "work" }}
+      "model": "litellm/opus#max"
+{{- else }}
+      "model": "openai/gpt-6.1-sol#xhigh"
+{{- end }}
+    },
+    "explore": {
+{{- if eq .workstation_type "work" }}
+      "model": "litellm/sonnet#low"
+{{- else }}
+      "model": "openai/gpt-6-luna#low"
+{{- end }}
+    },
+    "yolo": {
+      "description": "Build without prompts: runs any command, including commits and pushes",
+      "mode": "primary",
+      "color": "#e5534b",
+{{- if eq .workstation_type "work" }}
+      "model": "litellm/opus#high",
+{{- else }}
+      "model": "openai/gpt-6.1-sol#high",
+{{- end }}
+      "permissions": [
+        { "action": "shell", "resource": "*", "effect": "allow" },
+        { "action": "external_directory", "resource": "*", "effect": "allow" },
+        { "action": "shell", "resource": "kubectl *secret*", "effect": "ask" },
+        { "action": "shell", "resource": "git push *--force*", "effect": "ask" },
+        { "action": "shell", "resource": "git push -f*", "effect": "ask" },
+        { "action": "shell", "resource": "git push * -f*", "effect": "ask" },
+        { "action": "shell", "resource": "git push *+*", "effect": "ask" }
+      ]
     }
   },
   "permissions": [
@@ -118,7 +136,6 @@
     { "action": "shell", "resource": "pwd", "effect": "allow" },
     { "action": "shell", "resource": "cd *", "effect": "allow" },
     { "action": "shell", "resource": "echo *", "effect": "allow" },
-    { "action": "shell", "resource": "command *", "effect": "allow" },
     { "action": "shell", "resource": "ls *", "effect": "allow" },
     { "action": "shell", "resource": "rg *", "effect": "allow" },
     { "action": "shell", "resource": "grep *", "effect": "allow" },
@@ -128,8 +145,8 @@
     { "action": "shell", "resource": "bash -n *", "effect": "allow" },
     { "action": "shell", "resource": "zsh -n *", "effect": "allow" },
     { "action": "shell", "resource": "sleep *", "effect": "allow" },
-    { "action": "shell", "resource": "herdr *", "effect": "allow" },
-    { "action": "shell", "resource": "opencode *", "effect": "allow" },
+    { "action": "shell", "resource": "opencode service status", "effect": "allow" },
+    { "action": "shell", "resource": "opencode mcp list", "effect": "allow" },
     { "action": "shell", "resource": "cat *", "effect": "allow" },
     { "action": "shell", "resource": "nl *", "effect": "allow" },
     { "action": "shell", "resource": "head *", "effect": "allow" },
@@ -138,6 +155,7 @@
     { "action": "shell", "resource": "file *", "effect": "allow" },
     { "action": "shell", "resource": "hexdump *", "effect": "allow" },
     { "action": "shell", "resource": "od *", "effect": "allow" },
+    { "action": "shell", "resource": "dig *", "effect": "allow" },
     { "action": "shell", "resource": "sort *", "effect": "allow" },
     { "action": "shell", "resource": "uniq *", "effect": "allow" },
     { "action": "shell", "resource": "cut *", "effect": "allow" },
@@ -217,6 +235,10 @@
     { "action": "shell", "resource": "git branch *--unset-upstream*", "effect": "ask" },
     { "action": "shell", "resource": "git branch *--edit-description*", "effect": "ask" },
     { "action": "shell", "resource": "git branch --show-current", "effect": "allow" },
+    { "action": "shell", "resource": "git switch -c *", "effect": "allow" },
+    { "action": "shell", "resource": "git switch * -f*", "effect": "ask" },
+    { "action": "shell", "resource": "git switch * --force*", "effect": "ask" },
+    { "action": "shell", "resource": "git switch * --discard-changes*", "effect": "ask" },
     { "action": "shell", "resource": "kubectl get *", "effect": "allow" },
     { "action": "shell", "resource": "kubectl describe *", "effect": "allow" },
     { "action": "shell", "resource": "kubectl explain *", "effect": "allow" },

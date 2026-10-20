@@ -1,6 +1,11 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "permissions": [
-    { "action": "shell", "resource": "chezmoi *", "effect": "allow" }
+    { "action": "shell", "resource": "chezmoi apply *", "effect": "allow" },
+    { "action": "shell", "resource": "chezmoi diff *", "effect": "allow" },
+    { "action": "shell", "resource": "chezmoi status *", "effect": "allow" },
+    { "action": "shell", "resource": "chezmoi execute-template *", "effect": "allow" },
+    { "action": "shell", "resource": "chezmoi data *", "effect": "allow" },
+    { "action": "shell", "resource": "chezmoi managed *", "effect": "allow" }
   ]
 }

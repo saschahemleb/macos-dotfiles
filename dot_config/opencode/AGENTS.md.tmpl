@@ -24,7 +24,7 @@
 ## Environment
 
 macOS. Don't probe the machine with `which`, `command -v` or `--version`; use
-this list. Tools not listed here are not installed globally.
+this list. Besides macOS's built-in tools, these are installed globally:
 
 - Shell: zsh. `/bin/bash` is macOS's bash 3.2; there is no newer bash.
 - Homebrew: {{ concat .homebrew_packages.all.brews (index .homebrew_packages .workstation_type).brews | join ", " }}.
@@ -37,6 +37,28 @@ repo's AGENTS.md and these files with the read tool instead of probing; run
 project tools through the project (`vendor/bin/…`, `composer run-script …`,
 `npm run …`). When a project needs a tool that isn't listed or pinned, say so
 instead of checking for it.
+
+## Subagents
+
+Two subagents are available through the subagent tool. Each starts with a fresh
+context and returns only its final answer, so give it the full task, the paths
+or repos involved and what to report back.
+
+- `explore`: fast, cheap and can't edit files. Use it for broad searches, such as
+  finding where something is defined or used across many files, mapping an
+  unfamiliar repo, or comparing several repos under `~/Developer`. State how
+  thorough it should be.
+- `general`: full tool access, with the same model as your session. Use it for
+  independent multi-step tasks that can run in parallel, such as researching
+  separate questions or applying the same change to several repos. Don't give
+  two subagents overlapping files.
+
+Do targeted lookups yourself: reading a known file, a single `rg`, or checking a
+few paths is faster than delegating. Delegate when a task would take many
+searches or reads, or would fill your context with output you only need a
+summary of. Subagents use the default permissions, not yours, so in yolo mode
+they still ask before commands outside the allowlist. Prefer `explore` for
+reading.
 
 ## Shell commands
 
