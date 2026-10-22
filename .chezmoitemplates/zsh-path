@@ -1,3 +1,4 @@
+export PATH="$HOME/.local/bin:$PATH"
 {{ if (gt (.krew_packages | len) 0) -}}
 export PATH="$HOME/.krew/bin:$PATH"
 {{ end -}}
