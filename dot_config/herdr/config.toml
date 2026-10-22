@@ -36,6 +36,20 @@ agent_panel_sort = "priority"
 [ui.sound]
 enabled = false
 
+[ui.sidebar.agents]
+row_gap = 1
+rows = [
+  ["state_icon", "machine", "workspace", "tab"],
+  ["agent"],
+]
+
+[ui.sidebar.spaces]
+row_gap = 1
+rows = [
+  ["state_icon", "workspace"],
+  ["branch", "git_status"],
+]
+
 [update]
 version_check = false
 manifest_check = false
