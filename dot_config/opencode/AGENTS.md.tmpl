@@ -63,6 +63,12 @@ project tools through the project (`vendor/bin/…`, `composer run-script …`,
 `npm run …`). When a project needs a tool that isn't listed or pinned, say so
 instead of checking for it.
 
+## Herdr
+
+Check `HERDR_ENV=1` only once per session, before the first Herdr operation.
+After a successful check, assume the session is running inside Herdr and do not
+repeat the check for later requests.
+
 ## Subagents
 
 Two subagents are available through the subagent tool. Each starts with a fresh
