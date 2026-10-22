@@ -2,6 +2,7 @@
 # all available config options and their default values.
 # https://ghostty.org/docs/config.
 auto-update-channel = tip
+command = /opt/homebrew/bin/herdr
 shell-integration = detect
 shell-integration-features = cursor,sudo,no-title,ssh-env,no-ssh-terminfo
 mouse-hide-while-typing = true
@@ -29,4 +30,3 @@ keybind = ctrl+n=new_window
 keybind = ctrl+space>space=toggle_command_palette
 
 # ghostty splits disabled — using herdr pane management instead
-
