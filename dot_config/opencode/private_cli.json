@@ -3,6 +3,9 @@
   "theme": {
     "name": "system"
   },
+  "tabs": {
+    "mode": "off"
+  },
   "diffs": {
     "view": "auto"
   },
