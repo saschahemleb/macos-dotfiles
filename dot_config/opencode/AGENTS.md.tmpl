@@ -65,6 +65,16 @@ instead of checking for it.
 
 ## Herdr
 
+Use `herdr worktree` when asked to create a worktree, even if Herdr is not
+mentioned. Load the Herdr skill first. Do not use `git worktree` directly or
+OpenCode's worktree tool.
+
+Give new Herdr workspaces and tabs descriptive names based on the project or
+task. Ask before creating them if a suitable name is unclear.
+
+Start agents through `herdr agent start`. Do not pre-create OpenCode sessions
+or pass OpenCode session IDs to `herdr workspace create`.
+
 Check `HERDR_ENV=1` only once per session, before the first Herdr operation.
 After a successful check, assume the session is running inside Herdr and do not
 repeat the check for later requests.
@@ -127,8 +137,7 @@ can also write files or run commands:
   Without `-l`, a trailing name creates a tag instead of filtering.
 - `git worktree add` or a checkout to look at another revision → read it in place
   with `git show <rev>:<path>`, `git ls-tree -r <rev>` and `git diff <rev>`. When
-  a real worktree is needed, create it with the worktree tool; it goes to
-  `.opencode/worktrees/` in the repo.
+  a real worktree is requested, use `herdr worktree` as described above.
 - Shell variables such as `C=ctx; kubectl --context $C ...` → write the value out
   in each command (`kubectl --context <ctx> get ...`).
 
