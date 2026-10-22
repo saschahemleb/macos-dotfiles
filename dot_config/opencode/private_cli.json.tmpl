@@ -17,7 +17,7 @@
     "acceleration": true
   },
   "session": {
-    "sidebar": "hide",
+    "sidebar": "auto",
     "scrollbar": false,
     "thinking": "hide",
     "grouping": "auto",
@@ -31,5 +31,5 @@
     "input.line.home": "home",
     "model.dialog.provider": "<leader>p"
   },
-  "plugins": ["./herdr-opencode"]
+  "plugins": ["./herdr-opencode"{{ if eq .workstation_type "private" }}, "./codex-usage"{{ end }}]
 }

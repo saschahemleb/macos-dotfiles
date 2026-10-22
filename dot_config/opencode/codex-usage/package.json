@@ -1,0 +1,11 @@
+{
+  "name": "local-codex-usage",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tui": "./tui.tsx"
+  },
+  "scripts": {
+    "test": "node --test usage.test.js"
+  }
+}
