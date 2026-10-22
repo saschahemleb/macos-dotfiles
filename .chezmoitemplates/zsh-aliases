@@ -100,6 +100,34 @@ function e() {
 	${EDITOR:-vi} $@
 }
 
+function ha() {
+	emulate -L zsh
+	if (( $# == 0 )); then
+		print -u2 'Usage: ha <path or zoxide query>'
+		return 1
+	fi
+	if [[ "$HERDR_ENV" != 1 ]]; then
+		print -u2 'ha: run this inside Herdr'
+		return 1
+	fi
+	local dir="$*"
+	[[ "$dir" == '~/'* ]] && dir="$HOME/${dir#\~/}"
+	if [[ ! -d "$dir" ]]; then
+		if [[ "$dir" == /* || "$dir" == ./* || "$dir" == ../* || "$dir" == '~'* ]]; then
+			print -u2 "ha: directory not found: $dir"
+			return 1
+		fi
+		dir=$(zoxide query -- "$@") || return
+	fi
+	if [[ ! -d "$dir" ]]; then
+		print -u2 "ha: directory not found: $dir"
+		return 1
+	fi
+	dir="${dir:A}"
+	cd -- "$dir" || return
+	opencode
+}
+
 function art() {
 	if [ ! -f "artisan" ]; then
 		return;

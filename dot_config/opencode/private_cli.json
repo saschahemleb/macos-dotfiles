@@ -3,6 +3,10 @@
   "theme": {
     "name": "system"
   },
+  "animations": false,
+  "prompt": {
+    "image_preview": false
+  },
   "tabs": {
     "mode": "off"
   },
@@ -12,8 +16,18 @@
   "scroll": {
     "acceleration": true
   },
+  "session": {
+    "sidebar": "hide",
+    "scrollbar": false,
+    "thinking": "hide",
+    "grouping": "auto",
+    "image_preview": false,
+    "tps": false,
+    "markdown": "rendered",
+    "new_location": "launch",
+    "permissions": "prompt"
+  },
   "keybinds": {
-    "leader": "ctrl+x",
     "input.line.home": "home",
     "model.dialog.provider": "<leader>p"
   },

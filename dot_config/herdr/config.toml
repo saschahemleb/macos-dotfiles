@@ -40,7 +40,7 @@ enabled = false
 row_gap = 1
 rows = [
   ["state_icon", "machine", "workspace", "tab"],
-  ["agent"],
+  ["terminal_title_stripped"],
 ]
 
 [ui.sidebar.spaces]
