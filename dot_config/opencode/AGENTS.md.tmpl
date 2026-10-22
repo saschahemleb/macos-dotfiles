@@ -7,6 +7,13 @@
   affects the outcome; resolve routine choices using the existing code.
 - Keep changes focused. Preserve unrelated work and follow existing conventions.
   Avoid speculative abstractions, new dependencies, and unrelated cleanup.
+- Write code without comments by default; use clear names and structure
+  instead. Add a comment only to explain a non-obvious why, such as a
+  workaround, an external constraint, or surprising behavior. Never comment what
+  the code does, describe your change ("added", "now uses", "fixed"), or leave
+  notes for the user. This also applies to config files, scripts and YAML. Add
+  docstrings only where the project already uses them. Update or remove existing
+  comments your change makes wrong, and leave the rest alone.
 - Use `rg` and `fd` for discovery. Batch independent reads and searches.
 - Use the project's package manager, lockfile, scripts, and configured tools.
   For PHP, inspect `composer.json` and use the project's PHP version and test
@@ -23,9 +30,9 @@
 
 ## Writing
 
-Follow plain-language principles (ISO 24495-1) in replies, docs, READMEs,
-comments, and commit or PR messages. Readers should understand the text on the
-first read:
+Follow plain-language principles (ISO 24495-1) in replies, docs, READMEs, the
+few code comments you write, and commit or PR messages. Readers should
+understand the text on the first read:
 
 - Lead with the answer or the main point, then add details.
 - Write short sentences in active voice, using common words. Define technical
