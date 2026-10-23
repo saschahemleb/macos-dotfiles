@@ -45,6 +45,11 @@ understand the text on the first read:
   how-to guide, reference or explanation) and keep it to that type. Link to
   other pages for the rest. Follow the repo's existing docs structure, and
   don't reorganize existing docs unless asked.
+- Use only characters that are easy to type on a standard QWERTY keyboard, in
+  replies, files and code alike. Write `...` instead of `…`, `->` instead of
+  `→`, `-` instead of en or em dashes, and straight quotes instead of curly
+  ones. Keep such characters only where they are part of a name, a quote or
+  existing content you are not changing.
 
 ## Environment
 
@@ -59,8 +64,8 @@ this list. Besides macOS's built-in tools, these are installed globally:
 Projects pin more tools in `mise.toml`/`.tool-versions` or through their package
 manager (`composer.json`, `package.json`, `go.mod` tool directives). Read the
 repo's AGENTS.md and these files with the read tool instead of probing; run
-project tools through the project (`vendor/bin/…`, `composer run-script …`,
-`npm run …`). When a project needs a tool that isn't listed or pinned, say so
+project tools through the project (`vendor/bin/...`, `composer run-script ...`,
+`npm run ...`). When a project needs a tool that isn't listed or pinned, say so
 instead of checking for it.
 
 ## Herdr
@@ -124,25 +129,25 @@ Read-only commands from this list run without a permission prompt. When you only
 need to read or filter output, use these instead of general-purpose tools that
 can also write files or run commands:
 
-- `awk` for picking fields or extracting values → `rg -o -r '$1' 'pattern(\S+)'`
-  or `sed -n 's/.../\1/p'`. Counting → `sort | uniq -c | sort -rn`.
-- `find` → `fd`.
-- `xargs` or loops for searching many files → pass the paths or globs to `rg`/`fd`
+- `awk` for picking fields or extracting values -> `rg -o -r '$1' 'pattern(\S+)'`
+  or `sed -n 's/.../\1/p'`. Counting -> `sort | uniq -c | sort -rn`.
+- `find` -> `fd`.
+- `xargs` or loops for searching many files -> pass the paths or globs to `rg`/`fd`
   directly (`rg -g '*.yaml'`, `fd -e tf`).
-- `python`/`node` one-liners for JSON → `jq`.
-- `xxd` to inspect bytes → `hexdump -C` or `od -c`.
-- `sed -i`, `perl -i` or redirects to edit files → the edit tool.
-- `git -C <dir>` → run git in the working directory, or `cd <dir>` first.
-- `git tag --sort=…` or other options without `-l` → `git tag -l --sort=…`.
+- `python`/`node` one-liners for JSON -> `jq`.
+- `xxd` to inspect bytes -> `hexdump -C` or `od -c`.
+- `sed -i`, `perl -i` or redirects to edit files -> the edit tool.
+- `git -C <dir>` -> run git in the working directory, or `cd <dir>` first.
+- `git tag --sort=...` or other options without `-l` -> `git tag -l --sort=...`.
   Without `-l`, a trailing name creates a tag instead of filtering.
-- `git worktree add` or a checkout to look at another revision → read it in place
+- `git worktree add` or a checkout to look at another revision -> read it in place
   with `git show <rev>:<path>`, `git ls-tree -r <rev>` and `git diff <rev>`. When
   a real worktree is requested, use `herdr worktree` as described above.
-- Shell variables such as `C=ctx; kubectl --context $C ...` → write the value out
+- Shell variables such as `C=ctx; kubectl --context $C ...` -> write the value out
   in each command (`kubectl --context <ctx> get ...`).
 
 Some commands run without a prompt but have better alternatives. Prefer these:
 
-- `grep` → `rg`.
-- `cat` to view files → the read tool. `cat file | grep` → `rg pattern file`.
+- `grep` -> `rg`.
+- `cat` to view files -> the read tool. `cat file | grep` -> `rg pattern file`.
   Use `cat` only to combine several short files in one shell call.
