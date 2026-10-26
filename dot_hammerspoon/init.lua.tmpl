@@ -26,10 +26,47 @@ local apps = {
 {{- end }}
 }
 
+local function appWindows(apps)
+  local pids = {}
+  for _, app in ipairs(apps) do
+    pids[app:pid()] = true
+  end
+  local windows = {}
+  for _, win in ipairs(hs.window.orderedWindows()) do
+    local app = win:application()
+    if app and pids[app:pid()] and win:isStandard() then
+      table.insert(windows, win)
+    end
+  end
+  return windows
+end
+
+-- Cycling follows window IDs, because focusing a window changes the
+-- front-to-back order and would only flip between the two frontmost windows.
+local function cycleWindows(windows)
+  local focused = hs.window.focusedWindow()
+  local byID = { table.unpack(windows) }
+  table.sort(byID, function(a, b)
+    return a:id() < b:id()
+  end)
+  for i, win in ipairs(byID) do
+    if focused and win:id() == focused:id() then
+      byID[i % #byID + 1]:focus()
+      return
+    end
+  end
+  windows[1]:focus()
+end
+
 for _, app in ipairs(apps) do
   local mods, key, bundleID = table.unpack(app)
   hs.hotkey.bind(mods, key, function()
-    hs.application.launchOrFocusByBundleID(bundleID)
+    local windows = appWindows(hs.application.applicationsForBundleID(bundleID))
+    if #windows > 0 then
+      cycleWindows(windows)
+    else
+      hs.application.launchOrFocusByBundleID(bundleID)
+    end
   end)
 end
 
@@ -39,64 +76,125 @@ local function openGhostty(args)
   hs.task.new("/usr/bin/open", nil, { "-na", "Ghostty.app", "--args", table.unpack(args) }):start()
 end
 
-local function windowTitled(app, title)
-  for _, win in ipairs(app:allWindows()) do
-    if win:title() == title then
-      return win
-    end
-  end
-end
-
--- Dedicated terminals run in their own Ghostty process with a fixed window
--- title, so Hyper+Enter can skip those processes.
-local dedicatedTitles = {}
+-- Dedicated terminals run in their own Ghostty process and set their window
+-- title to a known prefix, so Hyper+Enter can skip those processes.
+local dedicatedPrefixes = {}
 
 local function isDedicated(app)
-  for _, title in ipairs(dedicatedTitles) do
-    if windowTitled(app, title) then
-      return true
+  for _, win in ipairs(app:allWindows()) do
+    for _, prefix in ipairs(dedicatedPrefixes) do
+      if win:title():sub(1, #prefix) == prefix then
+        return true
+      end
     end
   end
   return false
 end
 
 local function focusTerminal()
+  local running = {}
   for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
     if not isDedicated(app) then
-      app:activate()
-      local win = app:allWindows()[1]
-      if win then
-        win:focus()
-      else
-        hs.eventtap.keyStroke({ "cmd" }, "n", 0, app)
-      end
-      return
+      table.insert(running, app)
     end
   end
-  openGhostty({})
+  local windows = appWindows(running)
+  if #windows > 0 then
+    cycleWindows(windows)
+    return
+  end
+  local app = running[1]
+  if not app then
+    openGhostty({})
+  elseif app:isHidden() then
+    app:unhide()
+    app:activate()
+  else
+    app:activate()
+    hs.eventtap.keyStroke({ "cmd" }, "n", 0, app)
+  end
 end
 
-local function dedicatedTerminal(title, command)
-  table.insert(dedicatedTitles, title)
-  return function()
-    for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
-      local win = windowTitled(app, title)
-      if win then
-        win:focus()
-        return
-      end
+local function kubeContexts()
+  local output, ok = hs.execute("/opt/homebrew/bin/yq '.contexts[].name' ~/.kube/config")
+  local contexts = {}
+  if ok then
+    for name in output:gmatch("[^\n]+") do
+      table.insert(contexts, name)
     end
+  end
+  return contexts
+end
+
+local k9sPrefix = "k9s: "
+table.insert(dedicatedPrefixes, k9sPrefix)
+
+local function isK9sWindow(win)
+  return win ~= nil and win:title():sub(1, #k9sPrefix) == k9sPrefix
+end
+
+local function frontmostK9sWindow()
+  for _, win in ipairs(appWindows(hs.application.applicationsForBundleID(ghostty))) do
+    if isK9sWindow(win) then
+      return win
+    end
+  end
+end
+
+-- New tabs in the k9s window run the same command as the window, so the
+-- chosen context is passed to the k9s-tab script through a file.
+local function startK9s(context, win)
+  local file = io.open(os.getenv("TMPDIR") .. "/k9s-context", "w")
+  file:write(context)
+  file:close()
+  if win then
+    hs.eventtap.keyStroke({ "cmd" }, "t", 0, win:application())
+  else
     openGhostty({
-      "--title=" .. title,
       "--quit-after-last-window-closed=true",
-      "--command=/bin/zsh -lic 'exec " .. command .. "'",
+      "--command=" .. hs.configdir .. "/k9s-tab",
     })
+  end
+end
+
+local k9sTarget
+local k9sChooser = hs.chooser.new(function(choice)
+  if choice then
+    startK9s(choice.context, k9sTarget)
+  end
+end)
+
+local function pickK9sContext(win)
+  k9sTarget = win
+  local choices = {}
+  for _, context in ipairs(kubeContexts()) do
+    table.insert(choices, {
+      text = context:match("[^:]+$"),
+      subText = context,
+      context = context,
+    })
+  end
+  k9sChooser:choices(choices)
+  k9sChooser:show()
+end
+
+local function k9s()
+  local focused = hs.window.focusedWindow()
+  if isK9sWindow(focused) then
+    pickK9sContext(focused)
+    return
+  end
+  local win = frontmostK9sWindow()
+  if win then
+    win:focus()
+  else
+    pickK9sContext(nil)
   end
 end
 
 hs.hotkey.bind(hyper, "return", focusTerminal)
 {{- if eq .workstation_type "work" }}
-hs.hotkey.bind(hyper, "k", dedicatedTerminal("k9s", "k9s"))
+hs.hotkey.bind(hyper, "k", k9s)
 {{- end }}
 
 local function placeColumn(start, width)
@@ -152,3 +250,66 @@ hs.hotkey.bind(windowMods, "left", placeColumn(0, 1 / 2))
 hs.hotkey.bind(windowMods, "right", placeColumn(1 / 2, 1 / 2))
 hs.hotkey.bind(windowMods, "return", maximize)
 hs.hotkey.bind(windowMods, "c", center)
+
+local appIcons = {}
+
+local function appIcon(app)
+  local bundleID = app:bundleID()
+  if not bundleID then
+    return nil
+  end
+  if appIcons[bundleID] == nil then
+    appIcons[bundleID] = hs.image.imageFromAppBundle(bundleID) or false
+  end
+  return appIcons[bundleID] or nil
+end
+
+local pickableWindows = {}
+local windowChooser = hs.chooser.new(function(choice)
+  if choice and pickableWindows[choice.id] then
+    pickableWindows[choice.id]:focus()
+  end
+  pickableWindows = {}
+end)
+windowChooser:searchSubText(true)
+
+-- hs.window.filter queries every process, including helpers such as
+-- "Outlook Web Content" that never answer and stall it for seconds, so the
+-- picker uses the much faster window lists of regular apps instead.
+local function pickerWindows()
+  local windows = {}
+  local seen = {}
+  local function add(win)
+    if not seen[win:id()] and win:isStandard() then
+      seen[win:id()] = true
+      table.insert(windows, win)
+    end
+  end
+  for _, win in ipairs(hs.window.orderedWindows()) do
+    add(win)
+  end
+  for _, win in ipairs(hs.window.allWindows()) do
+    add(win)
+  end
+  return windows
+end
+
+local function pickWindow()
+  local choices = {}
+  for _, win in ipairs(pickerWindows()) do
+    local app = win:application()
+    if app then
+      pickableWindows[win:id()] = win
+      table.insert(choices, {
+        text = win:title() ~= "" and win:title() or app:name(),
+        subText = app:name(),
+        image = appIcon(app),
+        id = win:id(),
+      })
+    end
+  end
+  windowChooser:choices(choices)
+  windowChooser:show()
+end
+
+hs.hotkey.bind({ "alt" }, "tab", pickWindow)

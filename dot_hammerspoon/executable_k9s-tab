@@ -1,0 +1,5 @@
+#!/bin/zsh -il
+
+context=$(<"$TMPDIR/k9s-context")
+print -n -- "\e]2;k9s: ${context##*:}\a"
+exec k9s --context "$context"
