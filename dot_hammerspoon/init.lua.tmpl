@@ -23,6 +23,9 @@ local apps = {
   { hyper, "e", "com.jetbrains.intellij" },
   { hyper, "g", "com.microsoft.teams2" },
   { hyperShift, "e", "com.microsoft.Outlook" },
+{{- else if eq .workstation_type "private" }}
+  { hyper, "e", "com.microsoft.VSCode" },
+  { hyper, "g", "net.whatsapp.WhatsApp" },
 {{- end }}
 }
 
