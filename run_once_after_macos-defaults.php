@@ -5,18 +5,18 @@ declare(strict_types=1);
 
 // Close any open System Preferences panes, to prevent them from overriding
 // settings we’re about to change
-`osascript -e 'tell application "System Preferences" to quit'`;
+shell_exec("osascript -e 'tell application \"System Preferences\" to quit'");
 
 foreach (my_defaults() as $defaults) {
     $defaults->apply();
 }
 
 foreach (['Dock', 'Finder', 'SystemUIServer', 'System Settings'] as $app) {
-    `killall "$app" &> /dev/null`;
+    shell_exec("killall " . escapeshellarg($app) . " &> /dev/null");
 }
 
 // Reload keyboard shortcuts so they work without logging out
-`/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u`;
+shell_exec('/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u');
 
 function my_defaults(): array {
     return [
@@ -113,12 +113,12 @@ class Defaults {
             default => throw new \RuntimeException(sprintf("Unknown type '%s'", gettype($this->value))),
         };
 
-        `defaults write $domainOrDashG $this->key $valueWithFlag`;
+        shell_exec("defaults write $domainOrDashG $this->key $valueWithFlag");
     }
 
     private function delete(): void {
         $domainOrDashG = $this->domain ?? '-g';
 
-        `defaults delete $domainOrDashG $this->key`;
+        shell_exec("defaults delete $domainOrDashG $this->key 2> /dev/null");
     }
 }
