@@ -36,9 +36,10 @@ homebrew_packages:
       - codex
       - font-jetbrains-mono-nerd-font
       - ghostty
+      - hammerspoon
       - helium-browser
+      - karabiner-elements
       - orbstack
-      - raycast
       - dash
       - spotify
       - visual-studio-code

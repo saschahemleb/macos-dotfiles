@@ -1,0 +1,154 @@
+hs.window.animationDuration = 0
+
+-- Global so the watcher isn't garbage-collected and stopped.
+configWatcher = hs.pathwatcher.new(hs.configdir, function(paths)
+  for _, path in ipairs(paths) do
+    if path:sub(-4) == ".lua" then
+      hs.reload()
+      return
+    end
+  end
+end):start()
+
+local hyper = { "ctrl", "alt", "cmd" }
+local hyperShift = { "ctrl", "alt", "cmd", "shift" }
+local windowMods = { "ctrl", "alt" }
+local gap = 8
+
+local apps = {
+  { hyper, "b", "app.zen-browser.zen" },
+  { hyper, "h", "net.imput.helium" },
+  { hyper, "m", "com.spotify.client" },
+{{- if eq .workstation_type "work" }}
+  { hyper, "e", "com.jetbrains.intellij" },
+  { hyper, "g", "com.microsoft.teams2" },
+  { hyperShift, "e", "com.microsoft.Outlook" },
+{{- end }}
+}
+
+for _, app in ipairs(apps) do
+  local mods, key, bundleID = table.unpack(app)
+  hs.hotkey.bind(mods, key, function()
+    hs.application.launchOrFocusByBundleID(bundleID)
+  end)
+end
+
+local ghostty = "com.mitchellh.ghostty"
+
+local function openGhostty(args)
+  hs.task.new("/usr/bin/open", nil, { "-na", "Ghostty.app", "--args", table.unpack(args) }):start()
+end
+
+local function windowTitled(app, title)
+  for _, win in ipairs(app:allWindows()) do
+    if win:title() == title then
+      return win
+    end
+  end
+end
+
+-- Dedicated terminals run in their own Ghostty process with a fixed window
+-- title, so Hyper+Enter can skip those processes.
+local dedicatedTitles = {}
+
+local function isDedicated(app)
+  for _, title in ipairs(dedicatedTitles) do
+    if windowTitled(app, title) then
+      return true
+    end
+  end
+  return false
+end
+
+local function focusTerminal()
+  for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
+    if not isDedicated(app) then
+      app:activate()
+      local win = app:allWindows()[1]
+      if win then
+        win:focus()
+      else
+        hs.eventtap.keyStroke({ "cmd" }, "n", 0, app)
+      end
+      return
+    end
+  end
+  openGhostty({})
+end
+
+local function dedicatedTerminal(title, command)
+  table.insert(dedicatedTitles, title)
+  return function()
+    for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
+      local win = windowTitled(app, title)
+      if win then
+        win:focus()
+        return
+      end
+    end
+    openGhostty({
+      "--title=" .. title,
+      "--quit-after-last-window-closed=true",
+      "--command=/bin/zsh -lic 'exec " .. command .. "'",
+    })
+  end
+end
+
+hs.hotkey.bind(hyper, "return", focusTerminal)
+{{- if eq .workstation_type "work" }}
+hs.hotkey.bind(hyper, "k", dedicatedTerminal("k9s", "k9s"))
+{{- end }}
+
+local function placeColumn(start, width)
+  return function()
+    local win = hs.window.focusedWindow()
+    if not win then
+      return
+    end
+    local screen = win:screen():frame()
+    local columns = screen.w - 3 * gap
+    win:setFrame({
+      x = screen.x + gap + columns * start + (start > 0 and gap or 0),
+      y = screen.y + gap,
+      w = columns * width,
+      h = screen.h - 2 * gap,
+    })
+  end
+end
+
+local function maximize()
+  local win = hs.window.focusedWindow()
+  if not win then
+    return
+  end
+  local screen = win:screen():frame()
+  win:setFrame({
+    x = screen.x + gap,
+    y = screen.y + gap,
+    w = screen.w - 2 * gap,
+    h = screen.h - 2 * gap,
+  })
+end
+
+local function center()
+  local win = hs.window.focusedWindow()
+  if not win then
+    return
+  end
+  local screen = win:screen():frame()
+  local frame = win:frame()
+  frame.w = math.min(frame.w, screen.w - 2 * gap)
+  frame.h = math.min(frame.h, screen.h - 2 * gap)
+  frame.x = screen.x + (screen.w - frame.w) / 2
+  frame.y = screen.y + (screen.h - frame.h) / 2
+  win:setFrame(frame)
+end
+
+hs.hotkey.bind(windowMods, "d", placeColumn(0, 1 / 3))
+hs.hotkey.bind(windowMods, "f", placeColumn(0, 2 / 3))
+hs.hotkey.bind(windowMods, "g", placeColumn(1 / 3, 2 / 3))
+hs.hotkey.bind(windowMods, "h", placeColumn(2 / 3, 1 / 3))
+hs.hotkey.bind(windowMods, "left", placeColumn(0, 1 / 2))
+hs.hotkey.bind(windowMods, "right", placeColumn(1 / 2, 1 / 2))
+hs.hotkey.bind(windowMods, "return", maximize)
+hs.hotkey.bind(windowMods, "c", center)
