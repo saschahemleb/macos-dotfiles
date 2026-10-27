@@ -79,28 +79,34 @@ local function openGhostty(args)
   hs.task.new("/usr/bin/open", nil, { "-na", "Ghostty.app", "--args", table.unpack(args) }):start()
 end
 
--- Dedicated terminals run in their own Ghostty process and set their window
--- title to a known prefix, so Hyper+Enter can skip those processes.
-local dedicatedPrefixes = {}
+local k9sCommand = hs.configdir .. "/k9s-tab"
 
-local function isDedicated(app)
-  for _, win in ipairs(app:allWindows()) do
-    for _, prefix in ipairs(dedicatedPrefixes) do
-      if win:title():sub(1, #prefix) == prefix then
-        return true
-      end
+-- Window titles change while programs run, so k9s processes are recognized by
+-- the command they were started with. A process's arguments never change, so
+-- the result is cached per process ID.
+local k9sProcesses = {}
+
+local function isK9sProcess(app)
+  local pid = app:pid()
+  if k9sProcesses[pid] == nil then
+    local args = hs.execute("/bin/ps -o args= -p " .. pid)
+    k9sProcesses[pid] = args:find("--command=" .. k9sCommand, 1, true) ~= nil
+  end
+  return k9sProcesses[pid]
+end
+
+local function ghosttyProcesses(wantK9s)
+  local matching = {}
+  for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
+    if isK9sProcess(app) == wantK9s then
+      table.insert(matching, app)
     end
   end
-  return false
+  return matching
 end
 
 local function focusTerminal()
-  local running = {}
-  for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
-    if not isDedicated(app) then
-      table.insert(running, app)
-    end
-  end
+  local running = ghosttyProcesses(false)
   local windows = appWindows(running)
   if #windows > 0 then
     cycleWindows(windows)
@@ -129,19 +135,13 @@ local function kubeContexts()
   return contexts
 end
 
-local k9sPrefix = "k9s: "
-table.insert(dedicatedPrefixes, k9sPrefix)
-
 local function isK9sWindow(win)
-  return win ~= nil and win:title():sub(1, #k9sPrefix) == k9sPrefix
+  local app = win and win:application()
+  return app ~= nil and app:bundleID() == ghostty and isK9sProcess(app)
 end
 
 local function frontmostK9sWindow()
-  for _, win in ipairs(appWindows(hs.application.applicationsForBundleID(ghostty))) do
-    if isK9sWindow(win) then
-      return win
-    end
-  end
+  return appWindows(ghosttyProcesses(true))[1]
 end
 
 -- New tabs in the k9s window run the same command as the window, so the
@@ -155,7 +155,7 @@ local function startK9s(context, win)
   else
     openGhostty({
       "--quit-after-last-window-closed=true",
-      "--command=" .. hs.configdir .. "/k9s-tab",
+      "--command=" .. k9sCommand,
     })
   end
 end
