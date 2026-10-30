@@ -24,7 +24,9 @@
 - File edits and routine local checks are welcome. Ask before destructive
   commands, dependency installation, publishing, deployment, or changes to live
   Docker, Kubernetes, Helm, or cloud resources. Inspect the current context before
-  operating on infrastructure. Do not commit, push, or open a PR unless requested.
+  operating on infrastructure. Always pass `--context <ctx>` to `kubectl` and
+  `--kube-context <ctx>` to `helm`; never rely on the globally selected context.
+  Do not commit, push, or open a PR unless requested.
 - Never expose credentials in output or put them in tracked configuration.
 - Finish with a short explanation of the changes, verification, and any blockers.
 
@@ -69,6 +71,42 @@ project tools through the project (`vendor/bin/...`, `composer run-script ...`,
 instead of checking for it.
 
 `glab api` has no `--jq` flag, unlike `gh api`. Pipe its output to `jq` instead.
+`glab ci trace` always needs a job ID; without one it opens an interactive
+picker that never returns.
+To reach a repo on another GitLab host, pass the full URL to `-R`
+(`-R https://git.eventim.net/<group>/<repo>`), or `--hostname git.eventim.net`
+for `glab api`, instead of prefixing the command with `GITLAB_HOST=...`.
+{{- if eq .workstation_type "work" }}
+
+## Jira
+
+When creating a Jira ticket, set the Country field `customfield_10540`. TIXX
+and PROD tickets use it. Tickets in ST, SEC and DOIT leave it empty, so
+leave it out there. Jira has a second field named "Country"
+(`customfield_15623`), so pass the id, not the name:
+`customFields: { "customfield_10540": [{ "value": "Poland" }] }`.
+Infer the country from the context, such as the cluster, domain, repository or
+the ticket the user refers to (for example `.pl` -> `Poland`). Use
+`All countries` when the work applies to every country, which is typical for
+platform and SRE tickets. If the context points to no country, ask.
+{{- end }}
+
+## Agents
+
+There are three primary agents. Each can do everything the one before it can:
+
+- `plan` (default): reads files, logs, clusters, cloud accounts and Jira.
+  Can't edit project files, commit, push, change Jira or start agents.
+- `organize`: also creates and updates Jira tickets and creates Herdr
+  workspaces, worktrees and agents. Asks before editing files outside the
+  temp directory.
+- `work`: does the work. Edits, API calls, commits, pushes and MRs run
+  without prompts; force pushes and `kubectl` secrets still ask.
+
+If a task needs more than your agent allows, say which agent it needs instead
+of working around the rules. New sessions, including agents started through
+`herdr agent start`, begin in `plan`. When you start an agent for work that
+changes files, tell the user to switch it to `work`.
 
 ## Herdr
 
@@ -96,7 +134,9 @@ or repos involved and what to report back.
   finding where something is defined or used across many files, mapping an
   unfamiliar repo, or comparing several repos under `~/Developer`. State how
   thorough it should be.
-- `general`: full tool access, with the same model as your session. Use it for
+- `general`: same model as your session, with organize-level access: it can
+  read, research and update Jira, but asks before editing files or running
+  commands outside the read-only list, whichever agent starts it. Use it for
   independent multi-step tasks that can run in parallel, such as researching
   separate questions or applying the same change to several repos. Don't give
   two subagents overlapping files.
@@ -104,9 +144,9 @@ or repos involved and what to report back.
 Do targeted lookups yourself: reading a known file, a single `rg`, or checking a
 few paths is faster than delegating. Delegate when a task would take many
 searches or reads, or would fill your context with output you only need a
-summary of. Subagents use the default permissions, not yours, so in yolo mode
-they still ask before commands outside the allowlist. Prefer `explore` for
-reading.
+summary of. Subagents use their own permissions, not yours, so even under
+`work` they still ask before commands outside the allowlist. Prefer `explore`
+for reading.
 
 ## Shell commands
 
@@ -121,6 +161,9 @@ a glance:
   readable line, split the work into several calls or write the filter to a file
   in the temp directory and use `jq -f`.
 - Say in one sentence what a non-trivial command does before running it.
+- Single-quote arguments that contain `[`, `]`, `(`, `)`, `?`, `*`, `{`, `}` or
+  `!`, such as JSONPath, `custom-columns` or `jq` filters. zsh reads them as
+  filename patterns and fails with `no matches found`.
 - Don't use the shell to produce text such as tables, docs or messages
   (`printf`, `echo`, `column`). Write it directly in the response or with the
   edit and write tools. Markdown tables don't need padded columns.
@@ -139,7 +182,9 @@ can also write files or run commands:
 - `python`/`node` one-liners for JSON -> `jq`.
 - `xxd` to inspect bytes -> `hexdump -C` or `od -c`.
 - `sed -i`, `perl -i` or redirects to edit files -> the edit tool.
-- `git -C <dir>` -> run git in the working directory, or `cd <dir>` first.
+- `git -C <dir>` -> fine for read-only git commands (`status`, `log`, `diff`,
+  `branch`, `show`, `fetch`, `describe`, ...). For anything that changes the
+  repo, `cd <dir>` first.
 - `git tag --sort=...` or other options without `-l` -> `git tag -l --sort=...`.
   Without `-l`, a trailing name creates a tag instead of filtering.
 - `git worktree add` or a checkout to look at another revision -> read it in place
