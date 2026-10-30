@@ -27,7 +27,7 @@ zoom = "prefix+f"
 
 [ui]
 confirm_close = false
-prompt_new_tab_name = false
+prompt_new_tab_name = true
 pane_borders = "always"
 pane_gaps = false
 hide_tab_bar_when_single_tab = true

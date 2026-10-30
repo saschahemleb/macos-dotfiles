@@ -2,9 +2,6 @@
 
 - Be concise and direct. Explain decisions and tradeoffs when they matter.
 - Inspect the codebase and its repository instructions before changing files.
-- Carry implementation requests through to completion: edit, run relevant checks,
-  and report the result. Ask focused questions when missing information materially
-  affects the outcome; resolve routine choices using the existing code.
 - Keep changes focused. Preserve unrelated work and follow existing conventions.
   Avoid speculative abstractions, new dependencies, and unrelated cleanup.
 - Write code without comments by default; use clear names and structure
@@ -15,20 +12,10 @@
   docstrings only where the project already uses them. Update or remove existing
   comments your change makes wrong, and leave the rest alone.
 - Use `rg` and `fd` for discovery. Batch independent reads and searches.
-- Use the project's package manager, lockfile, scripts, and configured tools.
-  For PHP, inspect `composer.json` and use the project's PHP version and test
-  tools. For TypeScript and Vue, respect existing types and component patterns;
-  use Biome when the project configures it.
-- Run checks appropriate to the change. Add regression tests for behavior fixes
-  where useful. Report what ran, what passed, and any remaining limitations.
-- File edits and routine local checks are welcome. Ask before destructive
-  commands, dependency installation, publishing, deployment, or changes to live
-  Docker, Kubernetes, Helm, or cloud resources. Inspect the current context before
-  operating on infrastructure. Always pass `--context <ctx>` to `kubectl` and
-  `--kube-context <ctx>` to `helm`; never rely on the globally selected context.
-  Do not commit, push, or open a PR unless requested.
-- Never expose credentials in output or put them in tracked configuration.
-- Finish with a short explanation of the changes, verification, and any blockers.
+- When the user seems to reference a directory, also consult
+  `zoxide query -- <search>` rather than relying only on the current working
+  directory or paths from context; safely quote search terms, verify the returned
+  directory exists, and ask if the match is missing or unclear.
 
 ## Writing
 
@@ -111,8 +98,7 @@ changes files, tell the user to switch it to `work`.
 ## Herdr
 
 Use `herdr worktree` when asked to create a worktree, even if Herdr is not
-mentioned. Load the Herdr skill first. Do not use `git worktree` directly or
-OpenCode's worktree tool.
+mentioned. Load the Herdr skill first. 
 
 Give new Herdr workspaces and tabs descriptive names based on the project or
 task. Ask before creating them if a suitable name is unclear.
@@ -160,13 +146,9 @@ a glance:
 - Keep pipelines short. If a `jq`, `rg` or `sed` expression grows past one
   readable line, split the work into several calls or write the filter to a file
   in the temp directory and use `jq -f`.
-- Say in one sentence what a non-trivial command does before running it.
-- Single-quote arguments that contain `[`, `]`, `(`, `)`, `?`, `*`, `{`, `}` or
-  `!`, such as JSONPath, `custom-columns` or `jq` filters. zsh reads them as
-  filename patterns and fails with `no matches found`.
 - Don't use the shell to produce text such as tables, docs or messages
   (`printf`, `echo`, `column`). Write it directly in the response or with the
-  edit and write tools. Markdown tables don't need padded columns.
+  edit and write tools.
 
 ## Read-only shell commands
 
