@@ -1,7 +1,7 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $pinned := `{
-  "notificationMode": "notifications",
-  "inAppNotificationsEnabled": true,
+  "notificationMode": "off",
+  "inAppNotificationsEnabled": false,
   "diffColorScheme": "blue-orange",
   "browserSearchEngine": "kagi",
   "fontFamilyCode": "JetBrainsMono Nerd Font Mono"

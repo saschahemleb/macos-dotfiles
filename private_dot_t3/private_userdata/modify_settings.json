@@ -1,6 +1,6 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $pinned := `{
-  "defaultRuntimeMode": "auto-accept-edits",
+  "defaultRuntimeMode": "auto",
   "defaultThreadEnvMode": "worktree",
   "defaultAutoPull": true,
   "idleCompaction": "onReturn",
