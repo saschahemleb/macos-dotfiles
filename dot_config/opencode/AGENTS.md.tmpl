@@ -121,11 +121,11 @@ a glance:
   (`printf`, `echo`, `column`). Write it directly in the response or with the
   edit and write tools.
 
-## Read-only shell commands
+## Preferred shell commands
 
-Read-only commands from this list run without a permission prompt. When you only
-need to read or filter output, use these instead of general-purpose tools that
-can also write files or run commands:
+Every shell command needs approval, so pick ones whose effect is clear at a
+glance. Prefer read-only tools over general-purpose ones that can also write
+files or run commands:
 
 - `awk` for picking fields or extracting values -> `rg -o -r '$1' 'pattern(\S+)'`
   or `sed -n 's/.../\1/p'`. Counting -> `sort | uniq -c | sort -rn`.
@@ -144,9 +144,6 @@ can also write files or run commands:
   with `git show <rev>:<path>`, `git ls-tree -r <rev>` and `git diff <rev>`.
 - Shell variables such as `C=ctx; kubectl --context $C ...` -> write the value out
   in each command (`kubectl --context <ctx> get ...`).
-
-Some commands run without a prompt but have better alternatives. Prefer these:
-
 - `grep` -> `rg`.
 - `cat` to view files -> the read tool. `cat file | grep` -> `rg pattern file`.
   Use `cat` only to combine several short files in one shell call.
