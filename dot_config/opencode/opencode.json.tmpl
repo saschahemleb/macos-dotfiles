@@ -64,6 +64,10 @@
     }
   },
   "model": "litellm/opus",
+  "policies": [
+    { "action": "provider.use", "resource": "*", "effect": "deny" },
+    { "action": "provider.use", "resource": "litellm", "effect": "allow" }
+  ],
 {{- else }}
   "model": "openai/gpt-6.1-sol",
 {{- end }}
