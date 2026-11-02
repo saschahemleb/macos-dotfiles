@@ -12,8 +12,7 @@
     "auth" (dict "command" (joinPath .chezmoi.homeDir ".local/bin/entra-cli-auth"))
   )
   "mcp_servers.eventim-mcp" (dict
-    "command" "node"
-    "args" (list (joinPath .chezmoi.homeDir "Developer/git.eventim.net/shemleb/eventim-mcp/dist/index.js") "--stdio")
+    "command" (joinPath .chezmoi.homeDir ".local/bin/eventim-mcp")
   )
   "analytics.enabled" false
   "otel.metrics_exporter" "none"

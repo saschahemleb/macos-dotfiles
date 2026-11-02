@@ -1,0 +1,10 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $pinned := dict
+  "mcpServers.eventim-mcp" (dict
+    "type" "stdio"
+    "command" (joinPath .chezmoi.homeDir ".local/bin/eventim-mcp")
+    "args" list
+    "env" dict
+  )
+-}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}

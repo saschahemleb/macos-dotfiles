@@ -1,0 +1,6 @@
+#!/bin/sh
+# Claude Code and Codex start MCP servers without the shell environment, so load the credentials here.
+[ -f "$HOME/.profile.local" ] && . "$HOME/.profile.local"
+export GITLAB_URL="${GITLAB_URL:-https://git.eventim.net}"
+export GITLAB_TOKEN="${GITLAB_TOKEN:-$GITLAB_ACCESS_TOKEN}"
+exec node "$HOME/Developer/git.eventim.net/shemleb/eventim-mcp/dist/index.js" --stdio "$@"

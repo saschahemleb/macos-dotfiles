@@ -3,4 +3,6 @@ bootstrap.sh
 AGENTS.md
 {{ if ne .workstation_type "work" }}
 .claude
+.claude.json
+.local/bin/eventim-mcp
 {{ end }}
