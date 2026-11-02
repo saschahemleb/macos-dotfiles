@@ -32,6 +32,7 @@ homebrew_packages:
       - zsh-syntax-highlighting
     casks:
       - bitwarden
+      - codex
       - font-jetbrains-mono-nerd-font
       - hammerspoon
       - helium-browser
@@ -76,7 +77,6 @@ homebrew_packages:
       - 1password-cli
       - another-redis-desktop-manager
       - claude-code
-      - codex
       - grafana-assistant
       - headlamp
       - jabra-direct
