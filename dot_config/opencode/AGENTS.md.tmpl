@@ -78,23 +78,6 @@ the ticket the user refers to (for example `.pl` -> `Poland`). Use
 platform and SRE tickets. If the context points to no country, ask.
 {{- end }}
 
-## Agents
-
-There are three primary agents. Each can do everything the one before it can:
-
-- `plan` (default): reads files, logs, clusters, cloud accounts and Jira.
-  Can't edit project files, commit, push, change Jira or start agents.
-- `organize`: also creates and updates Jira tickets and creates Herdr
-  workspaces, worktrees and agents. Asks before editing files outside the
-  temp directory.
-- `work`: does the work. Edits, API calls, commits, pushes and MRs run
-  without prompts; force pushes and `kubectl` secrets still ask.
-
-If a task needs more than your agent allows, say which agent it needs instead
-of working around the rules. New sessions, including agents started through
-`herdr agent start`, begin in `plan`. When you start an agent for work that
-changes files, tell the user to switch it to `work`.
-
 ## Herdr
 
 Use `herdr worktree` when asked to create a worktree, even if Herdr is not
@@ -120,19 +103,15 @@ or repos involved and what to report back.
   finding where something is defined or used across many files, mapping an
   unfamiliar repo, or comparing several repos under `~/Developer`. State how
   thorough it should be.
-- `general`: same model as your session, with organize-level access: it can
-  read, research and update Jira, but asks before editing files or running
-  commands outside the read-only list, whichever agent starts it. Use it for
-  independent multi-step tasks that can run in parallel, such as researching
-  separate questions or applying the same change to several repos. Don't give
-  two subagents overlapping files.
+- `general`: same model as your session. Use it for independent multi-step
+  tasks that can run in parallel, such as researching separate questions or
+  applying the same change to several repos. Don't give two subagents
+  overlapping files.
 
 Do targeted lookups yourself: reading a known file, a single `rg`, or checking a
 few paths is faster than delegating. Delegate when a task would take many
 searches or reads, or would fill your context with output you only need a
-summary of. Subagents use their own permissions, not yours, so even under
-`work` they still ask before commands outside the allowlist. Prefer `explore`
-for reading.
+summary of. Prefer `explore` for reading.
 
 ## Shell commands
 

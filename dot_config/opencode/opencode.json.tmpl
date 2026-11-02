@@ -67,7 +67,6 @@
 {{- else }}
   "model": "openai/gpt-6.1-sol",
 {{- end }}
-  "default_agent": "plan",
   "update": "disable",
   "share": "disabled",
   "worktree": {
@@ -84,120 +83,8 @@
   },
 {{- end }}
   "agents": {
-    "build": {
-      "disabled": true
-    },
     "plan": {
-{{- if eq .workstation_type "work" }}
-      "model": "litellm/opus#max",
-{{- else }}
-      "model": "openai/gpt-6.1-sol#xhigh",
-{{- end }}
-      "permissions": [
-{{- if eq .workstation_type "work" }}
-        { "action": "eventim-mcp_*", "resource": "*", "effect": "deny" },
-        { "action": "eventim-mcp_*-get-*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_*-list*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_*-search*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_jira-find-user", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_grafana-ask-assistant", "resource": "*", "effect": "allow" },
-{{- end }}
-        { "action": "shell", "resource": "git commit*", "effect": "deny" },
-        { "action": "shell", "resource": "git push*", "effect": "deny" },
-        { "action": "shell", "resource": "git -C * commit*", "effect": "deny" },
-        { "action": "shell", "resource": "git -C * push*", "effect": "deny" },
-        { "action": "shell", "resource": "glab mr create*", "effect": "deny" },
-        { "action": "shell", "resource": "glab mr update*", "effect": "deny" },
-        { "action": "shell", "resource": "glab mr merge*", "effect": "deny" },
-        { "action": "shell", "resource": "glab mr approve*", "effect": "deny" },
-        { "action": "shell", "resource": "kubectl * apply *", "effect": "deny" },
-        { "action": "shell", "resource": "kubectl * delete *", "effect": "deny" },
-        { "action": "shell", "resource": "terraform *apply*", "effect": "deny" },
-        { "action": "shell", "resource": "terraform *destroy*", "effect": "deny" },
-        { "action": "shell", "resource": "terragrunt *apply*", "effect": "deny" },
-        { "action": "shell", "resource": "terragrunt *destroy*", "effect": "deny" }
-      ]
-    },
-    "organize": {
-      "description": "Organize work without changing code: Jira tickets, Herdr workspaces, worktrees and agents. Edits and commits ask first",
-      "mode": "primary",
-      "color": "#d29922",
-{{- if eq .workstation_type "work" }}
-      "model": "litellm/opus#high",
-{{- else }}
-      "model": "openai/gpt-6.1-sol#high",
-{{- end }}
-      "permissions": [
-        { "action": "edit", "resource": "*", "effect": "ask" },
-{{- if env "TMPDIR" | hasPrefix "/var/" }}
-        { "action": "edit", "resource": "/private{{ env "TMPDIR" | trimSuffix "/" }}/opencode/*", "effect": "allow" },
-{{- end }}
-{{- if eq .workstation_type "work" }}
-        { "action": "eventim-mcp_jira-*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_safari-open-*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_safari-focus-*", "resource": "*", "effect": "allow" },
-        { "action": "eventim-mcp_confluence-add-*", "resource": "*", "effect": "ask" },
-        { "action": "eventim-mcp_confluence-create-*", "resource": "*", "effect": "ask" },
-        { "action": "eventim-mcp_confluence-set-*", "resource": "*", "effect": "ask" },
-        { "action": "eventim-mcp_confluence-update-*", "resource": "*", "effect": "ask" },
-        { "action": "eventim-mcp_safari-close-*", "resource": "*", "effect": "ask" },
-        { "action": "eventim-mcp_safari-group-*", "resource": "*", "effect": "ask" },
-{{- end }}
-        { "action": "shell", "resource": "herdr workspace create *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr workspace focus *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr workspace rename *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr workspace close *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr tab create *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr tab focus *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr tab rename *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr tab close *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane focus *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane resize *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane zoom *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane rename *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane split *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane swap *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane move *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr pane close *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr agent start *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr agent prompt *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr agent rename *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr agent focus *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr worktree create *", "effect": "allow" },
-        { "action": "shell", "resource": "herdr * --trust-repository*", "effect": "ask" }
-      ]
-    },
-    "work": {
-      "description": "Do the work without prompts: edits, API calls, commits, pushes and MRs",
-      "mode": "primary",
-      "color": "#e5534b",
-{{- if eq .workstation_type "work" }}
-      "model": "litellm/opus#high",
-{{- else }}
-      "model": "openai/gpt-6.1-sol#high",
-{{- end }}
-      "permissions": [
-        { "action": "shell", "resource": "*", "effect": "allow" },
-        { "action": "external_directory", "resource": "*", "effect": "allow" },
-{{- if eq .workstation_type "work" }}
-        { "action": "eventim-mcp_*", "resource": "*", "effect": "allow" },
-{{- end }}
-        { "action": "shell", "resource": "kubectl *secret*", "effect": "ask" },
-        { "action": "shell", "resource": "git push *--force*", "effect": "ask" },
-        { "action": "shell", "resource": "git push -f*", "effect": "ask" },
-        { "action": "shell", "resource": "git push * -f*", "effect": "ask" },
-        { "action": "shell", "resource": "git push *+*", "effect": "ask" },
-        { "action": "shell", "resource": "glab ci trace", "effect": "deny" }
-      ]
-    },
-    "general": {
-      "permissions": [
-        { "action": "edit", "resource": "*", "effect": "ask" },
-{{- if env "TMPDIR" | hasPrefix "/var/" }}
-        { "action": "edit", "resource": "/private{{ env "TMPDIR" | trimSuffix "/" }}/opencode/*", "effect": "allow" },
-{{- end }}
-        { "action": "eventim-mcp_jira-*", "resource": "*", "effect": "allow" }
-      ]
+      "disabled": true
     },
     "explore": {
 {{- if eq .workstation_type "work" }}
