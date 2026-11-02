@@ -16,6 +16,18 @@ brew install chezmoi
 chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 ```
 
+## Rex
+
+The terminal is [Rex](https://www.superlogical.com/rex/docs/), which is in beta
+and not available through Homebrew. Install it by hand: the download link is in
+the Rex Beta Discord.
+
+`~/.config/rex/init.lua` holds the key bindings and the actions that Hammerspoon's
+Hyper+Return and Hyper+K hotkeys use. These need the app installed at
+`/Applications/Rex Beta.app` and Remote Control turned on, which
+`run_once_after_macos-defaults.php` does. Run `rex config reload` after changing
+`init.lua`; Rex doesn't watch the file.
+
 ## Zed extensions
 
 Manage extension IDs in `.chezmoidata/zed_extensions.yaml`, then run `chezmoi apply`.
