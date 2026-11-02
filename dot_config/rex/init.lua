@@ -82,6 +82,12 @@ rex.action{
   title = "Show Main Session",
   run = function(ctx, args)
     local session_id = sessionByLabel("main")
+    -- On a cold start Rex opens its window with a session of its own, labeled like "floral-pine".
+    local sessions = rex.call("session.list", {}).sessions or {}
+    if not session_id and #sessions == 1 and sessions[1].label:match("^%l+%-%l+$") then
+      session_id = sessions[1].session_id
+      must(rex.call("session.set_label", { session_id = session_id, label = "main" }))
+    end
     if not session_id then
       session_id = must(rex.call("session.create", {
         label = "main",
