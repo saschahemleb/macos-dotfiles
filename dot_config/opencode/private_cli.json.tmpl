@@ -31,5 +31,5 @@
     "input.line.home": "home",
     "model.dialog.provider": "<leader>p"
   },
-  "plugins": ["./herdr-opencode"{{ if eq .workstation_type "private" }}, "./codex-usage"{{ end }}]
+  "plugins": [{{ if eq .workstation_type "private" }}"./codex-usage"{{ end }}]
 }

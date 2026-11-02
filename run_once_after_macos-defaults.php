@@ -73,6 +73,8 @@ function my_defaults(): array {
         new Defaults(domain: 'com.apple.controlcenter', key: 'Sound', value: 18),
         // Show battery percentage
         new Defaults(domain: 'com.apple.controlcenter', key: 'BatteryShowPercentage', value: true),
+        // Let the rex CLI and Hammerspoon drive the Rex app
+        new Defaults(domain: 'com.superlogical.rex', key: 'rex.client.remoteControl', value: true),
         // Open Spotlight with Command+Space (hotkey 64; 32 = space character, 49 = space key code, 1048576 = Command)
         new Defaults(domain: 'com.apple.symbolichotkeys', key: 'AppleSymbolicHotKeys', value: new Value(
             "-dict-add 64 '<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>32</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>'"

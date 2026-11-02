@@ -74,56 +74,50 @@ for _, app in ipairs(apps) do
   end)
 end
 
-local ghostty = "com.mitchellh.ghostty"
+local rexBundleID = "com.superlogical.rex"
+local rexCLI = "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
 
-local function openGhostty(args)
-  hs.task.new("/usr/bin/open", nil, { "-na", "Ghostty.app", "--args", table.unpack(args) }):start()
+local function rexWindows()
+  return appWindows(hs.application.applicationsForBundleID(rexBundleID))
 end
 
-local k9sCommand = hs.configdir .. "/k9s-tab"
-
--- Window titles change while programs run, so k9s processes are recognized by
--- the command they were started with. A process's arguments never change, so
--- the result is cached per process ID.
-local k9sProcesses = {}
-
-local function isK9sProcess(app)
-  local pid = app:pid()
-  if k9sProcesses[pid] == nil then
-    local args = hs.execute("/bin/ps -o args= -p " .. pid)
-    k9sProcesses[pid] = args:find("--command=" .. k9sCommand, 1, true) ~= nil
+-- Rex titles its windows "<tab> - <session>".
+local function rexSession(win)
+  local app = win and win:application()
+  if app and app:bundleID() == rexBundleID then
+    return win:title():match(".* %- (.+)$")
   end
-  return k9sProcesses[pid]
 end
 
-local function ghosttyProcesses(wantK9s)
-  local matching = {}
-  for _, app in ipairs(hs.application.applicationsForBundleID(ghostty)) do
-    if isK9sProcess(app) == wantK9s then
-      table.insert(matching, app)
-    end
+-- Rex can run without any window and then has nowhere to show a session.
+-- Activating it makes Rex open a window by itself, but only after a moment.
+local function withRexWindow(callback)
+  hs.application.launchOrFocusByBundleID(rexBundleID)
+  local timeout = hs.timer.doAfter(10, function() end)
+  hs.timer.waitUntil(function()
+    return #rexWindows() > 0 or not timeout:running()
+  end, callback, 0.1)
+end
+
+local function rexDo(action, args, callback)
+  local argv = { "do", action }
+  for key, value in pairs(args or {}) do
+    table.insert(argv, key .. "=" .. value)
   end
-  return matching
+  hs.task.new(rexCLI, callback, argv):start()
 end
 
-local function focusTerminal()
-  local running = ghosttyProcesses(false)
-  local windows = appWindows(running)
-  if #windows > 0 then
-    cycleWindows(windows)
+hs.hotkey.bind(hyper, "return", function()
+  if rexSession(hs.window.focusedWindow()) == "main" then
+    cycleWindows(rexWindows())
     return
   end
-  local app = running[1]
-  if not app then
-    openGhostty({})
-  elseif app:isHidden() then
-    app:unhide()
-    app:activate()
-  else
-    app:activate()
-    hs.eventtap.keyStroke({ "cmd" }, "n", 0, app)
-  end
-end
+  withRexWindow(function()
+    rexDo("main_show")
+  end)
+end)
+
+{{- if eq .workstation_type "work" }}
 
 local function kubeContexts()
   local output, ok = hs.execute("/opt/homebrew/bin/yq '.contexts[].name' ~/.kube/config")
@@ -136,40 +130,15 @@ local function kubeContexts()
   return contexts
 end
 
-local function isK9sWindow(win)
-  local app = win and win:application()
-  return app ~= nil and app:bundleID() == ghostty and isK9sProcess(app)
-end
-
-local function frontmostK9sWindow()
-  return appWindows(ghosttyProcesses(true))[1]
-end
-
--- New tabs in the k9s window run the same command as the window, so the
--- chosen context is passed to the k9s-tab script through a file.
-local function startK9s(context, win)
-  local file = io.open(os.getenv("TMPDIR") .. "/k9s-context", "w")
-  file:write(context)
-  file:close()
-  if win then
-    hs.eventtap.keyStroke({ "cmd" }, "t", 0, win:application())
-  else
-    openGhostty({
-      "--quit-after-last-window-closed=true",
-      "--command=" .. k9sCommand,
-    })
-  end
-end
-
-local k9sTarget
 local k9sChooser = hs.chooser.new(function(choice)
   if choice then
-    startK9s(choice.context, k9sTarget)
+    withRexWindow(function()
+      rexDo("k9s", { context = choice.context })
+    end)
   end
 end)
 
-local function pickK9sContext(win)
-  k9sTarget = win
+local function k9s()
   local choices = {}
   for _, context in ipairs(kubeContexts()) do
     table.insert(choices, {
@@ -182,23 +151,19 @@ local function pickK9sContext(win)
   k9sChooser:show()
 end
 
-local function k9s()
-  local focused = hs.window.focusedWindow()
-  if isK9sWindow(focused) then
-    pickK9sContext(focused)
+hs.hotkey.bind(hyper, "k", function()
+  if rexSession(hs.window.focusedWindow()) == "k9s" then
+    k9s()
     return
   end
-  local win = frontmostK9sWindow()
-  if win then
-    win:focus()
-  else
-    pickK9sContext(nil)
-  end
-end
-
-hs.hotkey.bind(hyper, "return", focusTerminal)
-{{- if eq .workstation_type "work" }}
-hs.hotkey.bind(hyper, "k", k9s)
+  withRexWindow(function()
+    rexDo("k9s_show", nil, function(exitCode)
+      if exitCode ~= 0 then
+        k9s()
+      end
+    end)
+  end)
+end)
 {{- end }}
 
 local function placeColumn(start, width)

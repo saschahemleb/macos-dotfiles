@@ -15,7 +15,6 @@ homebrew_packages:
       - git
       - glab
       - helix
-      - herdr
       - jq
       - lazydocker
       - lazygit
@@ -35,7 +34,6 @@ homebrew_packages:
       - bitwarden
       - codex
       - font-jetbrains-mono-nerd-font
-      - ghostty
       - hammerspoon
       - helium-browser
       - karabiner-elements
