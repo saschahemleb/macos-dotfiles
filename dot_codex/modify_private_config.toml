@@ -17,6 +17,10 @@
   )
   "analytics.enabled" false
   "otel.metrics_exporter" "none"
+  "features.apps" false
+  "features.remote_plugin" false
+  "features.plugin_discovery_prefetch" false
+  "features.plugin_sharing" false
 -}}
 {{- else -}}
 {{-   $pinned = dict "analytics.enabled" false "otel.metrics_exporter" "none" -}}
