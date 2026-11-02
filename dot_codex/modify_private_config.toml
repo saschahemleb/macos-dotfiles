@@ -2,6 +2,7 @@
 {{- $pinned := dict -}}
 {{- if eq .workstation_type "work" -}}
 {{-   $pinned = dict
+  "forced_login_method" "api"
   "model_provider" "litellm"
   "model" "openai-glob-sol-61-expensive"
   "model_providers.litellm" (dict
