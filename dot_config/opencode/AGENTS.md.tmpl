@@ -60,9 +60,16 @@ instead of checking for it.
 `glab api` has no `--jq` flag, unlike `gh api`. Pipe its output to `jq` instead.
 `glab ci trace` always needs a job ID; without one it opens an interactive
 picker that never returns.
+{{- if eq .workstation_type "work" }}
+`GITLAB_HOST` is set to `git.eventim.net`, so `glab` reaches it without
+`-R <full URL>` or `--hostname`. Because that variable wins over the repo's
+remotes, `glab` fails in repos on other GitLab hosts; prefix those commands with
+`GITLAB_HOST=<host>`.
+{{- else }}
 To reach a repo on another GitLab host, pass the full URL to `-R`
-(`-R https://git.eventim.net/<group>/<repo>`), or `--hostname git.eventim.net`
-for `glab api`, instead of prefixing the command with `GITLAB_HOST=...`.
+(`-R https://<host>/<group>/<repo>`), or `--hostname <host>` for `glab api`,
+instead of prefixing the command with `GITLAB_HOST=...`.
+{{- end }}
 {{- if eq .workstation_type "work" }}
 
 ## Jira
