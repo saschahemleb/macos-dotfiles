@@ -1,0 +1,23 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $pinned := dict -}}
+{{- if eq .workstation_type "work" -}}
+{{-   $pinned = dict
+  "model_provider" "litellm"
+  "model" "openai-glob-sol-61-expensive"
+  "model_providers.litellm" (dict
+    "name" "Eventim LiteLLM"
+    "base_url" "https://litellm.stg.enablement.ai.eventim.cloud/v1"
+    "wire_api" "responses"
+    "auth" (dict "command" (joinPath .chezmoi.homeDir ".local/bin/entra-cli-auth"))
+  )
+  "mcp_servers.eventim-mcp" (dict
+    "command" "node"
+    "args" (list (joinPath .chezmoi.homeDir "Developer/git.eventim.net/shemleb/eventim-mcp/dist/index.js") "--stdio")
+  )
+  "analytics.enabled" false
+  "otel.metrics_exporter" "none"
+-}}
+{{- else -}}
+{{-   $pinned = dict "analytics.enabled" false "otel.metrics_exporter" "none" -}}
+{{- end -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "toml" "pinned" $pinned "removed" list) -}}

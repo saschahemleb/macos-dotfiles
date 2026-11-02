@@ -1,8 +1,4 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- $current := dict -}}
-{{- if .chezmoi.stdin -}}
-{{-   $current = fromJson .chezmoi.stdin -}}
-{{- end -}}
 {{- $pinned := `{
   "notificationMode": "notifications",
   "inAppNotificationsEnabled": true,
@@ -10,25 +6,4 @@
   "browserSearchEngine": "kagi",
   "fontFamilyCode": "JetBrainsMono Nerd Font Mono"
 }` | fromJson -}}
-{{- $changed := false -}}
-{{- range $path, $value := $pinned -}}
-{{-   $cursor := $current -}}
-{{-   $found := true -}}
-{{-   range $key := splitList "." $path -}}
-{{-     if and $found (kindIs "map" $cursor) (hasKey $cursor $key) -}}
-{{-       $cursor = index $cursor $key -}}
-{{-     else -}}
-{{-       $found = false -}}
-{{-     end -}}
-{{-   end -}}
-{{-   if or (not $found) (ne (toJson $cursor) (toJson $value)) -}}
-{{-     $changed = true -}}
-{{-     $current = setValueAtPath $path $value $current -}}
-{{-   end -}}
-{{- end -}}
-{{- /* T3 Code writes this file in its own format, so keep its bytes unless a pinned value changes. */ -}}
-{{- if and .chezmoi.stdin (not $changed) -}}
-{{ .chezmoi.stdin }}
-{{- else -}}
-{{ toPrettyJson $current }}
-{{- end -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}

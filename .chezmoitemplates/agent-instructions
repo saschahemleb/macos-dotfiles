@@ -87,23 +87,16 @@ platform and SRE tickets. If the context points to no country, ask.
 
 ## Subagents
 
-Two subagents are available through the subagent tool. Each starts with a fresh
-context and returns only its final answer, so give it the full task, the paths
-or repos involved and what to report back.
-
-- `explore`: fast, cheap and can't edit files. Use it for broad searches, such as
-  finding where something is defined or used across many files, mapping an
-  unfamiliar repo, or comparing several repos under `~/Developer`. State how
-  thorough it should be.
-- `general`: same model as your session. Use it for independent multi-step
-  tasks that can run in parallel, such as researching separate questions or
-  applying the same change to several repos. Don't give two subagents
-  overlapping files.
+A subagent starts with a fresh context and returns only its final answer, so
+give it the full task, the paths or repos involved and what to report back.
 
 Do targeted lookups yourself: reading a known file, a single `rg`, or checking a
 few paths is faster than delegating. Delegate when a task would take many
 searches or reads, or would fill your context with output you only need a
-summary of. Prefer `explore` for reading.
+summary of, such as mapping an unfamiliar repo or comparing several repos under
+`~/Developer`. Use subagents for independent work that can run in parallel, and
+don't give two of them overlapping files. Prefer a read-only subagent on a
+cheaper model for broad searches.
 
 ## Shell commands
 

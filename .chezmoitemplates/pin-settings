@@ -1,0 +1,47 @@
+{{- $current := dict -}}
+{{- if .stdin -}}
+{{-   if eq .format "toml" -}}
+{{-     $current = fromToml .stdin -}}
+{{-   else -}}
+{{-     $current = fromJson .stdin -}}
+{{-   end -}}
+{{- end -}}
+{{- $changed := false -}}
+{{- range $path, $value := .pinned -}}
+{{-   $cursor := $current -}}
+{{-   $found := true -}}
+{{-   range $key := splitList "." $path -}}
+{{-     if and $found (kindIs "map" $cursor) (hasKey $cursor $key) -}}
+{{-       $cursor = index $cursor $key -}}
+{{-     else -}}
+{{-       $found = false -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if or (not $found) (ne (toJson $cursor) (toJson $value)) -}}
+{{-     $changed = true -}}
+{{-     $current = setValueAtPath $path $value $current -}}
+{{-   end -}}
+{{- end -}}
+{{- range $path := .removed -}}
+{{-   $cursor := $current -}}
+{{-   $found := true -}}
+{{-   range $key := splitList "." $path -}}
+{{-     if and $found (kindIs "map" $cursor) (hasKey $cursor $key) -}}
+{{-       $cursor = index $cursor $key -}}
+{{-     else -}}
+{{-       $found = false -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if $found -}}
+{{-     $changed = true -}}
+{{-     $current = deleteValueAtPath $path $current -}}
+{{-   end -}}
+{{- end -}}
+{{- /* The app writes this file in its own format, so keep its bytes unless a pinned value changes. */ -}}
+{{- if and .stdin (not $changed) -}}
+{{ .stdin }}
+{{- else if eq .format "toml" -}}
+{{ toToml $current }}
+{{- else -}}
+{{ toPrettyJson $current }}
+{{- end -}}

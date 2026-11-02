@@ -1,0 +1,29 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $pinned := `{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "includeCoAuthoredBy": false,
+  "env.CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+  "env.DISABLE_TELEMETRY": "1",
+  "env.DISABLE_ERROR_REPORTING": "1",
+  "env.OTEL_METRICS_EXPORTER": "none",
+  "env.OTEL_LOGS_EXPORTER": "none"
+}` | fromJson -}}
+{{- $removed := list -}}
+{{- if contains "herdr-agent-state" .chezmoi.stdin -}}
+{{-   $removed = list "hooks" -}}
+{{- end -}}
+{{- if eq .workstation_type "work" -}}
+{{-   $pinned = merge (dict
+  "apiKeyHelper" (joinPath .chezmoi.homeDir ".local/bin/entra-cli-auth")
+) (`{
+  "env.ANTHROPIC_BASE_URL": "https://litellm.stg.enablement.ai.eventim.cloud",
+  "env.CLAUDE_CODE_USE_BEDROCK": "0",
+  "env.ANTHROPIC_DEFAULT_OPUS_MODEL": "bedrock-anthropic-eu-opus-55-expensive",
+  "env.ANTHROPIC_DEFAULT_SONNET_MODEL": "bedrock-anthropic-eu-sonnet-55-affordable",
+  "env.ANTHROPIC_DEFAULT_HAIKU_MODEL": "bedrock-anthropic-eu-haiku-45-cheap",
+  "env.CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
+  "env.CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1"
+}` | fromJson) $pinned -}}
+{{-   $removed = concat $removed (list "awsAuthRefresh" "env.AWS_REGION" "env.AWS_PROFILE") -}}
+{{- end -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" $removed) -}}

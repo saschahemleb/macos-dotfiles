@@ -1,7 +1,6 @@
 homebrew_packages:
   all:
-    taps:
-      - anomalyco/tap
+    taps: []
     brews:
       - ast-grep
       - bitwarden-cli
@@ -19,7 +18,6 @@ homebrew_packages:
       - lazydocker
       - lazygit
       - mas
-      - opencode-v2
       - ripgrep
       - starship
       - tealdeer

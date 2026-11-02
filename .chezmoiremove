@@ -1,8 +1,7 @@
-.config/opencode/skills/z
-.config/opencode/skills/herdr
-.config/opencode/herdr-opencode
-.config/opencode/herdr-tui-session.js
-.config/opencode/plugins/herdr-agent-state.js
-.config/herdr
+.config/opencode
+.codex/hooks.json
+.codex/herdr-agent-state.sh
+.claude/hooks/herdr-agent-state.sh
 .hammerspoon/k9s-tab
+.config/herdr
 Library/Application Support/com.mitchellh.ghostty

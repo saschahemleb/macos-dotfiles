@@ -1,7 +1,6 @@
 README.md
 bootstrap.sh
 AGENTS.md
-opencode.json
-{{ if ne .workstation_type "private" }}
-.config/opencode/codex-usage
+{{ if ne .workstation_type "work" }}
+.claude
 {{ end }}
