@@ -4,7 +4,7 @@
 {{-   $current = fromJson .chezmoi.stdin -}}
 {{- end -}}
 {{- $pinned := `{
-  "defaultRuntimeMode": "approval-required",
+  "defaultRuntimeMode": "auto-accept-edits",
   "defaultThreadEnvMode": "worktree",
   "defaultAutoPull": true,
   "idleCompaction": "onReturn",
