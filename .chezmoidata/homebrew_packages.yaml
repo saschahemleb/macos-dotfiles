@@ -5,6 +5,7 @@ homebrew_packages:
       - ast-grep
       - bitwarden-cli
       - chezmoi
+      - composer
       - curl
       - direnv
       - eza
@@ -18,6 +19,7 @@ homebrew_packages:
       - lazydocker
       - lazygit
       - mas
+      - php
       - ripgrep
       - starship
       - tealdeer
@@ -64,11 +66,9 @@ homebrew_packages:
     brews:
       - age
       - awscli
-      - composer
       - helm
       - k9s
       - openssl@3
-      - php
       - php@8.2
       - php@8.4
       - sops
