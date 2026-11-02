@@ -109,12 +109,8 @@ local function rexDo(action, args, callback)
 end
 
 hs.hotkey.bind(hyper, "return", function()
-  if rexSession(hs.window.focusedWindow()) == "main" then
-    cycleWindows(rexWindows())
-    return
-  end
   withRexWindow(function()
-    rexDo("main_show")
+    rexDo("shell_show")
   end)
 end)
 
