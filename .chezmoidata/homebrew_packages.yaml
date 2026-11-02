@@ -76,7 +76,6 @@ homebrew_packages:
       - sops
     casks:
       - 1password-cli
-      - airtame
       - another-redis-desktop-manager
       - claude-code
       - grafana-assistant
