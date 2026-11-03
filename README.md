@@ -59,14 +59,3 @@ Hyper+A opens Herdr. chezmoi deploys `keys.json`, `programs.json` and
 itself. A change made in Herdr's settings screen stays only until the next
 `chezmoi apply`. `programs.json` starts Codex with `--no-daemon`, because
 herdr-core (`hc`) needs Codex's commands to run inside its terminal.
-
-## Zed extensions
-
-Manage extension IDs in `.chezmoidata/zed_extensions.yaml`, then run `chezmoi apply`.
-The list is rendered into Zed's `auto_install_extensions` setting. Zed installs
-entries set to `true` and uninstalls entries set to `false` when it processes the
-settings (launch Zed if it is closed). Removing an entry stops managing it;
-use `false` to explicitly remove an extension.
-
-See [Zed's extension settings](https://zed.dev/docs/reference/all-settings#auto-install-extensions).
-

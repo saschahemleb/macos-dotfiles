@@ -43,7 +43,6 @@ homebrew_packages:
       - spotify
       - visual-studio-code
       - zen
-      - zed
     # Visual Studio Marketplace extension IDs managed by Homebrew Bundle.
     vscode_extensions:
       - biomejs.biome
@@ -81,6 +80,5 @@ homebrew_packages:
       - headlamp
       - jabra-direct
       - jetbrains-toolbox
-      - macpass
       - zoom
     vscode_extensions: []
