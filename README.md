@@ -34,12 +34,16 @@ Hyper+Return and Hyper+K hotkeys use. These need the app installed at
 Shared instructions live in `.chezmoitemplates/agent-instructions` and render
 to `~/.codex/AGENTS.md`. `~/.claude/CLAUDE.md` imports that file.
 
-Codex and Claude Code write state into their own config files, such as trusted
-projects and hook approvals. chezmoi only pins chosen keys in
-`~/.codex/config.toml` and `~/.claude/settings.json` and leaves the rest alone.
-The values to pin are listed in `$pinned` in each `modify_` template (nested
-keys use dots, such as `features.apps`). If an app later changes a pinned value,
-the next `chezmoi apply` sets it back. The shared logic is in
+chezmoi deploys `~/.claude/settings.json` as a whole file. A setting you change
+in Claude Code stays only until the next `chezmoi apply`; to keep it, add it to
+`dot_claude/settings.json.tmpl`.
+
+Codex and Claude Code also write state into `~/.codex/config.toml` and
+`~/.claude.json`, such as trusted projects and hook approvals. For these two
+files, chezmoi only pins chosen keys and leaves the rest alone. The values to
+pin are listed in `$pinned` in each `modify_` template (nested keys use dots,
+such as `features.apps`). If an app later changes a pinned value, the next
+`chezmoi apply` sets it back. The shared logic is in
 `.chezmoitemplates/pin-settings`.
 
 On work machines, both agents use the company LiteLLM gateway. They get a token
@@ -50,11 +54,11 @@ sign in with `codex login`.
 
 ## Herdr
 
-Hyper+A opens Herdr. chezmoi manages its key bindings in
-`~/.config/herdr-app/keys.json` and `programs.json`. Herdr writes the rest of
-that folder itself, so chezmoi only pins chosen keys in `settings.json`.
-`programs.json` starts Codex with `--no-daemon`, because herdr-core (`hc`)
-needs Codex's commands to run inside its terminal.
+Hyper+A opens Herdr. chezmoi deploys `keys.json`, `programs.json` and
+`settings.json` in `~/.config/herdr-app/`; Herdr writes the rest of that folder
+itself. A change made in Herdr's settings screen stays only until the next
+`chezmoi apply`. `programs.json` starts Codex with `--no-daemon`, because
+herdr-core (`hc`) needs Codex's commands to run inside its terminal.
 
 ## Zed extensions
 

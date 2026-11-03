@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "apiKeyHelper": "{{ joinPath .chezmoi.homeDir ".local/bin/entra-cli-auth" }}",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://litellm.stg.enablement.ai.eventim.cloud",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "bedrock-anthropic-eu-haiku-45-cheap",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "bedrock-anthropic-eu-opus-55-expensive",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "bedrock-anthropic-eu-sonnet-55-affordable",
+    "CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1",
+    "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_USE_BEDROCK": "0",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_TELEMETRY": "1",
+    "OTEL_LOGS_EXPORTER": "none",
+    "OTEL_METRICS_EXPORTER": "none"
+  },
+  "includeCoAuthoredBy": false,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "extraKnownMarketplaces": {
+    "eventim-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "https://git.eventim.net/ai-enablement/agent-skills.git"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "m365-codex-bridge@eventim-marketplace": true
+  },
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "auto"
+}

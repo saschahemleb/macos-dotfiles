@@ -1,6 +1,0 @@
-{{- /* chezmoi:modify-template */ -}}
-{{- $pinned := `{
-  "sounds.enabled": false,
-  "telemetry": false
-}` | fromJson -}}
-{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}
