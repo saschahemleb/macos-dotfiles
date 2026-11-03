@@ -36,11 +36,11 @@ homebrew_packages:
       - font-jetbrains-mono-nerd-font
       - hammerspoon
       - helium-browser
+      - herdr-app
       - karabiner-elements
       - orbstack
       - dash
       - spotify
-      - t3-code
       - visual-studio-code
       - zen
       - zed
