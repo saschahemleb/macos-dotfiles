@@ -4,8 +4,14 @@
   "env": {
     "ANTHROPIC_BASE_URL": "https://litellm.stg.enablement.ai.eventim.cloud",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "bedrock-anthropic-eu-haiku-45-cheap",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL_DESCRIPTION": "Fast and cheap",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME": "Haiku 4.5",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "bedrock-anthropic-eu-opus-55-expensive",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_DESCRIPTION": "Most capable, highest cost",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "Opus 5.5",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "bedrock-anthropic-eu-sonnet-55-affordable",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_DESCRIPTION": "Balanced speed and cost",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "Sonnet 5.5",
     "CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1",
     "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
@@ -16,6 +22,18 @@
     "OTEL_METRICS_EXPORTER": "none"
   },
   "includeCoAuthoredBy": false,
+  "modelPicker": {
+    "replaceBuiltInOptions": true,
+    "options": [
+      { "model": "opus", "label": "Opus 5.5" },
+      { "model": "sonnet", "label": "Sonnet 5.5" },
+      { "model": "haiku", "label": "Haiku 4.5" },
+      { "model": "claude-openai-glob-sol-61-expensive", "label": "ChatGPT Sol 6.1", "description": "OpenAI, most capable" },
+      { "model": "claude-openai-glob-terra-56-affordable", "label": "ChatGPT Terra 5.6", "description": "OpenAI, balanced speed and cost" },
+      { "model": "claude-openai-glob-luna-6-cheap", "label": "ChatGPT Luna 6", "description": "OpenAI, fast and cheap" },
+      { "model": "bedrock-moonshotai-glob-kimi-k3-affordable", "label": "Kimi K3", "description": "Moonshot AI, balanced speed and cost" }
+    ]
+  },
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh",
