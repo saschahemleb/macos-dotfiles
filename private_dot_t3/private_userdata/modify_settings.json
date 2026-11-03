@@ -1,7 +1,16 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $pinned := `{
+  "defaultRuntimeMode": "auto",
+  "defaultThreadEnvMode": "local",
+  "defaultAutoPull": true,
+  "idleCompaction": "onReturn",
+  "branchNamingMode": "semantic",
+  "removeAgentCreditsOnMerge": true,
+  "reviewGuidesEnabled": true,
+  "addProjectBaseDirectory": "~/Developer/",
   "providerInstances.codex.driver": "codex",
   "providerInstances.codex.enabled": true,
+  "providerInstances.codex.config.setupMode": "existing",
   "providerInstances.opencode": { "driver": "opencode", "enabled": false }
 }` | fromJson -}}
 {{- if eq .workstation_type "work" -}}
@@ -64,9 +73,9 @@
   },
   "fallbackModelSelection": { "instanceId": "codex", "model": "openai-glob-sol-61-expensive" },
   "textGenerationModelSelection": {
-    "instanceId": "claudeAgent",
-    "model": "bedrock-anthropic-eu-sonnet-55-affordable",
-    "options": [{ "id": "effort", "value": "low" }]
+    "instanceId": "codex",
+    "model": "openai-glob-luna-6-cheap",
+    "options": [{ "id": "reasoningEffort", "value": "low" }]
   },
   "favorites": [
     { "provider": "claudeAgent", "model": "bedrock-anthropic-eu-opus-55-expensive" },
@@ -86,4 +95,4 @@
   }
 }` | fromJson) $pinned -}}
 {{- end -}}
-{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" (list "sourceControlWriterModelSelection" "reviewGuideModelSelection")) -}}
