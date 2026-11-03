@@ -2,6 +2,7 @@ README.md
 bootstrap.sh
 AGENTS.md
 {{ if ne .workstation_type "work" }}
+.claude/CLAUDE.md
 .claude/settings.json
 .codex/litellm_models.json
 .claude.json

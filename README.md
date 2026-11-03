@@ -32,7 +32,10 @@ Hyper+Return and Hyper+K hotkeys use. These need the app installed at
 ## Coding agents
 
 [T3 Code](https://t3.codes/) runs Codex and, on work machines, Claude Code.
-Hyper+A opens it.
+Hyper+A opens it. Shared instructions live in
+`.chezmoitemplates/agent-instructions` and render to `~/.codex/AGENTS.md` and, on
+work machines, `~/.claude/CLAUDE.md`. Claude Code reads only `CLAUDE.md` as a
+global file, so it gets its own copy.
 
 On work machines, both agents use the company LiteLLM gateway. They get a token
 from `~/.local/bin/entra-cli-auth`, which the
