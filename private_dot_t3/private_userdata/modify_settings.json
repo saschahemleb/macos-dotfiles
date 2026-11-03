@@ -30,6 +30,7 @@
   }]
 }` | fromJson -}}
 {{-   $pinned = merge (dict
+  "providerModelPreferences.codex.hiddenModels" (list "gpt-6.1-terra")
   "providerInstances.claudeAgent" (dict
     "driver" "claudeAgent"
     "enabled" true
