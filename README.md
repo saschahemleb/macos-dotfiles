@@ -53,6 +53,17 @@ key alone. The pinned values live in the `modify_` templates under
 `private_dot_t3/private_userdata/`; the LiteLLM models and defaults apply only on
 work machines. A file that already matches is left untouched.
 
+On work machines, the model picker shows only the chosen LiteLLM models. All
+other models are hidden. Codex lists every model the gateway offers, so
+`$litellmModels` in `modify_settings.json` must match the gateway's list. When
+LiteLLM adds a model, add it there, or it shows up in the picker. To get the
+current list:
+
+```sh
+curl -s https://litellm.stg.enablement.ai.eventim.cloud/v1/models \
+  -H "Authorization: Bearer $(~/.local/bin/entra-cli-auth)" | jq -r '.data[].id'
+```
+
 A change made in the app stays local unless its key is pinned. To keep one, add
 its path and value to the template's `$pinned` list (nested keys use dots, such
 as `storageCleanup.worktreeOnMerge`). If T3 Code later changes a pinned value,

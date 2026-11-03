@@ -29,8 +29,69 @@
     ]
   }]
 }` | fromJson -}}
+{{- /* Codex lists every model from LiteLLM's /v1/models as built-in. Keep this list in sync with it. */ -}}
+{{-   $litellmModels := list
+  "bedrock-anthropic-eu-haiku-45-cheap"
+  "bedrock-anthropic-eu-opus-46-expensive"
+  "bedrock-anthropic-eu-opus-48-expensive"
+  "bedrock-anthropic-eu-opus-55-expensive"
+  "bedrock-anthropic-eu-sonnet-46-affordable"
+  "bedrock-anthropic-eu-sonnet-5-affordable"
+  "bedrock-anthropic-eu-sonnet-55-affordable"
+  "bedrock-moonshotai-glob-kimi-k3-affordable"
+  "claude-openai-glob-4o-affordable"
+  "claude-openai-glob-luna-56-cheap"
+  "claude-openai-glob-luna-6-cheap"
+  "claude-openai-glob-sol-56-expensive"
+  "claude-openai-glob-sol-61-expensive"
+  "claude-openai-glob-terra-56-affordable"
+  "claude-openai-luna-cheap"
+  "openai-glob-4o-affordable"
+  "openai-glob-luna-56-cheap"
+  "openai-glob-luna-6-cheap"
+  "openai-glob-sol-56-expensive"
+  "openai-glob-sol-61-expensive"
+  "openai-glob-terra-56-affordable"
+-}}
+{{- /* Codex's own models, shown when it can't reach LiteLLM. */ -}}
+{{-   $codexBuiltInModels := list
+  "gpt-6.1-sol"
+  "gpt-6.1-terra"
+  "gpt-6-astra"
+  "gpt-6-luna"
+  "gpt-6-sol"
+  "gpt-5.6-sol"
+  "gpt-5.6-terra"
+  "gpt-5.6-luna"
+  "gpt-5.5"
+  "gpt-5.4-mini"
+  "gpt-5.3-codex-spark"
+-}}
+{{-   $claudeBuiltInModels := list
+  "claude-opus-5-5"
+  "claude-sonnet-5-5"
+  "claude-fable-5-1"
+  "claude-fable-5"
+  "claude-opus-5"
+  "claude-opus-4-8"
+  "claude-opus-4-7"
+  "claude-opus-4-6"
+  "claude-opus-4-5"
+  "claude-sonnet-5"
+  "claude-sonnet-4-6"
+  "claude-haiku-5-5"
+  "claude-haiku-4-5"
+-}}
+{{- /* T3 Code drops a Codex custom model that Codex already lists, so these must stay out of the hidden list. */ -}}
+{{-   $codexModels := list "openai-glob-sol-61-expensive" "openai-glob-terra-56-affordable" "openai-glob-luna-6-cheap" -}}
+{{-   $codexHidden := concat $codexBuiltInModels $litellmModels -}}
+{{-   range $codexModels -}}
+{{-     $codexHidden = without $codexHidden . -}}
+{{-   end -}}
 {{-   $pinned = merge (dict
-  "providerModelPreferences.codex.hiddenModels" (list "gpt-6.1-terra")
+  "providerModelPreferences.codex.hiddenModels" $codexHidden
+  "providerModelPreferences.codex.modelOrder" $codexModels
+  "providerModelPreferences.claudeAgent.hiddenModels" $claudeBuiltInModels
   "providerInstances.claudeAgent" (dict
     "driver" "claudeAgent"
     "enabled" true
@@ -45,11 +106,9 @@
     "enabled" true
     "config" (dict "customModels" (list
       (dict "slug" "openai-glob-sol-61-expensive" "name" "Sol 6.1")
+      (dict "slug" "openai-glob-terra-56-affordable" "name" "Terra 5.6")
       (dict "slug" "openai-glob-luna-6-cheap" "name" "Luna 6")
     ))
-  )
-  "providerModelPreferences.codex" (dict
-    "hiddenModels" (list "bedrock-moonshotai-glob-kimi-k3-affordable")
   )
 ) (`{
   "defaultModelSelection": {
