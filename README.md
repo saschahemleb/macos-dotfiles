@@ -28,34 +28,40 @@ Hyper+Return and Hyper+K hotkeys use. These need the app installed at
 `run_once_after_macos-defaults.php` does. Run `rex config reload` after changing
 `init.lua`; Rex doesn't watch the file.
 
+
 ## Coding agents
 
-[Herdr](https://herdr.dev/) runs Codex and, on work machines, Claude Code.
-Shared instructions live in `.chezmoitemplates/agent-instructions` and render
-to `~/.codex/AGENTS.md`. `~/.claude/CLAUDE.md` imports that file.
-
-chezmoi deploys `~/.claude/settings.json` as a whole file. A setting you change
-in Claude Code stays only until the next `chezmoi apply`; to keep it, add it to
-`dot_claude/settings.json.tmpl`.
-
-Codex and Claude Code also write state into `~/.codex/config.toml` and
-`~/.claude.json`, such as trusted projects and hook approvals. For these two
-files, chezmoi only pins chosen keys and leaves the rest alone. The values to
-pin are listed in `$pinned` in each `modify_` template (nested keys use dots,
-such as `features.apps`). If an app later changes a pinned value, the next
-`chezmoi apply` sets it back. The shared logic is in
-`.chezmoitemplates/pin-settings`.
+[T3 Code](https://t3.codes/) runs Codex and, on work machines, Claude Code.
+Hyper+A opens it.
 
 On work machines, both agents use the company LiteLLM gateway. They get a token
 from `~/.local/bin/entra-cli-auth`, which the
 [claude-code setup](https://git.eventim.net/ai-enablement/platform/developer-tools/claude-code)
-installs. Telemetry stays off. Private machines use Codex with its defaults;
-sign in with `codex login`.
+installs. Private machines use Codex with its defaults; sign in with
+`codex login`. T3 Code's Claude provider is disabled there.
 
-## Herdr
+chezmoi deploys `~/.claude/settings.json` as a whole file, on work machines only.
+A setting you change in Claude Code stays only until the next `chezmoi apply`; to
+keep it, add it to `dot_claude/settings.json`.
 
-Hyper+A opens Herdr. chezmoi deploys `keys.json`, `programs.json` and
-`settings.json` in `~/.config/herdr-app/`; Herdr writes the rest of that folder
-itself. A change made in Herdr's settings screen stays only until the next
-`chezmoi apply`. `programs.json` starts Codex with `--no-daemon`, because
-herdr-core (`hc`) needs Codex's commands to run inside its terminal.
+Codex and T3 Code write their own state into their settings files, such as
+trusted projects. For `~/.codex/config.toml` and the files in `~/.t3/userdata/`,
+chezmoi only pins chosen keys and leaves the rest alone. The values to pin are
+listed in `$pinned` in each `modify_` template (nested keys use dots). If an app
+later changes a pinned value, the next `chezmoi apply` sets it back. The shared
+logic is in `.chezmoitemplates/pin-settings`.
+
+## LiteLLM models
+
+Codex and T3 Code don't list the models of a LiteLLM gateway themselves.
+
+- **Codex** reads its model list from `~/.codex/litellm_models.json`
+  (`model_catalog_json`). Add a model there by copying an entry and changing
+  `slug`, `display_name` and `description`. List the available names with
+  `curl -H "Authorization: Bearer $(~/.local/bin/entra-cli-auth)" <base_url>/models`.
+  `<base_url>/models/<name>` returns its context and output limits.
+- **Claude Code** gets its picker from `modelPicker` in
+  `dot_claude/settings.json`.
+- **T3 Code's Claude provider** only knows Anthropic's built-in model IDs, so the
+  LiteLLM names are pinned as `customModels` in
+  `private_dot_t3/private_userdata/modify_settings.json`.

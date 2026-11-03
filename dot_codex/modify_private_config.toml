@@ -1,9 +1,15 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- $pinned := dict -}}
+{{- /* Codex writes runtime state (trust levels, NUX flags) into this file, so only pin the keys below. Personal machines use the ChatGPT subscription, so only the work ones get LiteLLM. */ -}}
+{{- $pinned := dict
+  "analytics.enabled" false
+  "otel.metrics_exporter" "none"
+  "tui.screen_reader_detection_done" true
+-}}
 {{- if eq .workstation_type "work" -}}
-{{-   $pinned = dict
+{{-   $pinned = merge (dict
   "model_provider" "litellm"
   "model" "openai-glob-sol-61-expensive"
+  "model_catalog_json" (joinPath .chezmoi.homeDir ".codex/litellm_models.json")
   "model_providers.litellm" (dict
     "name" "Eventim LiteLLM"
     "base_url" "https://litellm.stg.enablement.ai.eventim.cloud/v1"
@@ -13,19 +19,31 @@
   "mcp_servers.eventim-mcp" (dict
     "command" (joinPath .chezmoi.homeDir ".local/bin/eventim-mcp")
   )
-  "analytics.enabled" false
-  "otel.metrics_exporter" "none"
-  "features.apps" true
-  "features.remote_plugin" false
-  "features.plugin_discovery_prefetch" false
-  "features.plugin_sharing" false
-  "apps.teams.enabled" true
--}}
+) $pinned -}}
+{{- end -}}
+{{- $current := dict -}}
+{{- if .chezmoi.stdin -}}
+{{-   $current = fromToml .chezmoi.stdin -}}
+{{- end -}}
+{{- $changed := false -}}
+{{- range $path, $value := $pinned -}}
+{{-   $cursor := $current -}}
+{{-   $found := true -}}
+{{-   range $key := splitList "." $path -}}
+{{-     if and $found (kindIs "map" $cursor) (hasKey $cursor $key) -}}
+{{-       $cursor = index $cursor $key -}}
+{{-     else -}}
+{{-       $found = false -}}
+{{-     end -}}
+{{-   end -}}
+{{-   if or (not $found) (ne (toJson $cursor) (toJson $value)) -}}
+{{-     $changed = true -}}
+{{-     $current = setValueAtPath $path $value $current -}}
+{{-   end -}}
+{{- end -}}
+{{- /* Keep the app's bytes unless a pinned value changes. */ -}}
+{{- if and .chezmoi.stdin (not $changed) -}}
+{{ .chezmoi.stdin }}
 {{- else -}}
-{{-   $pinned = dict "analytics.enabled" false "otel.metrics_exporter" "none" "apps.teams.enabled" true -}}
+{{ toToml $current }}
 {{- end -}}
-{{- $removed := list -}}
-{{- if eq .workstation_type "work" -}}
-{{-   $removed = list "forced_login_method" -}}
-{{- end -}}
-{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "toml" "pinned" $pinned "removed" $removed) -}}

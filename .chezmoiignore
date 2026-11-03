@@ -2,7 +2,8 @@ README.md
 bootstrap.sh
 AGENTS.md
 {{ if ne .workstation_type "work" }}
-.claude
+.claude/settings.json
+.codex/litellm_models.json
 .claude.json
 .local/bin/eventim-mcp
 {{ end }}

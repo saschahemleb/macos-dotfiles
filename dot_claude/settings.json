@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "apiKeyHelper": "~/.local/bin/entra-cli-auth",
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://litellm.stg.enablement.ai.eventim.cloud",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_FEEDBACK_COMMAND": "1"
+  },
+  "model": "bedrock-anthropic-eu-sonnet-55-affordable",
+  "modelPicker": {
+    "replaceBuiltInOptions": true,
+    "options": [
+      {
+        "model": "bedrock-anthropic-eu-opus-55-expensive",
+        "label": "Opus 5.5",
+        "description": "1M context, 128K max output",
+        "behavesAs": "claude-opus-5-5"
+      },
+      {
+        "model": "bedrock-anthropic-eu-sonnet-55-affordable",
+        "label": "Sonnet 5.5",
+        "description": "1M context, 128K max output",
+        "behavesAs": "claude-sonnet-5-5"
+      },
+      {
+        "model": "bedrock-anthropic-eu-haiku-45-cheap",
+        "label": "Haiku 4.5",
+        "description": "200K context, 64K max output",
+        "behavesAs": "claude-haiku-4-5"
+      }
+    ]
+  },
+  "theme": "auto"
+}
