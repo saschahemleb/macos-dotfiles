@@ -47,6 +47,9 @@
       (dict "slug" "openai-glob-luna-6-cheap" "name" "Luna 6")
     ))
   )
+  "providerModelPreferences.codex" (dict
+    "hiddenModels" (list "bedrock-moonshotai-glob-kimi-k3-affordable")
+  )
 ) (`{
   "defaultModelSelection": {
     "instanceId": "claudeAgent",
