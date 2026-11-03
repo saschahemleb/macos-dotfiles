@@ -1,0 +1,89 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $pinned := `{
+  "providerInstances.codex.driver": "codex",
+  "providerInstances.codex.enabled": true,
+  "providerInstances.opencode": { "driver": "opencode", "enabled": false }
+}` | fromJson -}}
+{{- if eq .workstation_type "work" -}}
+{{-   $effort := `{
+  "optionDescriptors": [{
+    "id": "effort",
+    "label": "Reasoning",
+    "type": "select",
+    "options": [
+      { "id": "low", "label": "Low" },
+      { "id": "medium", "label": "Medium", "isDefault": true },
+      { "id": "high", "label": "High" },
+      { "id": "xhigh", "label": "Extra High" },
+      { "id": "max", "label": "Max" }
+    ]
+  }]
+}` | fromJson -}}
+{{- /* T3 Code has no way to list Claude models from LiteLLM, so they are custom models. Codex gets its models from the catalog in ~/.codex/litellm_models.json. */ -}}
+{{-   $claudeBuiltInModels := list
+  "claude-opus-5-5"
+  "claude-sonnet-5-5"
+  "claude-fable-5-1"
+  "claude-fable-5"
+  "claude-opus-5"
+  "claude-opus-4-8"
+  "claude-opus-4-7"
+  "claude-opus-4-6"
+  "claude-opus-4-5"
+  "claude-sonnet-5"
+  "claude-sonnet-4-6"
+  "claude-haiku-5-5"
+  "claude-haiku-4-5"
+-}}
+{{-   $pinned = merge (dict
+  "providerModelPreferences.codex.hiddenModels" (list
+    "openai-glob-sol-56-expensive"
+    "openai-glob-luna-56-cheap"
+    "openai-glob-4o-affordable"
+  )
+  "providerModelPreferences.codex.modelOrder" (list
+    "openai-glob-sol-61-expensive"
+    "openai-glob-terra-56-affordable"
+    "openai-glob-luna-6-cheap"
+  )
+  "providerModelPreferences.claudeAgent.hiddenModels" $claudeBuiltInModels
+  "providerInstances.claudeAgent" (dict
+    "driver" "claudeAgent"
+    "enabled" true
+    "config" (dict "customModels" (list
+      (dict "slug" "bedrock-anthropic-eu-opus-55-expensive" "name" "Opus 5.5" "capabilities" $effort)
+      (dict "slug" "bedrock-anthropic-eu-sonnet-55-affordable" "name" "Sonnet 5.5" "capabilities" $effort)
+      (dict "slug" "bedrock-anthropic-eu-haiku-45-cheap" "name" "Haiku 4.5" "capabilities" (dict "optionDescriptors" list))
+    ))
+  )
+) (`{
+  "defaultModelSelection": {
+    "instanceId": "claudeAgent",
+    "model": "bedrock-anthropic-eu-opus-55-expensive",
+    "options": [{ "id": "effort", "value": "medium" }]
+  },
+  "fallbackModelSelection": { "instanceId": "codex", "model": "openai-glob-sol-61-expensive" },
+  "textGenerationModelSelection": {
+    "instanceId": "claudeAgent",
+    "model": "bedrock-anthropic-eu-sonnet-55-affordable",
+    "options": [{ "id": "effort", "value": "low" }]
+  },
+  "favorites": [
+    { "provider": "claudeAgent", "model": "bedrock-anthropic-eu-opus-55-expensive" },
+    { "provider": "codex", "model": "openai-glob-sol-61-expensive" }
+  ]
+}` | fromJson) $pinned -}}
+{{- else -}}
+{{-   $pinned = merge (`{
+  "providerInstances.claudeAgent.driver": "claudeAgent",
+  "providerInstances.claudeAgent.enabled": false,
+  "defaultModelSelection": { "instanceId": "codex", "model": "gpt-6.1-sol" },
+  "fallbackModelSelection": null,
+  "textGenerationModelSelection": {
+    "instanceId": "codex",
+    "model": "gpt-6-luna",
+    "options": [{ "id": "reasoningEffort", "value": "low" }]
+  }
+}` | fromJson) $pinned -}}
+{{- end -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}

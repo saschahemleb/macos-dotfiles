@@ -4,5 +4,6 @@
 .claude/hooks/herdr-agent-state.sh
 .hammerspoon/k9s-tab
 .config/herdr
+.config/herdr-app
 .config/zed
 Library/Application Support/com.mitchellh.ghostty
