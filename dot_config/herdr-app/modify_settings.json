@@ -1,9 +1,6 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- $pinned := `{
-  "notificationMode": "off",
-  "inAppNotificationsEnabled": false,
-  "diffColorScheme": "blue-orange",
-  "browserSearchEngine": "kagi",
-  "fontFamilyCode": "JetBrainsMono Nerd Font Mono"
+  "sounds.enabled": false,
+  "telemetry": false
 }` | fromJson -}}
 {{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}
