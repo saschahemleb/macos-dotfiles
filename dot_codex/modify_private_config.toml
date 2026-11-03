@@ -2,7 +2,6 @@
 {{- $pinned := dict -}}
 {{- if eq .workstation_type "work" -}}
 {{-   $pinned = dict
-  "forced_login_method" "api"
   "model_provider" "litellm"
   "model" "openai-glob-sol-61-expensive"
   "model_providers.litellm" (dict
@@ -16,12 +15,17 @@
   )
   "analytics.enabled" false
   "otel.metrics_exporter" "none"
-  "features.apps" false
+  "features.apps" true
   "features.remote_plugin" false
   "features.plugin_discovery_prefetch" false
   "features.plugin_sharing" false
+  "apps.teams.enabled" true
 -}}
 {{- else -}}
-{{-   $pinned = dict "analytics.enabled" false "otel.metrics_exporter" "none" -}}
+{{-   $pinned = dict "analytics.enabled" false "otel.metrics_exporter" "none" "apps.teams.enabled" true -}}
 {{- end -}}
-{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "toml" "pinned" $pinned "removed" list) -}}
+{{- $removed := list -}}
+{{- if eq .workstation_type "work" -}}
+{{-   $removed = list "forced_login_method" -}}
+{{- end -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "toml" "pinned" $pinned "removed" $removed) -}}

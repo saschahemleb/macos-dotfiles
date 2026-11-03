@@ -22,7 +22,14 @@
   "env.ANTHROPIC_DEFAULT_SONNET_MODEL": "bedrock-anthropic-eu-sonnet-55-affordable",
   "env.ANTHROPIC_DEFAULT_HAIKU_MODEL": "bedrock-anthropic-eu-haiku-45-cheap",
   "env.CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1",
-  "env.CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1"
+  "env.CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT": "1",
+  "extraKnownMarketplaces.eventim-marketplace": {
+    "source": {
+      "source": "git",
+      "url": "https://git.eventim.net/ai-enablement/agent-skills.git"
+    }
+  },
+  "enabledPlugins.m365-codex-bridge@eventim-marketplace": true
 }` | fromJson) $pinned -}}
 {{-   $removed = concat $removed (list "awsAuthRefresh" "env.AWS_REGION" "env.AWS_PROFILE") -}}
 {{- end -}}
