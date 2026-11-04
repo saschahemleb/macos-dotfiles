@@ -75,6 +75,22 @@ function my_defaults(): array {
         new Defaults(domain: 'com.apple.controlcenter', key: 'BatteryShowPercentage', value: true),
         // Let the rex CLI and Hammerspoon drive the Rex app
         new Defaults(domain: 'com.superlogical.rex', key: 'rex.client.remoteControl', value: true),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.lightThemeID', value: 'ivory-gallery'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.darkThemeID', value: 'ink-meridian'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.lightUsesExtendedThemePalette', value: true),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.darkUsesExtendedThemePalette', value: true),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.interfaceStyle', value: 'blendTheme'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.inactivePaneFadeMode', value: 'both'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.paneDensity', value: 'comfortable'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalFontName', value: 'JetBrainsMono Nerd Font'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalFontSmoothing', value: true),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalCellHeightPercent', value: 30),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalCursorStyle', value: 'block'),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalCursorStyleForced', value: false),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalCursorBlinkUsesCustomInterval', value: false),
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalCursorBlinkIntervalMilliseconds', value: 0),
+        // Show terminal colors as programs send them; Rex's contrast boost turns k9s's light colors almost black on light themes
+        new Defaults(domain: 'com.superlogical.rex', key: 'Workspace.terminalImproveTextContrast', value: false),
         // Open Spotlight with Command+Space (hotkey 64; 32 = space character, 49 = space key code, 1048576 = Command)
         new Defaults(domain: 'com.apple.symbolichotkeys', key: 'AppleSymbolicHotKeys', value: new Value(
             "-dict-add 64 '<dict><key>enabled</key><true/><key>value</key><dict><key>parameters</key><array><integer>32</integer><integer>49</integer><integer>1048576</integer></array><key>type</key><string>standard</string></dict></dict>'"
