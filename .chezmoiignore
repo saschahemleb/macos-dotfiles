@@ -5,6 +5,7 @@ AGENTS.md
 .claude/CLAUDE.md
 .claude/settings.json
 .codex/litellm_models.json
+.config/glab-cli/config.yml
 .claude.json
 .local/bin/eventim-mcp
 {{ end }}

@@ -1,0 +1,8 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Agents start shells without ~/.profile, so GITLAB_HOST is unset there and glab falls back to this host. */ -}}
+{{- /* Replace only this line: a YAML round-trip would drop glab's comments and turn empty values into null. */ -}}
+{{- if .chezmoi.stdin -}}
+{{ regexReplaceAll "(?m)^host: .*$" .chezmoi.stdin "host: git.eventim.net" }}
+{{- else -}}
+host: git.eventim.net
+{{ end -}}
