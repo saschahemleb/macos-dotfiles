@@ -9,6 +9,11 @@
     "DISABLE_FEEDBACK_COMMAND": "1"
   },
   "model": "bedrock-anthropic-eu-sonnet-55-affordable",
+  "modelOverrides": {
+    "claude-opus-5-5": "bedrock-anthropic-eu-opus-55-expensive",
+    "claude-sonnet-5-5": "bedrock-anthropic-eu-sonnet-55-affordable",
+    "claude-haiku-4-5": "bedrock-anthropic-eu-haiku-45-cheap"
+  },
   "modelPicker": {
     "replaceBuiltInOptions": true,
     "options": [
