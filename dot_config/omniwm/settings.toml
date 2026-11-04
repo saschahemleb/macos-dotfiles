@@ -83,7 +83,7 @@ top = 0.0
 
 [general]
 animationSpeed = 1.5
-animationsEnabled = true
+animationsEnabled = false
 defaultLayoutType = "niri"
 hotkeysEnabled = true
 hyperKeyModifiers = "Control+Option+Command"
@@ -226,11 +226,11 @@ yOffset = 0.0
 [workspaceBar.iconOverrides]
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+S"
 id = "toggleScratchpad.1"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Shift+S"
 id = "assignFocusedWindowToScratchpad.1"
 
 [[hotkeys]]
@@ -478,7 +478,7 @@ binding = "Hyper+Right Arrow"
 id = "focus.right"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Grave"
 id = "focusPrevious"
 
 [[hotkeys]]
@@ -606,11 +606,11 @@ binding = "Unassigned"
 id = "moveWindowUpOrToWorkspaceUp"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Left Bracket"
 id = "consumeWindowIntoColumn"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Right Bracket"
 id = "expelWindowFromColumn"
 
 [[hotkeys]]
@@ -666,11 +666,11 @@ binding = "Unassigned"
 id = "toggleNativeFullscreen"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Shift+H"
 id = "moveColumn.left"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Shift+L"
 id = "moveColumn.right"
 
 [[hotkeys]]
@@ -690,7 +690,7 @@ binding = "Unassigned"
 id = "moveColumnToLast"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+T"
 id = "toggleColumnTabbed"
 
 [[hotkeys]]
@@ -810,11 +810,11 @@ binding = "Unassigned"
 id = "moveColumnToIndex.9"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+R"
 id = "cycleSizeForward"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Hyper+Shift+R"
 id = "cycleSizeBackward"
 
 [[hotkeys]]
