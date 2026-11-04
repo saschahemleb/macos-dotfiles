@@ -1,0 +1,27 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $bindings := fromJson (default "[]" .chezmoi.stdin) -}}
+{{- $changed := false -}}
+{{- range $command, $key := dict
+    "editor.openFavorite" "mod+e"
+    "usage.open" "mod+/"
+-}}
+{{- $found := false -}}
+{{- range $binding := $bindings -}}
+{{-   if eq $binding.command $command -}}
+{{-     $found = true -}}
+{{-     if ne $binding.key $key -}}
+{{-       $_ := set $binding "key" $key -}}
+{{-       $changed = true -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+{{- if not $found -}}
+{{-   $bindings = append $bindings (dict "key" $key "command" $command) -}}
+{{-   $changed = true -}}
+{{- end -}}
+{{- end -}}
+{{- if $changed -}}
+{{ toPrettyJson $bindings }}
+{{- else -}}
+{{ .chezmoi.stdin }}
+{{- end -}}

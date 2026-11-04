@@ -9,3 +9,10 @@ AGENTS.md
 .claude.json
 .local/bin/eventim-mcp
 {{ end }}
+{{ if ne .workstation_type "work" }}
+.config/rex
+{{ end }}
+{{ if ne .workstation_type "private" }}
+.config/ghostty
+.config/omniwm
+{{ end }}

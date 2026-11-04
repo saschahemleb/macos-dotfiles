@@ -12,8 +12,6 @@ end):start()
 
 local hyper = { "ctrl", "alt", "cmd" }
 local hyperShift = { "ctrl", "alt", "cmd", "shift" }
-local windowMods = { "ctrl", "alt" }
-local gap = 8
 
 local apps = {
   { hyper, "a", "com.t3tools.t3code" },
@@ -75,6 +73,18 @@ for _, app in ipairs(apps) do
   end)
 end
 
+{{- if eq .workstation_type "private" }}
+hs.hotkey.bind(hyper, "return", function()
+  local app = hs.application.get("com.mitchellh.ghostty")
+  if app then
+    app:selectMenuItem({ "File", "New Window" })
+    app:activate()
+  else
+    hs.application.launchOrFocusByBundleID("com.mitchellh.ghostty")
+  end
+end)
+{{- else if eq .workstation_type "work" }}
+
 local rexBundleID = "com.superlogical.rex"
 local rexCLI = "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
 
@@ -113,8 +123,6 @@ hs.hotkey.bind(hyper, "return", function()
     rexDo("shell_show")
   end)
 end)
-
-{{- if eq .workstation_type "work" }}
 
 local function kubeContexts()
   local output, ok = hs.execute("/opt/homebrew/bin/yq '.contexts[].name' ~/.kube/config")
@@ -162,6 +170,10 @@ hs.hotkey.bind(hyper, "k", function()
   end)
 end)
 {{- end }}
+
+{{- if ne .workstation_type "private" }}
+local windowMods = { "ctrl", "alt" }
+local gap = 8
 
 local function placeColumn(start, width)
   return function()
@@ -216,6 +228,7 @@ hs.hotkey.bind(windowMods, "left", placeColumn(0, 1 / 2))
 hs.hotkey.bind(windowMods, "right", placeColumn(1 / 2, 1 / 2))
 hs.hotkey.bind(windowMods, "return", maximize)
 hs.hotkey.bind(windowMods, "c", center)
+{{- end }}
 
 local appIcons = {}
 
@@ -278,4 +291,6 @@ local function pickWindow()
   windowChooser:show()
 end
 
+{{- if ne .workstation_type "private" }}
 hs.hotkey.bind({ "alt" }, "tab", pickWindow)
+{{- end }}

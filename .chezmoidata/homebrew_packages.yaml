@@ -36,7 +36,6 @@ homebrew_packages:
       - font-jetbrains-mono-nerd-font
       - hammerspoon
       - helium-browser
-      - karabiner-elements
       - orbstack
       - dash
       - spotify
@@ -55,6 +54,8 @@ homebrew_packages:
     brews: []
     casks:
       - ausweisapp
+      - ghostty
+      - omniwm
       - mitmproxy
       - moneymoney
       - moonlight
@@ -80,5 +81,6 @@ homebrew_packages:
       - headlamp
       - jabra-direct
       - jetbrains-toolbox
+      - karabiner-elements
       - zoom
     vscode_extensions: []

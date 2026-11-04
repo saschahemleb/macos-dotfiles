@@ -6,4 +6,6 @@
 .config/herdr
 .config/herdr-app
 .config/zed
-Library/Application Support/com.mitchellh.ghostty
+{{ if eq .workstation_type "private" }}
+.config/rex
+{{ end }}
