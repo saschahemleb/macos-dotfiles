@@ -12,9 +12,9 @@
   "model_catalog_json" (joinPath .chezmoi.homeDir ".codex/litellm_models.json")
   "model_providers.litellm" (dict
     "name" "Eventim LiteLLM"
-    "base_url" "https://litellm.stg.enablement.ai.eventim.cloud/v1"
+    "base_url" "https://ai-gateway.prd.ai-enablement.eventim.cloud/v1"
     "wire_api" "responses"
-    "auth" (dict "command" (joinPath .chezmoi.homeDir ".local/bin/entra-cli-auth"))
+    "auth" (dict "command" "/Library/Application Support/ClaudeCode/entra-cli-auth")
   )
   "mcp_servers.eventim-mcp" (dict
     "command" (joinPath .chezmoi.homeDir ".local/bin/eventim-mcp")

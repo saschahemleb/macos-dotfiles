@@ -1,14 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "apiKeyHelper": "~/.local/bin/entra-cli-auth",
   "env": {
-    "ANTHROPIC_BASE_URL": "https://litellm.stg.enablement.ai.eventim.cloud",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "DISABLE_TELEMETRY": "1",
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_FEEDBACK_COMMAND": "1"
   },
-  "model": "bedrock-anthropic-eu-sonnet-55-affordable",
   "modelOverrides": {
     "claude-opus-5-5": "bedrock-anthropic-eu-opus-55-expensive",
     "claude-sonnet-5-5": "bedrock-anthropic-eu-sonnet-55-affordable",

@@ -44,13 +44,10 @@
 -}}
 {{-   $pinned = merge (dict
   "providerModelPreferences.codex.hiddenModels" (list
-    "openai-glob-sol-56-expensive"
     "openai-glob-luna-56-cheap"
-    "openai-glob-4o-affordable"
   )
   "providerModelPreferences.codex.modelOrder" (list
     "openai-glob-sol-61-expensive"
-    "openai-glob-terra-56-affordable"
     "openai-glob-luna-6-cheap"
   )
   "providerModelPreferences.claudeAgent.hiddenModels" $claudeBuiltInModels
@@ -58,15 +55,15 @@
     "driver" "claudeAgent"
     "enabled" true
     "config" (dict "customModels" (list
-      (dict "slug" "bedrock-anthropic-eu-opus-55-expensive" "name" "Opus 5.5" "capabilities" $effort)
-      (dict "slug" "bedrock-anthropic-eu-sonnet-55-affordable" "name" "Sonnet 5.5" "capabilities" $effort)
+      (dict "slug" "bedrock-anthropic-eu-opus-55-expensive[1m]" "name" "Opus 5.5" "capabilities" $effort)
+      (dict "slug" "bedrock-anthropic-eu-sonnet-55-affordable[1m]" "name" "Sonnet 5.5" "capabilities" $effort)
       (dict "slug" "bedrock-anthropic-eu-haiku-45-cheap" "name" "Haiku 4.5" "capabilities" (dict "optionDescriptors" list))
     ))
   )
 ) (`{
   "defaultModelSelection": {
     "instanceId": "claudeAgent",
-    "model": "bedrock-anthropic-eu-sonnet-55-affordable",
+    "model": "bedrock-anthropic-eu-sonnet-55-affordable[1m]",
     "options": [{ "id": "effort", "value": "medium" }]
   },
   "textGenerationModelSelection": {
@@ -74,10 +71,7 @@
     "model": "openai-glob-luna-6-cheap",
     "options": [{ "id": "reasoningEffort", "value": "low" }]
   },
-  "favorites": [
-    { "provider": "claudeAgent", "model": "bedrock-anthropic-eu-opus-55-expensive" },
-    { "provider": "codex", "model": "openai-glob-sol-61-expensive" }
-  ]
+  "favorites": []
 }` | fromJson) $pinned -}}
 {{- else -}}
 {{-   $pinned = merge (`{

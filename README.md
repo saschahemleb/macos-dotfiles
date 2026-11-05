@@ -38,7 +38,7 @@ work machines, `~/.claude/CLAUDE.md`. Claude Code reads only `CLAUDE.md` as a
 global file, so it gets its own copy.
 
 On work machines, both agents use the company LiteLLM gateway. They get a token
-from `~/.local/bin/entra-cli-auth`, which the
+from `/Library/Application Support/ClaudeCode/entra-cli-auth`, which the
 [claude-code setup](https://git.eventim.net/ai-enablement/platform/developer-tools/claude-code)
 installs. Private machines use Codex with its defaults; sign in with
 `codex login`. T3 Code's Claude provider is disabled there.
@@ -61,7 +61,7 @@ Codex and T3 Code don't list the models of a LiteLLM gateway themselves.
 - **Codex** reads its model list from `~/.codex/litellm_models.json`
   (`model_catalog_json`). Add a model there by copying an entry and changing
   `slug`, `display_name` and `description`. List the available names with
-  `curl -H "Authorization: Bearer $(~/.local/bin/entra-cli-auth)" <base_url>/models`.
+  `curl -H "Authorization: Bearer $("/Library/Application Support/ClaudeCode/entra-cli-auth")" <base_url>/models`.
   `<base_url>/models/<name>` returns its context and output limits.
 - **Claude Code** gets its picker from `modelPicker` in
   `dot_claude/settings.json`.
