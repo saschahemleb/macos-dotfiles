@@ -4,7 +4,7 @@
   "browserSearchEngine": "kagi",
   "fontFamilyCode": "JetBrainsMono Nerd Font Mono",
   "glassOpacity": 100,
-  "environmentIdentificationMode": "dev-artwork",
+  "environmentIdentificationMode": "none",
   "threadDetailsItems": { "openIn": false, "context": true }
 }` | fromJson -}}
 {{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}
