@@ -66,10 +66,9 @@
 ) (`{
   "defaultModelSelection": {
     "instanceId": "claudeAgent",
-    "model": "bedrock-anthropic-eu-opus-55-expensive",
+    "model": "bedrock-anthropic-eu-sonnet-55-affordable",
     "options": [{ "id": "effort", "value": "medium" }]
   },
-  "fallbackModelSelection": { "instanceId": "codex", "model": "openai-glob-sol-61-expensive" },
   "textGenerationModelSelection": {
     "instanceId": "codex",
     "model": "openai-glob-luna-6-cheap",
@@ -94,4 +93,4 @@
   }
 }` | fromJson) $pinned -}}
 {{- end -}}
-{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" (list "sourceControlWriterModelSelection" "reviewGuideModelSelection")) -}}
+{{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" (list "sourceControlWriterModelSelection" "reviewGuideModelSelection" "fallbackModelSelection")) -}}
