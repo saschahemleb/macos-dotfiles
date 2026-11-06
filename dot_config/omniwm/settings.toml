@@ -194,20 +194,20 @@ useWorkspaceId = true
 autoHide = false
 autoHideHideDelayMilliseconds = 0.0
 autoHideRevealDelayMilliseconds = 0.0
-backgroundOpacity = 0.1
+backgroundOpacity = 0.0
 deduplicateAppIcons = false
 enabled = true
 excludedBundleIDs = []
 height = 26.0
 hideEmptyWorkspaces = false
-hideInNativeFullscreen = false
+hideInNativeFullscreen = true
 hoverPreviewsEnabled = false
-inactiveIconOpacity = 0.5
+inactiveIconOpacity = 0.30000000000000004
 notchActiveZoneWidth = 180.0
-notchMode = "splitActiveLeft"
+notchMode = "off"
 notificationBadgeRefreshIntervalSeconds = 5.0
 notificationBadges = "off"
-position = "overlappingMenuBar"
+position = "right"
 reserveLayoutSpace = false
 revealHoldMilliseconds = 200.0
 revealModifier = "off"
@@ -219,7 +219,7 @@ solidBlackBackground = false
 systemStatsButton = false
 transparentBackground = false
 windowLevel = "popup"
-xOffset = 0.0
+xOffset = -10.0
 yOffset = 0.0
 
 [workspaceBar.iconOverrides]
@@ -1044,7 +1044,7 @@ binding = "Unassigned"
 id = "toggleSystemStats"
 
 [[workspaces]]
-displayName = "Development"
+displayName = "🛠️"
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
 layoutType = "default"
 name = "1"
@@ -1053,7 +1053,7 @@ name = "1"
 type = "main"
 
 [[workspaces]]
-displayName = "Browser"
+displayName = "🌐"
 id = "C87D00FA-7CFE-43FC-84A9-2904B87FB741"
 layoutType = "default"
 name = "2"
@@ -1062,7 +1062,7 @@ name = "2"
 type = "main"
 
 [[workspaces]]
-displayName = "Communication"
+displayName = "💬"
 id = "289A3AA7-4C0A-4ADE-A3DE-465486442D14"
 layoutType = "dwindle"
 name = "3"
@@ -1071,7 +1071,7 @@ name = "3"
 type = "main"
 
 [[workspaces]]
-displayName = "Rex / Operations"
+displayName = "🖥️"
 id = "3B84568B-7E1E-4A47-8D15-4202F6761898"
 layoutType = "default"
 name = "4"
@@ -1080,7 +1080,7 @@ name = "4"
 type = "main"
 
 [[workspaces]]
-displayName = "Media / Personal"
+displayName = "🎧"
 id = "84A62ABB-FF9A-48A9-83D2-2D10A6B923D9"
 layoutType = "dwindle"
 name = "5"
