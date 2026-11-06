@@ -52,6 +52,6 @@
   "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
   "workbench.preferredLightColorTheme": "Catppuccin Latte",
   "workbench.sideBar.location": "right",
-  "workbench.startupEditor": "welcomePage",
+  "workbench.startupEditor": "none",
   "workbench.statusBar.visible": false
 }
