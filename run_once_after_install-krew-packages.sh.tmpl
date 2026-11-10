@@ -1,3 +1,4 @@
+{{ if lookPath "kubectl" -}}
 #!/usr/bin/env bash
 
 set -Eeuo pipefail
@@ -20,4 +21,5 @@ fi
 
 {{ range .krew_packages -}}
 kubectl krew install {{ . | quote }}
+{{ end -}}
 {{ end -}}

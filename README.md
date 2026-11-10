@@ -40,9 +40,12 @@ DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubuserconte
 ```
 
 On Linux, chezmoi skips what only works on macOS: Hammerspoon, Karabiner, OmniWM,
-Rex, VS Code and k9s under `~/Library`, the Homebrew packages and the macOS
-defaults. It also skips the composer and krew packages until Linux installs
-composer and kubectl.
+Rex, VS Code and k9s under `~/Library` and the macOS defaults.
+
+The package scripts do nothing while their tool is missing: Homebrew, mise,
+composer and kubectl (for krew). Once you install the tool, the next
+`chezmoi apply` runs the script. A tool that an earlier script in the same apply
+installs counts as missing, so run `chezmoi apply` a second time.
 
 ## Rex
 
