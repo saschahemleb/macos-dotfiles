@@ -2,6 +2,7 @@
 {{- $pinned := `{
   "defaultRuntimeMode": "auto",
   "defaultAutoPull": true,
+  "defaultThreadEnvMode": "worktree",
   "branchNamingMode": "semantic",
   "branchNamePrefix": "",
   "projectSettingsFolded": true,
