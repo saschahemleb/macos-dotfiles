@@ -3,7 +3,8 @@
 ## Installation
 
 On a fresh macOS installation, you can use the bootstrap script to set everything up.
-This will install the package manager Homebrew and setup chezmoi.
+This will install the package manager Homebrew and setup chezmoi. The same script
+also sets up CachyOS, see below.
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
@@ -18,22 +19,24 @@ chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 
 ## CachyOS with Niri
 
-Install CachyOS with the Niri desktop by hand, then open a terminal and run:
+Install CachyOS with the Niri desktop by hand, then open a terminal and run the
+same bootstrap command as on macOS:
 
 ```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap-cachyos.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
 ```
 
-The script installs git, chezmoi and mise, clones this repository to
-`~/.local/share/chezmoi` and runs `chezmoi apply`. chezmoi asks for the workstation
-type and email address, and creates an SSH key if there is none. Add the public
-key to GitHub to push and to sign commits.
+On Linux, the script installs git, chezmoi and mise with pacman and the mise
+installer. It then clones this repository to `~/.local/share/chezmoi` and runs
+`chezmoi apply`. chezmoi asks for the workstation type and email address, and
+creates an SSH key if there is none. Add the public key to GitHub to push and to
+sign commits.
 
 To bootstrap from another branch, set `DOTFILES_BRANCH` and use that branch in the
 URL instead of `HEAD`:
 
 ```shell
-DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap-cachyos.sh)"
+DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap.sh)"
 ```
 
 On Linux, chezmoi skips what only works on macOS: Hammerspoon, Karabiner, OmniWM,

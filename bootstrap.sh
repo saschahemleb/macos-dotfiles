@@ -79,30 +79,63 @@ init_chezmoi_repo() {
     return 0
   fi
 
-  chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
+  chezmoi init "$@" ${DOTFILES_BRANCH:+--branch "$DOTFILES_BRANCH"} https://github.com/saschahemleb/macos-dotfiles.git
 }
 
-install_clt
-echo -e "Command Line Tools ${green}${checkmark}${nc}"
+install_pacman_packages() {
+  if ! 1>/dev/null 2>&1 which pacman; then
+    fail "pacman not found. The Linux setup supports CachyOS and other Arch-based systems."
+  fi
 
-install_mise
-echo -e "Mise ${green}${checkmark}${nc}"
+  sudo pacman -S --needed --noconfirm git chezmoi curl
+}
 
-install_brew
-echo -e "Homebrew ${green}${checkmark}${nc}"
+bootstrap_macos() {
+  install_clt
+  echo -e "Command Line Tools ${green}${checkmark}${nc}"
 
-install_chezmoi
-init_chezmoi_repo
-echo -e "Chezmoi ${green}${checkmark}${nc}"
+  install_mise
+  echo -e "Mise ${green}${checkmark}${nc}"
 
-echo
-echo "All done!"
-echo "To check what changes chezmoi will make to your home directory, run:"
-echo "  chezmoi diff"
-echo "If you are happy with the changes, run:"
-echo "  chezmoi apply -v"
-echo
-echo "If you are not happy, either edit the file:"
-echo "  chezmoi edit "'$FILE'
-echo "or start a merge:"
-echo "  chezmoi merge "'$FILE'
+  install_brew
+  echo -e "Homebrew ${green}${checkmark}${nc}"
+
+  install_chezmoi
+  init_chezmoi_repo
+  echo -e "Chezmoi ${green}${checkmark}${nc}"
+
+  echo
+  echo "All done!"
+  echo "To check what changes chezmoi will make to your home directory, run:"
+  echo "  chezmoi diff"
+  echo "If you are happy with the changes, run:"
+  echo "  chezmoi apply -v"
+  echo
+  echo "If you are not happy, either edit the file:"
+  echo "  chezmoi edit "'$FILE'
+  echo "or start a merge:"
+  echo "  chezmoi merge "'$FILE'
+}
+
+bootstrap_linux() {
+  # The apply runs `mise use`, and mise.run installs to ~/.local/bin.
+  export PATH="$HOME/.local/bin:$PATH"
+
+  install_pacman_packages
+  echo -e "git and chezmoi ${green}${checkmark}${nc}"
+
+  install_mise
+  echo -e "Mise ${green}${checkmark}${nc}"
+
+  init_chezmoi_repo --apply
+  echo -e "Chezmoi ${green}${checkmark}${nc}"
+
+  echo
+  echo "All done!"
+}
+
+case "$(uname -s)" in
+  Darwin) bootstrap_macos ;;
+  Linux) bootstrap_linux ;;
+  *) fail "Unsupported operating system: $(uname -s)" ;;
+esac

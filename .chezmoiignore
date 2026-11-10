@@ -31,7 +31,6 @@
 {{ end }}
 README.md
 bootstrap.sh
-bootstrap-cachyos.sh
 AGENTS.md
 {{ if ne .chezmoi.os "darwin" }}
 .hammerspoon
