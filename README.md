@@ -2,13 +2,16 @@
 
 ## Installation
 
-On a fresh macOS installation, you can use the bootstrap script to set everything up.
-This will install the package manager Homebrew and setup chezmoi. The same script
-also sets up Arch-based systems, see below.
+The bootstrap script sets up a fresh macOS or Arch-based system (such as CachyOS).
+Open a terminal and run:
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
 ```
+
+### macOS
+
+The script installs the package manager Homebrew and sets up chezmoi.
 
 If you already have Homebrew installed, you can instead install and init chezmoi manually:
 
@@ -17,14 +20,10 @@ brew install chezmoi
 chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 ```
 
-## Arch-based systems
+### Arch-based systems
 
-On an Arch-based system such as CachyOS, open a terminal and run the same
-bootstrap command as on macOS:
-
-```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
-```
+Support for Arch-based systems is heavily work in progress. Expect missing
+config and packages.
 
 The script finds `pacman` and installs git, chezmoi and mise with it and with the
 mise installer. It then clones this repository to `~/.local/share/chezmoi` and runs
@@ -32,12 +31,16 @@ mise installer. It then clones this repository to `~/.local/share/chezmoi` and r
 creates an SSH key if there is none. Add the public key to GitHub to push and to
 sign commits.
 
+### Another branch
+
 To bootstrap from another branch, set `DOTFILES_BRANCH` and use that branch in the
 URL instead of `HEAD`:
 
 ```shell
 DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap.sh)"
 ```
+
+## What chezmoi applies
 
 chezmoi deploys the config of Hammerspoon, Karabiner, OmniWM and Rex only when the
 app is installed. It deploys the files under `~/Library` (VS Code and k9s) only
