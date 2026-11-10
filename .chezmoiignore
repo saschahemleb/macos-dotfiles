@@ -31,4 +31,15 @@
 {{ end }}
 README.md
 bootstrap.sh
+bootstrap-cachyos.sh
 AGENTS.md
+{{ if ne .chezmoi.os "darwin" }}
+.hammerspoon
+Library
+.config/karabiner
+install-homebrew-packages.sh
+macos-defaults.php
+{{- /* They need composer and kubectl, which the Linux setup doesn't install yet. */}}
+install-composer-packages.sh
+install-krew-packages.sh
+{{ end }}

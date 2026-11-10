@@ -16,6 +16,31 @@ brew install chezmoi
 chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 ```
 
+## CachyOS with Niri
+
+Install CachyOS with the Niri desktop by hand, then open a terminal and run:
+
+```shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap-cachyos.sh)"
+```
+
+The script installs git, chezmoi and mise, clones this repository to
+`~/.local/share/chezmoi` and runs `chezmoi apply`. chezmoi asks for the workstation
+type and email address, and creates an SSH key if there is none. Add the public
+key to GitHub to push and to sign commits.
+
+To bootstrap from another branch, set `DOTFILES_BRANCH` and use that branch in the
+URL instead of `HEAD`:
+
+```shell
+DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap-cachyos.sh)"
+```
+
+On Linux, chezmoi skips what only works on macOS: Hammerspoon, Karabiner, OmniWM,
+Rex, VS Code and k9s under `~/Library`, the Homebrew packages and the macOS
+defaults. It also skips the composer and krew packages until Linux installs
+composer and kubectl.
+
 ## Rex
 
 The terminal is [Rex](https://www.superlogical.com/rex/docs/), which is in beta

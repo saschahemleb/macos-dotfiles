@@ -5,8 +5,10 @@
 [core]
     editor = $EDITOR
     excludesfile = ~/.gitignore
+{{- if eq .chezmoi.os "darwin" }}
 [credential]
 	helper = osxkeychain
+{{- end }}
 [push]
 	autoSetupRemote = true
 [gpg]

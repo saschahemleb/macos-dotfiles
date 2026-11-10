@@ -1,5 +1,6 @@
 printf '\33c\e[3J'
 
+{{ if eq .chezmoi.os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew_prefix="$(brew --prefix)"
@@ -7,6 +8,7 @@ brew_prefix="$(brew --prefix)"
 if [[ -f "$brew_prefix/opt/zsh-autocomplete/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh" ]]; then
   source "$brew_prefix/opt/zsh-autocomplete/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 fi
+{{- end }}
 
 source $HOME/.profile
 
@@ -56,6 +58,7 @@ if 1>/dev/null 2>&1 which starship; then
     eval "$(starship init zsh)"
 fi
 
+{{ if eq .chezmoi.os "darwin" -}}
 if [[ -d "$brew_prefix/opt/zsh-syntax-highlighting" ]]; then
   source "$brew_prefix/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi
@@ -63,5 +66,6 @@ fi
 if [[ -d "$brew_prefix/opt/zsh-autosuggestions" ]]; then
   source "$brew_prefix/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
+{{- end }}
 
 {{ template "zsh-aliases" . }}
