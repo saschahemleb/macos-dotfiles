@@ -1,6 +1,6 @@
 printf '\33c\e[3J'
 
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if stat "/opt/homebrew/bin/brew" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 brew_prefix="$(brew --prefix)"
@@ -58,7 +58,7 @@ if 1>/dev/null 2>&1 which starship; then
     eval "$(starship init zsh)"
 fi
 
-{{ if eq .chezmoi.os "darwin" -}}
+{{ if stat "/opt/homebrew/bin/brew" -}}
 if [[ -d "$brew_prefix/opt/zsh-syntax-highlighting" ]]; then
   source "$brew_prefix/opt/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 fi

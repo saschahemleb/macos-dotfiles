@@ -4,7 +4,7 @@
 
 On a fresh macOS installation, you can use the bootstrap script to set everything up.
 This will install the package manager Homebrew and setup chezmoi. The same script
-also sets up CachyOS, see below.
+also sets up Arch-based systems, see below.
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
@@ -17,17 +17,17 @@ brew install chezmoi
 chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 ```
 
-## CachyOS with Niri
+## Arch-based systems
 
-Install CachyOS with the Niri desktop by hand, then open a terminal and run the
-same bootstrap command as on macOS:
+On an Arch-based system such as CachyOS, open a terminal and run the same
+bootstrap command as on macOS:
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
 ```
 
-On Linux, the script installs git, chezmoi and mise with pacman and the mise
-installer. It then clones this repository to `~/.local/share/chezmoi` and runs
+The script finds `pacman` and installs git, chezmoi and mise with it and with the
+mise installer. It then clones this repository to `~/.local/share/chezmoi` and runs
 `chezmoi apply`. chezmoi asks for the workstation type and email address, and
 creates an SSH key if there is none. Add the public key to GitHub to push and to
 sign commits.
@@ -39,8 +39,10 @@ URL instead of `HEAD`:
 DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap.sh)"
 ```
 
-On Linux, chezmoi skips what only works on macOS: Hammerspoon, Karabiner, OmniWM,
-Rex, VS Code and k9s under `~/Library` and the macOS defaults.
+chezmoi deploys the config of Hammerspoon, Karabiner, OmniWM and Rex only when the
+app is installed. It deploys the files under `~/Library` (VS Code and k9s) only
+when that folder exists, and runs the macOS defaults script only when the
+`defaults` command exists.
 
 The package scripts do nothing while their tool is missing: Homebrew, mise,
 composer and kubectl (for krew). Once you install the tool, the next

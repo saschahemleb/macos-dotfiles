@@ -83,14 +83,10 @@ init_chezmoi_repo() {
 }
 
 install_pacman_packages() {
-  if ! 1>/dev/null 2>&1 which pacman; then
-    fail "pacman not found. The Linux setup supports CachyOS and other Arch-based systems."
-  fi
-
   sudo pacman -S --needed --noconfirm git chezmoi curl
 }
 
-bootstrap_macos() {
+bootstrap_homebrew() {
   install_clt
   echo -e "Command Line Tools ${green}${checkmark}${nc}"
 
@@ -117,7 +113,7 @@ bootstrap_macos() {
   echo "  chezmoi merge "'$FILE'
 }
 
-bootstrap_linux() {
+bootstrap_pacman() {
   # The apply runs `mise use`, and mise.run installs to ~/.local/bin.
   export PATH="$HOME/.local/bin:$PATH"
 
@@ -134,8 +130,10 @@ bootstrap_linux() {
   echo "All done!"
 }
 
-case "$(uname -s)" in
-  Darwin) bootstrap_macos ;;
-  Linux) bootstrap_linux ;;
-  *) fail "Unsupported operating system: $(uname -s)" ;;
-esac
+if 1>/dev/null 2>&1 which xcode-select; then
+  bootstrap_homebrew
+elif 1>/dev/null 2>&1 which pacman; then
+  bootstrap_pacman
+else
+  fail "Neither macOS nor an Arch-based system such as CachyOS was found."
+fi

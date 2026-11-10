@@ -32,9 +32,15 @@
 README.md
 bootstrap.sh
 AGENTS.md
-{{ if ne .chezmoi.os "darwin" }}
+{{ if not (stat "/Applications/Hammerspoon.app") }}
 .hammerspoon
-Library
+{{ end }}
+{{ if not (stat "/Applications/Karabiner-Elements.app") }}
 .config/karabiner
+{{ end }}
+{{ if not (stat (joinPath .chezmoi.homeDir "Library")) }}
+Library
+{{ end }}
+{{ if not (lookPath "defaults") }}
 macos-defaults.php
 {{ end }}

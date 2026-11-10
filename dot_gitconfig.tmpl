@@ -5,7 +5,7 @@
 [core]
     editor = $EDITOR
     excludesfile = ~/.gitignore
-{{- if eq .chezmoi.os "darwin" }}
+{{- if lookPath "security" }}
 [credential]
 	helper = osxkeychain
 {{- end }}
