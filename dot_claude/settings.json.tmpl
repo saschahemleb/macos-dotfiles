@@ -6,6 +6,7 @@
     "DISABLE_ERROR_REPORTING": "1",
     "DISABLE_FEEDBACK_COMMAND": "1"
   },
+{{- if eq .workstation_type "work" }}
   "modelOverrides": {
     "claude-opus-5-5": "bedrock-anthropic-eu-opus-55-expensive",
     "claude-sonnet-5-5": "bedrock-anthropic-eu-sonnet-55-affordable",
@@ -34,5 +35,6 @@
       }
     ]
   },
+{{- end }}
   "theme": "auto"
 }

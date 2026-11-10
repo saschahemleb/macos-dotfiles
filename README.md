@@ -31,19 +31,27 @@ Hyper+Return and Hyper+K hotkeys use. These need the app installed at
 
 ## Coding agents
 
-[T3 Code](https://t3.codes/) runs Codex and, on work machines, Claude Code.
-Hyper+A opens it. Shared instructions live in
-`.chezmoitemplates/agent-instructions` and render to `~/.codex/AGENTS.md` and, on
-work machines, `~/.claude/CLAUDE.md`. Claude Code reads only `CLAUDE.md` as a
-global file, so it gets its own copy.
+[T3 Code](https://t3.codes/) runs Codex and Claude Code. Hyper+A opens it. Shared
+instructions live in `.chezmoitemplates/agent-instructions` and render to
+`~/.codex/AGENTS.md` and `~/.claude/CLAUDE.md`. Claude Code reads only
+`CLAUDE.md` as a global file, so it gets its own copy.
+
+chezmoi configures an app when it is installed: the `claude` and `codex`
+commands for the agents, and the app bundles in `/Applications` for Rex,
+Ghostty and OmniWM (see `.chezmoiignore`). Hammerspoon binds hotkeys to
+whichever of Rex or Ghostty, and of the work or personal apps, are installed.
+Install an app and run `chezmoi apply` again to get its config. The workstation
+type only decides what belongs to the employer: the LiteLLM gateway, Eventim
+services such as `eventim-mcp` and the GitLab host, and the Homebrew package
+lists.
 
 On work machines, both agents use the company LiteLLM gateway. They get a token
 from `/Library/Application Support/ClaudeCode/entra-cli-auth`, which the
 [claude-code setup](https://git.eventim.net/ai-enablement/platform/developer-tools/claude-code)
-installs. Private machines use Codex with its defaults; sign in with
-`codex login`. T3 Code's Claude provider is disabled there.
+installs. Private machines use both with their defaults; sign in with `codex login` and
+`claude login`.
 
-chezmoi deploys `~/.claude/settings.json` as a whole file, on work machines only.
+chezmoi deploys `~/.claude/settings.json` as a whole file.
 A setting you change in Claude Code stays only until the next `chezmoi apply`; to
 keep it, add it to `dot_claude/settings.json`.
 

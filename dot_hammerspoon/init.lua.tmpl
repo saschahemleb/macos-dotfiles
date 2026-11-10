@@ -13,20 +13,15 @@ end):start()
 local hyper = { "ctrl", "alt", "cmd" }
 local hyperShift = { "ctrl", "alt", "cmd", "shift" }
 
+-- A hotkey with several bundle IDs launches the first one that is installed.
 local apps = {
-  { hyper, "a", "com.t3tools.t3code" },
-  { hyper, "b", "app.zen-browser.zen" },
-  { hyper, "h", "net.imput.helium" },
-  { hyper, "m", "com.spotify.client" },
-{{- if eq .workstation_type "work" }}
-  { hyper, "e", "com.jetbrains.intellij" },
-  { hyper, "g", "com.microsoft.teams2" },
-  { hyperShift, "e", "com.microsoft.Outlook" },
-{{- else if eq .workstation_type "private" }}
-  { hyper, "e", "com.microsoft.VSCode" },
-  { hyper, "g", "net.whatsapp.WhatsApp" },
-  { hyperShift, "e", "com.apple.mail" },
-{{- end }}
+  { hyper, "a", { "com.t3tools.t3code" } },
+  { hyper, "b", { "app.zen-browser.zen" } },
+  { hyper, "h", { "net.imput.helium" } },
+  { hyper, "m", { "com.spotify.client" } },
+  { hyper, "e", { "com.jetbrains.intellij", "com.microsoft.VSCode" } },
+  { hyper, "g", { "com.microsoft.teams2", "net.whatsapp.WhatsApp" } },
+  { hyperShift, "e", { "com.microsoft.Outlook", "com.apple.mail" } },
 }
 
 local function appWindows(apps)
@@ -62,8 +57,15 @@ local function cycleWindows(windows)
 end
 
 for _, app in ipairs(apps) do
-  local mods, key, bundleID = table.unpack(app)
+  local mods, key, bundleIDs = table.unpack(app)
   hs.hotkey.bind(mods, key, function()
+    local bundleID = bundleIDs[1]
+    for _, id in ipairs(bundleIDs) do
+      if hs.application.pathForBundleID(id) then
+        bundleID = id
+        break
+      end
+    end
     local windows = appWindows(hs.application.applicationsForBundleID(bundleID))
     if #windows > 0 then
       cycleWindows(windows)
@@ -73,7 +75,8 @@ for _, app in ipairs(apps) do
   end)
 end
 
-{{- if eq .workstation_type "private" }}
+{{- if not (stat "/Applications/Rex Beta.app") }}
+{{- if stat "/Applications/Ghostty.app" }}
 hs.hotkey.bind(hyper, "return", function()
   local app = hs.application.get("com.mitchellh.ghostty")
   if app then
@@ -83,7 +86,8 @@ hs.hotkey.bind(hyper, "return", function()
     hs.application.launchOrFocusByBundleID("com.mitchellh.ghostty")
   end
 end)
-{{- else if eq .workstation_type "work" }}
+{{- end }}
+{{- else }}
 
 local rexBundleID = "com.superlogical.rex"
 local rexCLI = "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
@@ -171,7 +175,7 @@ hs.hotkey.bind(hyper, "k", function()
 end)
 {{- end }}
 
-{{- if ne .workstation_type "private" }}
+{{- if not (stat "/Applications/OmniWM.app") }}
 local windowMods = { "ctrl", "alt" }
 local gap = 8
 
@@ -291,6 +295,6 @@ local function pickWindow()
   windowChooser:show()
 end
 
-{{- if ne .workstation_type "private" }}
+{{- if not (stat "/Applications/OmniWM.app") }}
 hs.hotkey.bind({ "alt" }, "tab", pickWindow)
 {{- end }}

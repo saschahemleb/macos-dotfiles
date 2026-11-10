@@ -1,4 +1,8 @@
 {{- /* chezmoi:modify-template */ -}}
+{{- /* Providers follow the installed CLIs. Only the work machines route them through the LiteLLM gateway. */ -}}
+{{- $gateway := eq .workstation_type "work" -}}
+{{- $claude := lookPath "claude" -}}
+{{- $codex := lookPath "codex" -}}
 {{- $pinned := `{
   "defaultRuntimeMode": "auto",
   "defaultAutoPull": true,
@@ -11,7 +15,9 @@
   "addProjectBaseDirectory": "~/Developer/",
   "providerInstances.codex.config.setupMode": "existing"
 }` | fromJson -}}
-{{- if eq .workstation_type "work" -}}
+{{- if not $claude -}}
+{{-   $pinned = merge (dict "providerInstances.claudeAgent.enabled" false) $pinned -}}
+{{- else if $gateway -}}
 {{-   $effort := `{
   "optionDescriptors": [{
     "id": "effort",
@@ -43,13 +49,6 @@
   "claude-haiku-4-5"
 -}}
 {{-   $pinned = merge (dict
-  "providerModelPreferences.codex.hiddenModels" (list
-    "openai-glob-luna-56-cheap"
-  )
-  "providerModelPreferences.codex.modelOrder" (list
-    "openai-glob-sol-61-expensive"
-    "openai-glob-luna-6-cheap"
-  )
   "providerModelPreferences.claudeAgent.hiddenModels" $claudeBuiltInModels
   "providerInstances.claudeAgent" (dict
     "driver" "claudeAgent"
@@ -66,16 +65,29 @@
     "model": "bedrock-anthropic-eu-sonnet-55-affordable[1m]",
     "options": [{ "id": "effort", "value": "medium" }]
   },
+  "favorites": []
+}` | fromJson) $pinned -}}
+{{- else -}}
+{{-   $pinned = merge (dict "providerInstances.claudeAgent.enabled" true) $pinned -}}
+{{- end -}}
+{{- if and $codex $gateway -}}
+{{-   $pinned = merge (dict
+  "providerModelPreferences.codex.hiddenModels" (list
+    "openai-glob-luna-56-cheap"
+  )
+  "providerModelPreferences.codex.modelOrder" (list
+    "openai-glob-sol-61-expensive"
+    "openai-glob-luna-6-cheap"
+  )
+) (`{
   "textGenerationModelSelection": {
     "instanceId": "codex",
     "model": "openai-glob-luna-6-cheap",
     "options": [{ "id": "reasoningEffort", "value": "low" }]
-  },
-  "favorites": []
+  }
 }` | fromJson) $pinned -}}
-{{- else -}}
+{{- else if $codex -}}
 {{-   $pinned = merge (`{
-  "providerInstances.claudeAgent.enabled": false,
   "providerModelPreferences.codex.hiddenModels": ["gpt-6-sol", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna"],
   "defaultModelSelection": {
     "instanceId": "codex",
