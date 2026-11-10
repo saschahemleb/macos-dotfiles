@@ -75,7 +75,7 @@ size = 8.0
 bottom = 0.0
 left = 0.0
 right = 0.0
-top = 0.0
+top = 36.0
 
 [general]
 animationSpeed = 1.5
@@ -210,8 +210,8 @@ programs = []
 widgets = []
 
 [shellPermissions.services]
-lyrics = true
-weather = true
+lyrics = false
+weather = false
 
 [statusBar]
 showAppNames = false
@@ -222,8 +222,8 @@ useWorkspaceId = true
 [statusMenu]
 hiddenControls = []
 hiddenMenuItems = []
-showControlHelp = true
-showControls = true
+showControlHelp = false
+showControls = false
 showMenuItems = true
 
 [windowSwitcher]
@@ -1163,39 +1163,11 @@ id = "toggleSystemStats"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "toggleShellWidget.battery-details"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.clock"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.control-center"
-
-[[hotkeys]]
-binding = "Unassigned"
 id = "toggleShellWidget.hidden-bar"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "toggleShellWidget.media"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.notifications"
-
-[[hotkeys]]
-binding = "Unassigned"
 id = "toggleShellWidget.system-stats"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.volume"
-
-[[hotkeys]]
-binding = "Unassigned"
-id = "toggleShellWidget.wifi"
 
 [[hotkeys]]
 binding = "Unassigned"

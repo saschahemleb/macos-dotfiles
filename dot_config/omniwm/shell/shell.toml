@@ -1,0 +1,18 @@
+
+[profiles]
+
+[profiles.default]
+center = ["active-window"]
+leading = ["apple-menu", "app-menu", "omniwm", "workspaces", "scratchpads"]
+trailing = ["system-stats"]
+
+[profiles.default.island]
+fullscreen = "hide"
+
+[profiles.default.workspaceBar]
+fullWidth = false
+hoverPreviewsEnabled = false
+notchMode = "off"
+position = "right"
+reserveLayoutSpace = false
+windowLevel = "popup"
