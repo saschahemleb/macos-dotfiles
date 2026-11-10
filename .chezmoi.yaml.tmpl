@@ -1,3 +1,7 @@
+{{- $workstationType := "private" -}}
+{{- if not (lookPath "pacman") -}}
+{{-   $workstationType = promptStringOnce . "workstation_type" "What type of workstation is this, 'work' or 'private'" -}}
+{{- end -}}
 data:
-    workstation_type: {{ promptStringOnce . "workstation_type" "What type of workstation is this, 'work' or 'private'" | quote }}
+    workstation_type: {{ $workstationType | quote }}
     email: {{ promptStringOnce . "email" "Email address" | quote }}

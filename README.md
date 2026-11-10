@@ -27,9 +27,9 @@ config and packages.
 
 The script finds `pacman` and installs git, chezmoi and mise with it and with the
 mise installer. It then clones this repository to `~/.local/share/chezmoi` and runs
-`chezmoi apply`. chezmoi asks for the workstation type and email address, and
-creates an SSH key if there is none. Add the public key to GitHub to push and to
-sign commits.
+`chezmoi apply`. These systems are always `private` workstations, so chezmoi only
+asks for your email address. It also creates an SSH key if there is none. Add the
+public key to GitHub to push and to sign commits.
 
 ### Another branch
 
