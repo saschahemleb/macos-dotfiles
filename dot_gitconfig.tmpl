@@ -5,8 +5,10 @@
 [core]
     editor = $EDITOR
     excludesfile = ~/.gitignore
+{{- if lookPath "security" }}
 [credential]
 	helper = osxkeychain
+{{- end }}
 [push]
 	autoSetupRemote = true
 [gpg]

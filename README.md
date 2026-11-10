@@ -2,12 +2,16 @@
 
 ## Installation
 
-On a fresh macOS installation, you can use the bootstrap script to set everything up.
-This will install the package manager Homebrew and setup chezmoi.
+The bootstrap script sets up a fresh macOS or Arch-based system (such as CachyOS).
+Open a terminal and run:
 
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/HEAD/bootstrap.sh)"
 ```
+
+### macOS
+
+The script installs the package manager Homebrew and sets up chezmoi.
 
 If you already have Homebrew installed, you can instead install and init chezmoi manually:
 
@@ -15,6 +19,38 @@ If you already have Homebrew installed, you can instead install and init chezmoi
 brew install chezmoi
 chezmoi init https://github.com/saschahemleb/macos-dotfiles.git
 ```
+
+### Arch-based systems
+
+Support for Arch-based systems is heavily work in progress. Expect missing
+config and packages.
+
+The script finds `pacman` and installs git, chezmoi and mise with it and with the
+mise installer. It then clones this repository to `~/.local/share/chezmoi` and runs
+`chezmoi apply`. These systems are always `private` workstations, so chezmoi only
+asks for your email address. It also creates an SSH key if there is none. Add the
+public key to GitHub to push and to sign commits.
+
+### Another branch
+
+To bootstrap from another branch, set `DOTFILES_BRANCH` and use that branch in the
+URL instead of `HEAD`:
+
+```shell
+DOTFILES_BRANCH=my-branch /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/saschahemleb/macos-dotfiles/my-branch/bootstrap.sh)"
+```
+
+## What chezmoi applies
+
+chezmoi deploys the config of Hammerspoon, Karabiner, OmniWM and Rex only when the
+app is installed. It deploys the files under `~/Library` (VS Code and k9s) only
+when that folder exists, and runs the macOS defaults script only when the
+`defaults` command exists.
+
+The package scripts do nothing while their tool is missing: Homebrew, mise,
+composer and kubectl (for krew). Once you install the tool, the next
+`chezmoi apply` runs the script. A tool that an earlier script in the same apply
+installs counts as missing, so run `chezmoi apply` a second time.
 
 ## Rex
 
