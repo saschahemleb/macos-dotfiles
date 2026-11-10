@@ -64,12 +64,24 @@
   "defaultModelSelection": {
     "instanceId": "claudeAgent",
     "model": "bedrock-anthropic-eu-sonnet-55-affordable[1m]",
-    "options": [{ "id": "effort", "value": "medium" }]
+    "options": [{ "id": "effort", "value": "high" }]
   },
   "favorites": []
 }` | fromJson) $pinned -}}
 {{- else -}}
-{{-   $pinned = merge (dict "providerInstances.claudeAgent.enabled" true) $pinned -}}
+{{-   $pinned = merge (`{
+  "providerInstances.claudeAgent.enabled": true,
+  "defaultModelSelection": {
+    "instanceId": "claudeAgent",
+    "model": "claude-sonnet-5-5",
+    "options": [{ "id": "effort", "value": "high" }]
+  },
+  "textGenerationModelSelection": {
+    "instanceId": "claudeAgent",
+    "model": "claude-haiku-5-5",
+    "options": [{ "id": "effort", "value": "medium" }]
+  }
+}` | fromJson) $pinned -}}
 {{- end -}}
 {{- if and $codex $gateway -}}
 {{-   $pinned = merge (dict
@@ -88,8 +100,9 @@
   }
 }` | fromJson) $pinned -}}
 {{- else if $codex -}}
-{{-   $pinned = merge (`{
-  "providerModelPreferences.codex.hiddenModels": ["gpt-6-sol", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna"],
+{{-   $pinned = merge (dict "providerModelPreferences.codex.hiddenModels" (list "gpt-6-sol" "gpt-5.6-sol" "gpt-5.6-terra" "gpt-5.6-luna")) $pinned -}}
+{{-   if not $claude -}}
+{{-     $pinned = merge (`{
   "defaultModelSelection": {
     "instanceId": "codex",
     "model": "gpt-6.1-sol",
@@ -99,5 +112,6 @@
     ]
   }
 }` | fromJson) $pinned -}}
+{{-   end -}}
 {{- end -}}
 {{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" (list "sourceControlWriterModelSelection" "reviewGuideModelSelection" "fallbackModelSelection")) -}}

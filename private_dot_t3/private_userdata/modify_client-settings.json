@@ -5,6 +5,7 @@
   "fontFamilyCode": "JetBrainsMono Nerd Font Mono",
   "glassOpacity": 100,
   "environmentIdentificationMode": "none",
+  "proactivePanelsEnabled": true,
   "threadDetailsItems": { "openIn": false, "context": true }
 }` | fromJson -}}
 {{- includeTemplate "pin-settings" (dict "stdin" .chezmoi.stdin "format" "json" "pinned" $pinned "removed" list) -}}
