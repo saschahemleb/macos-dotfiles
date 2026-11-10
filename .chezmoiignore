@@ -1,18 +1,34 @@
+{{- /* Config is deployed when the app it configures is installed. workstation_type only decides what is specific to the employer: the LiteLLM gateway, Eventim services and the package lists. */ -}}
+{{ $work := eq .workstation_type "work" }}
+{{ if not (lookPath "claude") }}
+.claude/CLAUDE.md
+.claude/settings.json
+{{ end }}
+{{ if not (and (lookPath "claude") $work) }}
+.claude.json
+{{ end }}
+{{ if not (lookPath "codex") }}
+.codex/AGENTS.md
+.codex/config.toml
+{{ end }}
+{{ if not (and (lookPath "codex") $work) }}
+.codex/litellm_models.json
+{{ end }}
+{{ if not (and (lookPath "glab") $work) }}
+.config/glab-cli/config.yml
+{{ end }}
+{{ if not $work }}
+.local/bin/eventim-mcp
+{{ end }}
+{{ if not (stat "/Applications/Rex Beta.app") }}
+.config/rex
+{{ end }}
+{{ if not (stat "/Applications/Ghostty.app") }}
+.config/ghostty
+{{ end }}
+{{ if not (stat "/Applications/OmniWM.app") }}
+.config/omniwm
+{{ end }}
 README.md
 bootstrap.sh
 AGENTS.md
-{{ if ne .workstation_type "work" }}
-.claude/CLAUDE.md
-.claude/settings.json
-.codex/litellm_models.json
-.config/glab-cli/config.yml
-.claude.json
-.local/bin/eventim-mcp
-{{ end }}
-{{ if ne .workstation_type "work" }}
-.config/rex
-{{ end }}
-{{ if ne .workstation_type "private" }}
-.config/ghostty
-.config/omniwm
-{{ end }}
