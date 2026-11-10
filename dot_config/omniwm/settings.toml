@@ -1,9 +1,4 @@
-monitorBarOverrides = []
-monitorDwindleOverrides = []
-monitorGapOverrides = []
-monitorNiriOverrides = []
-monitorOrientationOverrides = []
-schemaVersion = 4
+schemaVersion = 5
 
 [appearance]
 mode = "automatic"
@@ -63,7 +58,9 @@ useGlobalGaps = true
 
 [focus]
 crossesMonitorAtEdge = false
+edgeNavigationInterval = 1.5
 followsMouse = false
+followsMouseOnlyFullyVisible = false
 followsWindowToMonitor = false
 lockModifier = "off"
 moveCrossesMonitorAtEdge = false
@@ -90,14 +87,20 @@ ipcEnabled = false
 preventSleepEnabled = false
 systemHyperTrigger = "Caps Lock"
 updateChecksEnabled = true
+workspaceAutoBackAndForth = false
 
 [gestures]
+adoptNativeMoveAcrossDisplays = false
+adoptNativeResize = false
+dwindleGroupDragAcrossDisplays = "group"
 fingerCount = 3
 invertDirection = true
 mouseMoveModifierKey = "option"
 mouseResizeModifierKey = "option"
+mouseWheelSensitivity = 1.0
 overviewGestureEnabled = false
 overviewGestureFingerCount = 4
+resizePreviewStyle = "live"
 scrollEnabled = true
 scrollModifierKey = "optionShift"
 scrollSensitivity = 5.0
@@ -108,6 +111,7 @@ windowMoveFingerCount = 4
 windowResizeEnabled = false
 windowResizeFingerCount = 3
 workspaceSwipeAxis = "vertical"
+workspaceSwipeEdgeBehavior = "cycle"
 workspaceSwipeEnabled = false
 workspaceSwipeFingerCount = 3
 
@@ -116,17 +120,33 @@ enabled = false
 hiddenBundleIDs = ["com.bitwarden.desktop", "com.kapeli.dashdoc", "org.hammerspoon.Hammerspoon", "org.pqrs.Karabiner-Console-User-Server", "dev.kdrag0n.MacVirt", "io.privado.main", "com.raycast.macos", "com.superlogical.rex", "app.zen-browser.zen"]
 rehideIntervalSeconds = 5.0
 
+[island]
+enabled = false
+
+[keyboardModes]
+
+[launcher]
+appFolders = []
+cliFolders = []
+entries = []
+shell = "system"
+shellExecutable = ""
+terminal = "terminal"
+
 [mouseWarp]
 constrainToArrangement = false
 enabled = false
 margin = 1
 
 [niri]
+allowOverscroll = false
 alwaysCenterSingleColumn = false
 centerFocusedColumn = "never"
 containerPrimarySpanPresets = [0.3333333333333333, 0.5, 0.6666666666666666]
 edgeGaps = false
 infiniteLoop = false
+moveWindowStacksIntoColumn = true
+overscrollVisibleStripPercent = 5
 resizeStepPercent = 5
 singleWindowFit = "container_primary_span"
 visibleContainerCount = 2
@@ -174,6 +194,7 @@ heightPercent = 50.0
 monitorMode = "focusedWindow"
 opacity = 1.0
 position = "center"
+provider = "ghostty"
 widthPercent = 50.0
 
 [routing]
@@ -184,11 +205,34 @@ mode = "macOS"
 
 [scratchpads.labels]
 
+[shellPermissions]
+programs = []
+widgets = []
+
+[shellPermissions.services]
+lyrics = true
+weather = true
+
 [statusBar]
 showAppNames = false
 showIcon = true
 showWorkspaceName = false
 useWorkspaceId = true
+
+[statusMenu]
+hiddenControls = []
+hiddenMenuItems = []
+showControlHelp = true
+showControls = true
+showMenuItems = true
+
+[windowSwitcher]
+commandTab = "activeWorkspace"
+enabled = false
+optionTab = "allWorkspaces"
+order = "omniLayout"
+scope = "allWorkspaces"
+showFooter = true
 
 [workspaceBar]
 autoHide = false
@@ -198,6 +242,8 @@ backgroundOpacity = 0.0
 deduplicateAppIcons = false
 enabled = true
 excludedBundleIDs = []
+fullWidth = false
+fullWidthNotchMode = "rightOfNotch"
 height = 26.0
 hideEmptyWorkspaces = false
 hideInNativeFullscreen = true
@@ -901,27 +947,27 @@ id = "resetWindowSecondarySpan"
 
 [[hotkeys]]
 binding = "Hyper+Minus"
-id = "setContainerPrimarySpan.decrease10Percent"
+id = "resizeContainerPrimarySpan.shrink"
 
 [[hotkeys]]
 binding = "Hyper+Equal"
-id = "setContainerPrimarySpan.increase10Percent"
+id = "resizeContainerPrimarySpan.grow"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "setWindowPrimarySpan.decrease10Percent"
+id = "resizeWindowPrimarySpan.shrink"
 
 [[hotkeys]]
 binding = "Unassigned"
-id = "setWindowPrimarySpan.increase10Percent"
+id = "resizeWindowPrimarySpan.grow"
 
 [[hotkeys]]
 binding = "Hyper+Shift+Minus"
-id = "setWindowSecondarySpan.decrease10Percent"
+id = "resizeWindowSecondarySpan.shrink"
 
 [[hotkeys]]
 binding = "Hyper+Shift+Equal"
-id = "setWindowSecondarySpan.increase10Percent"
+id = "resizeWindowSecondarySpan.grow"
 
 [[hotkeys]]
 binding = "Unassigned"
@@ -984,8 +1030,80 @@ binding = "Unassigned"
 id = "preselectClear"
 
 [[hotkeys]]
+binding = "Unassigned"
+id = "volumeUp"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "volumeDown"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "volumeMute"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "mediaPlayPause"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "mediaNext"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "mediaPrevious"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShortcutPause"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "beginPrefix"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleWindowMode"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "exitKeyboardMode"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openShellApp.example"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "newShellAppWindow.example"
+
+[[hotkeys]]
 binding = "Hyper+Space"
 id = "openCommandPalette"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.windows"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.menu"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.clipboard"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.commands"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.applications"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "openCommandPalette.files"
 
 [[hotkeys]]
 binding = "Unassigned"
@@ -1042,6 +1160,46 @@ id = "toggleOverview"
 [[hotkeys]]
 binding = "Unassigned"
 id = "toggleSystemStats"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.battery-details"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.clock"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.control-center"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.hidden-bar"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.media"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.notifications"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.system-stats"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.volume"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.wifi"
+
+[[hotkeys]]
+binding = "Unassigned"
+id = "toggleShellWidget.workspaces"
 
 [[workspaces]]
 displayName = "🛠️"
